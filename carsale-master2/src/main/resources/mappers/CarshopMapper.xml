@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.gxyan.dao.CarshopMapper">
+    <update id="updateByPrimaryKeySelective" parameterType="com.gxyan.pojo.Carshop">
+        update carshop
+        <set>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="phone != null">
+                phone = #{phone},
+            </if>
+            <if test="address != null">
+                address = #{address},
+            </if>
+            <if test="brand != null">
+                brand = #{brand} ,
+            </if>
+            <if test="business_hours != null">
+                business_hours = #{business_hours},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <insert id="insertSelective" parameterType="com.gxyan.pojo.Carshop">
+        insert into carshop
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="phone != null">
+                phone,
+            </if>
+            <if test="address != null">
+                address,
+            </if>
+            <if test="business_hours != null">
+                business_hours,
+            </if>
+            <if test="brand != null">
+                brand,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="name != null">
+                #{name},
+            </if>
+            <if test="phone != null">
+                #{phone},
+            </if>
+            <if test="address != null">
+                #{address},
+            </if>
+            <if test="business_hours != null">
+                #{business_hours},
+            </if>
+            <if test="brand != null">
+                #{brand},
+            </if>
+        </trim>
+    </insert>
+
+    <select id="selectById" parameterType="int" resultType="com.gxyan.pojo.Carshop">
+        select * from carshop where id = #{id}
+    </select>
+    <select id="selectChinese"  resultType="com.gxyan.pojo.Carshop">
+        SELECT * FROM carshop WHERE address  REGEXP '^[\\u4e00-\\u9fa5]+'
+    </select>
+    <select id="selectAmerica"  resultType="com.gxyan.pojo.Carshop">
+        SELECT * FROM carshop WHERE address REGEXP '^[0-9]{3}'
+    </select>
+    <select id="selectJapanese"  resultType="com.gxyan.pojo.Carshop">
+        SELECT * FROM carshop WHERE address REGEXP '^[0-9]-.*-[0-9]'
+    </select>
+    <select id="selectByBrand" parameterType="string" resultType="com.gxyan.pojo.Carshop">
+        SELECT * FROM carshop WHERE brand =#{brand}
+    </select>
+    <select id="getAllShop" resultType="com.gxyan.pojo.Carshop">
+        SELECT * FROM carshop
+    </select>
+
+    <select id="getById" resultType="com.gxyan.pojo.Carshop">
+        select * from carshop where id = #{id}
+    </select>
+
+    <delete id="deleteById" >
+        delete from carshop where id = #{id}
+    </delete>
+</mapper>

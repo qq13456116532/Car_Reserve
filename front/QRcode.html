@@ -1,0 +1,93 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <meta content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"
+          name="viewport"/>
+    <link href="css/font.css" rel="stylesheet" type="text/css"/>
+    <link href="https://cdn.bootcdn.net/ajax/libs/mui/3.7.1/css/mui.css" rel="stylesheet"/>
+    <script src="https://cdn.bootcdn.net/ajax/libs/mui/3.7.1/js/mui.js"></script>
+    <style type="text/css">
+    </style>
+</head>
+<body>
+<header class="mui-bar" id="head1" style="background-color:#000000;">
+    <a class=" mui-icon mui-icon-left-nav mui-pull-left mui-action-back" style="color: #FFFFFF;"><font
+            size="4">返回</font></a>
+    <h1 class="mui-title" style="color: #FFFFFF;">二维码扫描</h1>
+    <span class="mui-icon mui-icon-image mui-spin mui-pull-right" id="turnTheLight" onclick="scanPicture();"
+          style="color:white;"></span>
+</header>
+<div id="code" style="width:100%;height:100%;position:absolute;background:#000000;">
+    <!--盛放扫描控件的div-->
+</div>
+<div class="mui-bar mui-bar-tab" style="background-color: #000000;">
+    <a class="mui-tab-item mui-active" data-index="0">
+        <span class="mui-icon iconfont icon-saoyisao"></span>
+        <span class="mui-tab-label">扫码</span>
+    </a>
+    <a class="mui-tab-item mui-action-back" data-index="1">
+        <span class="mui-icon iconfont icon-quxiao"></span>
+        <span class="mui-tab-label" style="color:white">取消</span>
+    </a>
+</div>
+<!--检查框架-->
+<script src="js/common/checkFrame.js"></script>
+<!--深色模式-->
+<script src="js/common/DarkTheme/darkreader.js"></script>
+<!--深色模式配置-->
+<script src="js/common/DarkCon.js"></script>
+<script type="text/javascript">
+    scan = null;//扫描对象
+    mui.plusReady(function () {
+        mui.init();
+        startRecognize();
+    });
+
+    function startRecognize() {
+        try {
+            let filters;
+            //自定义的扫描控件样式
+            let styles = {frameColor: "#0000FF", scanbarColor: "#0000FF"};
+            //扫描控件构造
+            scan = new plus.barcode.Barcode('code', filters, styles);
+            scan.onmarked = onmarked;
+            scan.onerror = onerror;
+            scan.start();
+        } catch (e) {
+            mui.alert("出现错误啦:\n" + e);
+        }
+    }
+
+    function onerror(e) {
+        miu.alert(e);
+    }
+
+    function onmarked(type, result) {
+        var text = '';
+        switch (type) {
+            case plus.barcode.QR:
+                text = 'QR: ';
+                break;
+            case plus.barcode.EAN13:
+                text = 'EAN13: ';
+                break;
+            case plus.barcode.EAN8:
+                text = 'EAN8: ';
+                break;
+        }
+        plus.runtime.openURL(result);
+    }
+
+    // 从相册中选择二维码图片
+    function scanPicture() {
+        plus.gallery.pick(function (path) {
+            plus.barcode.scan(path, onmarked, function (error) {
+                plus.nativeUI.alert("无法识别此图片");
+            });
+        });
+    }
+</script>
+</body>
+</html>

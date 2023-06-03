@@ -1,0 +1,445 @@
+<html lang="zh-cn">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+    <meta content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
+          name="viewport"/>
+    <link href="img/login.png" rel="icon" type="image">
+    <title>欢迎使用</title>
+    <link href="css/font.css" rel="stylesheet" type="text/css"/>
+    <link href="css/login.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<section class="sectionNormal" id="sessionBox">
+    <!-- 背景颜色 -->
+    <div class="color"></div>
+    <div class="color"></div>
+    <div class="color"></div>
+    <div class="box" id="mainBox">
+        <!-- 背景圆 -->
+        <div class="circle" style="--x:0"></div>
+        <div class="circle" style="--x:1"></div>
+        <div class="circle" style="--x:2"></div>
+        <div class="circle" style="--x:3"></div>
+        <div class="circle" style="--x:4"></div>
+        <!-- 登录框 -->
+        <div class="container">
+            <div class="spinner" id="loading">
+                <div class="rect1"></div>
+                <div class="rect2"></div>
+                <div class="rect3"></div>
+                <div class="rect4"></div>
+                <div class="rect5"></div>
+            </div>
+            <div class="form" id="win" style="display:none">
+                <h2 id="logintxt">登录</h2>
+                <!--                登陆窗口-->
+                <form id="box1" method="get" style="display:none">
+                    <div class="inputBox">
+                        <label for="loginName"></label><input id="loginName" name="loginName" placeholder="账号"
+                                                              type="text">
+                    </div>
+                    <div class="inputBox">
+                        <label for="pwd"></label><input id="pwd" name="pwd" placeholder="密码" type="password">
+                    </div>
+                    <div class="inputBox" style="margin-bottom: 30px;">
+                        <!--                        登录按钮-->
+                        <input id="dl" style="margin-bottom: 20px;" type="button" value="Login">
+                        <!--                        自动登录按钮-->
+                        <input id="chck" name="autoLogin" type="checkbox">
+                        <label class="check-trail" for="chck" id="autologin">
+                            <span class="check-handler"></span>
+                            <h2
+                                    style="color: white;margin: 0;font-size: 16px;font-weight: 400;letter-spacing: 3px;">
+                                自动登陆</h2>
+                        </label>
+                    </div>
+                    <!--                    用于显示错误-->
+                    <div class="errorDENGLU">
+
+                    </div>
+                    <div class="errorDENGLU">
+
+                    </div>
+                    <div class="errorDENGLU">
+
+                    </div>
+                    <div class="errorDENGLU">
+
+                    </div>
+                    <!--<p class="forget"><a href="#">
+                        忘记密码?前往修改————>  -->
+                    </a></p>
+                    <p class="forget"><a onclick="jump('zhuce')">
+                        没有账户?前往注册————>
+                    </a></p>
+                </form>
+                <!--                登陆成功-->
+                <form id="box2" style="display:none">
+                    <h1 class="boxtext" id="logintext">登陆成功</h1>
+                    <div class="inputBox">
+                        <input id="tc" type="button" value="退出登录">
+                    </div>
+                    <h1 class="boxtext" id="returntext" style="font-size: 24px"></h1>
+                </form>
+                <!--                登陆失败-->
+                <form id="box3" style="display:none">
+                    <h1 class="boxtext" id="errortext">错误</h1>
+                    <div class="inputBox">
+                        <input id="back" type="button" value="立即返回">
+                    </div>
+                    <h1 class="boxtext" id="errorreturntext" style="font-size: 24px">6秒后返回登陆</h1>
+                </form>
+                <!--                注册窗口-->
+                <form id="box4" method="get" style="display:none">
+                    <div class="inputBox">
+                        <label for="ZCloginName"></label><input id="ZCloginName" placeholder="请输入账号,以字母开头,8-15位"
+                                                                style="font-size:14px" type="text">
+                    </div>
+                    <div class="inputBox">
+                        <label for="ZCpwd"></label><input id="ZCpwd" placeholder="请输入密码,长度8-15位" type="password">
+                    </div>
+                    <div class="inputBox">
+                        <label for="ZCpwdCheck"></label><input id="ZCpwdCheck" placeholder="请再次输入密码"
+                                                               type="password">
+                    </div>
+                    <div class="inputBox">
+                        <label for="ZCID"></label><input id="ZCID" placeholder="请输入一卡通号">
+                    </div>
+                    <div class="inputBox">
+                        <label for="ZCName"></label><input id="ZCName" placeholder="请输入姓名">
+                    </div>
+                    <div class="inputBox">
+                        <input id="zc" type="button" value="Register">
+                    </div>
+                    <!--                    用于显示错误-->
+                    <div class="errorZHUCE">
+
+                    </div>
+                    <div class="errorZHUCE">
+
+                    </div>
+                    <div class="errorZHUCE">
+
+                    </div>
+                    <div class="errorZHUCE">
+
+                    </div>
+                    <p class="forget"></p>
+                    <p class="forget"><a onclick="jump()">
+                        已有账户?前往登陆———-—>
+                    </a></p>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+<!--检查框架-->
+<script src="js/common/checkFrame.js"></script>
+<!--md5加密-->
+<script src="https://cdn.bootcdn.net/ajax/libs/blueimp-md5/2.18.0/js/md5.js"></script>
+<!--自己的加密算法-->
+<script src="js/common/jiami.js"></script>
+<!--输入错误检测-->
+<script src="js/login/InputErrorCheck.js"></script>
+<!--登陆效验-->
+<script src="js/common/checkLoginStatus.js"></script>
+<!--首次访问效验-->
+<script src="js/login/checkFirstLogin.js"></script>
+<!--配置文件-->
+<script src="js/common/configure.js"></script>
+<!--浏览器适配-->
+<script src="js/login/deviceAdaptation.js"></script>
+<!--用户类JSON-->
+<script src="js/common/JSON.js"></script>
+<!--深色模式-->
+<script src="js/common/DarkTheme/darkreader.js"></script>
+<!--深色模式配置-->
+<script src="js/common/DarkCon.js"></script>
+<!--腾讯云验证码-->
+<script src="https://ssl.captcha.qq.com/TCaptcha.js"></script>
+<!--ajax-->
+<script src="js/common/ajax.js"></script>
+<!--网页处理主要js-->
+<script type="text/javascript">
+    //先适配
+    if (shipeiOpen)
+        deviceAdaptation()
+    //定义一些函数
+    //获取指定cookie值
+    function getCookie(name) {
+        let arr = document.cookie.match(new RegExp("(^| )" + name + "=([^;]*)(;|$)"))
+        if (arr != null) return Trim(decodeURIComponent(arr[2]))
+        return "null"
+    }
+
+    //设置cookie
+    function setCookie(cname, cvalue, exdays, path) {
+        let d = new Date()
+        document.cookie = "testCookie=true"
+        if (!(getCookie("testCookie") === "true"))
+            console.log("本地运行无法储存Cookie，请使用网页版进行测试！")
+        let cookieString = cname + "=" + cvalue
+        if (exdays) {
+            d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000))
+            let expires = "expires=" + d.toUTCString();
+            cookieString = cookieString + "; " + expires
+        }
+        if (path)
+            cookieString = cookieString + "; " + path
+        document.cookie = cookieString
+    }
+
+    //消除字符串首尾多余的空格
+    function Trim(str) {
+        return str.replace(/(^\s*)|(\s*$)/g, "");
+    }
+
+    //获取url的get参数
+    function getQueryVariable(variable) {
+        let query = window.location.search.substring(1);
+        let vars = query.split("&");
+        for (let i = 0; i < vars.length; i++) {
+            let pair = vars[i].split("=");
+            if (pair[0] === variable) {
+                return pair[1].toString();
+            }
+        }
+        return "null";
+    }
+
+    //请求跳转
+    function jump(msg) {
+        msg = msg ? msg : "" //如果没有传入msg，默认为空
+        let url = Trim(getQueryVariable("from")) //访问前的url
+		console.log("msg:",msg)
+        url = url === "null" ? "" : url
+		console.log("url: ",url)
+        if (url.length > 0 || url.indexOf("null") === -1) //访问前的页面存在
+            window.location.replace("login.html?msg=" + msg + "&from=" + url) //携带url参数继续
+        else
+            window.location.replace("login.html?msg=" + msg) //丢弃url参数继续
+    }
+
+    let timer//登陆成功的计时器
+
+    //欲操作
+    window.onload = function () {
+        chck.value = "false" //自动登录
+        let msgcode = Trim(getQueryVariable("msg")); //状态参数
+        let url = Trim(getQueryVariable("from")) //访问前的url
+        let loginCookieName = atob(getCookie("user")) //用户名
+        // if (loginName.indexOf("null") !== -1 || loginName !== "null")
+        //     msgcode="login"
+        // console.log(msgcode);
+        // console.log(url);
+        if (url.indexOf("null") > -1 || url === "null") //如果url参数不存在
+            url = ""
+        if (msgcode === "null" || !msgcode) { //如果状态参数不存在
+            setTimeout(function () { //加载动画
+                loading.style.display = 'none';
+                win.style.display = 'block';
+            }, 5000);
+        } else {
+            loading.style.display = 'none';
+            win.style.display = 'block';
+        }
+        //处理参数
+        if (msgcode.indexOf("login") !== -1) { //如果为正在登陆状态
+            //给后端留的接口，暂时不用
+        } else if (msgcode.indexOf("success") !== -1) { //如果为成功状态
+            let ZC = (msgcode.indexOf("successZC") !== -1) //判断是否为注册成功，否则为登陆成功
+            box1.style.display = 'none'
+            box2.style.display = 'block'
+            if (!ZC) {
+                logintxt.innerHTML = '登陆成功'
+                logintext.innerHTML = loginCookieName + '，欢迎使用本系统～'
+            } else {
+                logintxt.innerHTML = '注册成功'
+                logintext.innerHTML = '欢迎使用本系统～'
+                tc.style.display = "none"
+            }
+            let i = 6
+            timer = setInterval(function () { //跳转倒计时
+                box1.style.display = 'none'
+                box2.style.display = 'block'
+                i = i - 1
+                if (!ZC) {
+                    if (url.length > 0)
+                        returntext.innerHTML = i + "秒后返回登陆前页面"
+                    else
+                        returntext.innerHTML = i + "秒后返回首页"
+                    if (i === 0) { //倒计时完毕
+                        if (url.length > 0) //访问前的页面存在
+                            window.location.replace(url) //跳转回登陆前页面
+                        else
+                            window.location.replace("home.html") //跳转回首页，不再显示动画
+                    }
+                } else {
+                    returntext.innerHTML = i + "秒后返回登陆页面"
+                    if (i === 0) //倒计时完毕
+                        jump()
+                }
+            }, 1000)
+        } else if (msgcode.indexOf("zhuce") !== -1) {
+            box1.style.display = 'none'
+            box4.style.display = 'block'
+            logintxt.innerHTML = '欢迎注册'
+        } else if (msgcode.indexOf("tc") !== -1) {//退出登录
+            tc.onclick()
+        } else { //其他状态
+            // //首先尝试进行自动登录
+            // let token = getCookie(btoa(btoa((loginCookieName)))) //尝试获取token cookie
+            // if (!loginCookieName && token) {
+            //     console.log("本地验证失败")
+            // }
+            // let autoUser={
+            //     'userName':loginCookieName
+            // }
+            // let result;
+            // tools.ajaxGet("http://localhost:8080/tryAutoLogin", autoUser,function(res){
+            //     console.log(res)
+            //     if(res.status===0) {
+            //         console.log("云端验证成功")
+            //         jump("success")
+            //     }
+            //     else{
+            //         console.log("云端验证失败")
+            //     }
+            // })
+            //自动登录失败，继续解析参数
+            if (msgcode === "uperror") { //如果为账号密码错误状态
+                box1.style.display = 'none'
+                box3.style.display = 'block'
+                errortext.innerHTML = "用户名或者密码错误！"
+                logintxt.innerHTML = '登陆失败'
+                let i = 6
+                setInterval(function () { //倒计时
+                    i = i - 1
+                    errorreturntext.innerHTML = i + "秒后返回登陆"
+                    if (i === 0) {
+                        jump()
+                    }
+                }, 1000)
+            } else if (msgcode === "youke") { //如果为游客状态，提示用户先登录
+                errorreturntext.innerHTML = 6 + "秒后前往登陆"
+                box1.style.display = 'none'
+                box3.style.display = 'block'
+                errortext.innerHTML = "请登录后再操作！"
+                logintxt.innerHTML = '操作失败'
+                let i = 6
+                setInterval(function () {
+                    i = i - 1
+                    errorreturntext.innerHTML = i + "秒后前往登陆"
+                    if (i === 0) {
+                        jump()
+                    }
+                }, 1000)
+            } else if (msgcode === "zhuceClose") { //注册关闭
+                errorreturntext.innerHTML = 6 + "秒后前往登陆"
+                box1.style.display = 'none'
+                box3.style.display = 'block'
+                errortext.innerHTML = "网站注册暂时关闭！"
+                logintxt.innerHTML = '操作失败'
+                let i = 6
+                setInterval(function () {
+                    i = i - 1
+                    errorreturntext.innerHTML = i + "秒后前往登陆"
+                    if (i === 0) {
+                        jump()
+                    }
+                }, 1000)
+            } else { //默认状态
+                if (checkFirstLogin() && firstOpen) {
+                    box1.style.display = 'none'
+                    box3.style.display = 'block'
+                    back.style.display = 'none'
+                    errortext.innerHTML = "首次访问，即将跳转注册"
+                    logintxt.innerHTML = '温馨提示'
+                    let i = 6
+                    setInterval(function () { //倒计时
+                        i = i - 1
+                        errorreturntext.innerHTML = i + "秒后前往注册"
+                        if (i === 0) {
+                            jump("zhuce")
+                        }
+                    }, 1000)
+                } else {
+                    box2.style.display = 'none';
+                    box1.style.display = 'block';
+                }
+            }
+        }
+    }
+    //按钮、监听事件
+    tc.onclick = function () { //退出按钮
+        box1.style.display = 'none'
+        box2.style.display = 'block'
+        setCookie("loginName", "", -7) //将cookie置空，同时过期
+        logintext.innerHTML = '退出成功！即将刷新～';
+        logintxt.innerHTML = "用户退出"
+        returntext.innerHTML = "即将返回登陆界面"
+        window.clearInterval(timer)
+        setTimeout(function () {
+            jump()
+        }, 1111);
+    }
+    back.onclick = function () { //返回按钮
+        window.location.replace("login.html")
+    }
+    autologin.onclick = function () { //自动登录切换
+        if (chck.value === "false")
+            chck.value = "true"
+        else
+            chck.value = "false"
+    }
+    zc.onmouseup = function () {
+        if (ErrorStatus) //存在错误
+            return;
+        if (!zhuceOpen)
+            jump("zhuceClose")
+        let user = {
+            'Name': noTuiGe(ZCName.value),
+            'password': noTuiGe(ZCpwd.value),
+            'userName': noTuiGe(ZCloginName.value),
+            'id': noTuiGe(ZCID.value)
+        }
+        let captcha1 = new TencentCaptcha('2004603663', function (res) {
+            tools.ajaxGet("http://localhost:8080/register", user, function () {
+                jump("successZC")
+            })
+        });
+        captcha1.show();
+    }
+    dl.onmouseup = function () {
+        if (ErrorStatus) //存在错误
+            return;
+        let loginuser = {
+            'password': noTuiGe(pwd.value),
+            'userName': noTuiGe(loginName.value),
+        }
+        let captcha1 = new TencentCaptcha('2004603663', function () {
+			console.log("正在登录： ",loginuser)
+            tools.ajaxGet("http://localhost:8080/login", loginuser, function (res) {
+                console.log("res:",res)
+                //var jsonObject = JSON.parse(res)
+                if (res.data === "success") {
+                    if (chck.value === "true") {
+                        setCookie("loginName", btoa(noTuiGe(loginuser.userName)), "7",
+                            "/") //登陆用户名被编码保存，一方面防止中文存入cookie崩溃，一方面"加密"
+                        setCookie(btoa(btoa(noTuiGe(loginuser.userName))), jiamitoken(loginuser.userName), "7",
+                            "/") //登陆用户名被两次编码进行"加密"，同时保存对应的加密token
+                    } else {
+                        setCookie("loginName", btoa(noTuiGe(loginuser.userName)), "/")
+                        setCookie(btoa(btoa(noTuiGe(loginuser.userName))), jiamitoken(loginuser.userName), "/")
+                    }
+                    jump("success")
+                } else
+                    jump("uperror")
+            })
+        });
+        captcha1.show();
+    }
+</script>
+</body>
+
+</html>

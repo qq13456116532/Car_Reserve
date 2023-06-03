@@ -1,0 +1,405 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* 使用flex布局，让内容垂直和水平居中 */
+
+.sectionNormal {
+    /* 相对定位 */
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    min-height: 100vh;
+    /* linear-gradient() 函数用于创建一个表示两种或多种颜色线性渐变的图片 */
+    background: linear-gradient(to bottom, #FA6EB0, #70DBFB);
+}
+
+.sectionOld {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    min-height: 100vh;
+    background: -webkit-linear-gradient(top, #FA6EB0, #70DBFB);
+}
+
+/* 背景颜色 */
+
+section .color {
+    /* 绝对定位 */
+    position: absolute;
+    /* 使用filter(滤镜) 属性，给图像设置高斯模糊*/
+    filter: blur(200px);
+}
+
+/* :nth-child(n) 选择器匹配父元素中的第 n 个子元素 */
+
+section .color:nth-child(1) {
+    top: -350px;
+    width: 60%;
+    height: 45%;
+    background: #ff359b;
+}
+
+section .color:nth-child(2) {
+    bottom: -150px;
+    left: 100px;
+    width: 35%;
+    height: 40%;
+    background: #fffd87;
+}
+
+section .color:nth-child(3) {
+    bottom: 50px;
+    right: 100px;
+    width: 45%;
+    height: 45%;
+    background: #00d2ff;
+}
+
+.box {
+    position: absolute;
+    min-width: 350px;
+    width: 90%;
+    max-width: 400px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.boxbig {
+    position: absolute;
+    width: 400px;
+    right: 10%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* 背景圆样式 */
+
+.box .circle {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.1);
+    /* backdrop-filter属性为一个元素后面区域添加模糊效果 */
+    backdrop-filter: blur(5px);
+    box-shadow: 0 25px 45px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-right: 1px solid rgba(255, 255, 255, 0.2);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    /* 使用filter(滤镜) 属性，改变颜色。
+hue-rotate(deg)  给图像应用色相旋转
+calc() 函数用于动态计算长度值
+var() 函数调用自定义的CSS属性值x*/
+    filter: hue-rotate(calc(var(--x) * 70deg));
+    /* 调用动画animate，需要10s完成动画，
+linear表示动画从头到尾的速度是相同的，
+infinite指定动画应该循环播放无限次*/
+    animation: animate 10s linear infinite;
+    /* 动态计算动画延迟几秒播放 */
+    animation-delay: calc(var(--x) * -1s);
+}
+
+/* 背景圆动画 */
+
+
+@keyframes animate {
+
+    0%,
+    100% {
+        transform: translateY(-50px);
+    }
+
+    50% {
+        transform: translateY(50px);
+    }
+
+}
+
+.box .circle:nth-child(1) {
+    top: -50px;
+    right: -60px;
+    width: 100px;
+    height: 100px;
+}
+
+.box .circle:nth-child(2) {
+    top: 150px;
+    left: -100px;
+    width: 120px;
+    height: 120px;
+    z-index: 2;
+}
+
+.box .circle:nth-child(3) {
+    bottom: 50px;
+    right: -60px;
+    width: 80px;
+    height: 80px;
+    z-index: 2;
+}
+
+.box .circle:nth-child(4) {
+    bottom: -80px;
+    left: 100px;
+    width: 60px;
+    height: 60px;
+}
+
+.box .circle:nth-child(5) {
+    top: -80px;
+    left: 140px;
+    width: 60px;
+    height: 60px;
+}
+
+/* 登录框样式 */
+
+.container {
+    position: relative;
+    width: 100%;
+    min-height: 400px;
+    background: rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(5px);
+    box-shadow: 0 25px 45px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-right: 1px solid rgba(255, 255, 255, 0.2);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+}
+
+.form {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 50px;
+}
+
+/* 登录标题样式 */
+
+.form h2 {
+    position: relative;
+    color: rgb(220, 240, 245);
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: 5px;
+    margin-bottom: 30px;
+    cursor: pointer;
+}
+
+/* 登录标题的下划线样式 */
+
+.form h2::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -10px;
+    width: 0;
+    height: 3px;
+    background: #fff;
+    transition: 0.5s;
+}
+
+.form h2:hover:before {
+    width: 53px;
+}
+
+.form .inputBox {
+    width: 100%;
+    margin-top: 20px;
+}
+
+/* 输入框样式 */
+
+.form .inputBox input {
+    width: 100%;
+    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.2);
+    outline: none;
+    border-radius: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-right: 1px solid rgba(255, 255, 255, 0.2);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    font-size: 16px;
+    letter-spacing: 1px;
+    color: #fff;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.form .inputBox input::placeholder {
+    color: #fff;
+}
+
+/* 登录按钮样式 */
+form .inputBox input[type="button"] {
+    background: #fff;
+    color: #666;
+    margin-bottom: 20px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* Hide the input */
+#chck {
+    position: absolute;
+    opacity: 0;
+    z-index: -1;
+}
+
+.check-trail {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 40px;
+    background: #2c3e50;
+    border-radius: 30px;
+    transition: all 0.5s ease;
+    cursor: pointer;
+}
+
+.check-handler {
+    display: flex;
+    margin-left: 0.5em;
+    justify-content: center;
+    align-items: center;
+    width: 64px;
+    height: 64px;
+    background: #34495e;
+    border-radius: 50%;
+    transition: all 0.5s ease;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+}
+
+.check-handler:before {
+    content: "\00D7";
+    color: white;
+    font-size: 2em;
+    font-weight: bold;
+}
+
+input[type="checkbox"]:checked + .check-trail {
+    background: #16a085;
+}
+
+input[type="checkbox"]:checked + .check-trail .check-handler {
+    margin-left: 40%;
+    background: #1abc9c;
+}
+
+input[type="checkbox"]:checked + .check-trail .check-handler::before {
+    content: "✔";
+}
+
+.forget {
+    margin-top: 6px;
+    color: #fff;
+    letter-spacing: 1px;
+}
+
+.forget a {
+    color: #fff;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.boxtext {
+    color: #fff;
+    font-size: 30px;
+    font-weight: 600;
+    letter-spacing: 5px;
+    margin: auto;
+}
+
+.spinner {
+    margin: 100px auto;
+    width: 50px;
+    height: 60px;
+    text-align: center;
+    font-size: 10px;
+}
+
+.spinner > div {
+    background-color: rgba(255, 255, 255, 0.5);
+    height: 100%;
+    width: 6px;
+    display: inline-block;
+
+    -webkit-animation: stretchdelay 1.2s infinite ease-in-out;
+    animation: stretchdelay 1.2s infinite ease-in-out;
+}
+
+.spinner .rect2 {
+    -webkit-animation-delay: -1.1s;
+    animation-delay: -1.1s;
+}
+
+.spinner .rect3 {
+    -webkit-animation-delay: -1.0s;
+    animation-delay: -1.0s;
+}
+
+.spinner .rect4 {
+    -webkit-animation-delay: -0.9s;
+    animation-delay: -0.9s;
+}
+
+.spinner .rect5 {
+    -webkit-animation-delay: -0.8s;
+    animation-delay: -0.8s;
+}
+
+@-webkit-keyframes stretchdelay {
+
+    0%,
+    40%,
+    100% {
+        -webkit-transform: scaleY(0.4)
+    }
+
+    20% {
+        -webkit-transform: scaleY(1.0)
+    }
+}
+
+@keyframes stretchdelay {
+
+    0%,
+    40%,
+    100% {
+        transform: scaleY(0.4);
+        -webkit-transform: scaleY(0.4);
+    }
+
+    20% {
+        transform: scaleY(1.0);
+        -webkit-transform: scaleY(1.0);
+    }
+}
+
+.errorZHUCE {
+    width: 100%;
+    color: orangered;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    height: 16px;
+    line-height: 16px;
+}
+
+.errorDENGLU {
+    width: 100%;
+    color: orangered;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    height: 16px;
+    line-height: 16px;
+}

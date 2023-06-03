@@ -1,0 +1,3528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" content="width=device-width, initial-scale=1" name="viewport">
+    <title>主页面</title>
+    <link href="js/common/DarkTheme/jquery.mobile.css" rel="stylesheet">
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/1.9.1/jquery.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery-mobile/1.4.5/jquery.mobile.js"></script>
+    <link href="css/font.css" rel="stylesheet" type="text/css"/>
+    <style type="text/css">
+        * {
+            background-color: white !important;
+            border: none !important;
+        }
+
+        .title {
+            position: absolute;
+            left: 25px;
+            margin: 0 !important;
+            padding: 0 !important;
+            margin-top: 30px !important;
+            font-size: 20px !important;
+        }
+
+        #menu {
+            margin-top: 50px;
+            padding: 0 !important;
+        }
+
+        #menu ul {
+            margin: 0 !important;
+        }
+
+        .menu {
+            position: unset !important;
+            width: 100% !important;
+            max-width: none !important;
+            max-height: none !important;
+            display: block !important;
+        }
+
+        .menua {
+            display: block !important;
+            padding: 0 !important
+        }
+
+        .info {
+            position: absolute;
+            top: 20%;
+            right: 13%;
+            background-color: rgba(0, 0, 0, 0) !important;
+        }
+
+        .info h1 {
+            background-color: rgba(0, 0, 0, 0) !important;
+            font-size: 14px !important;
+            color: white !important;
+            font-weight: normal !important;
+            text-align: right;
+        }
+
+        .info h2 {
+            background-color: rgba(0, 0, 0, 0) !important;
+            font-size: 10px !important;
+            color: rgba(255, 255, 255, 0.1) !important;
+            font-weight: normal !important;
+            text-align: right;
+        }
+
+        .navigateSon {
+            background-image: url(img/navigate.png) !important;
+            background-size: 100% 70px !important;
+            height: 20px !important;
+            padding-top: 35px;
+        }
+
+        .navigateSonDark {
+            background-image: url(img/navigateDark.png) !important;
+            background-size: 100% 70px !important;
+            height: 20px !important;
+            padding-top: 35px;
+        }
+
+        .navigateSon a {
+            position: absolute;
+            top: 32px;
+            padding: 0 !important;
+            border: none;
+            width: 30px;
+            height: 30px;
+        }
+
+        .navigateSon a img {
+            width: 30px;
+            height: 30px;
+        }
+
+        .navigateSonDark a {
+            position: absolute;
+            top: 32px;
+            padding: 0 !important;
+            border: none;
+            width: 30px;
+            height: 30px;
+        }
+
+        .navigateSonDark a img {
+            width: 30px;
+            height: 30px;
+        }
+
+        .home {
+            left: 18%;
+        }
+
+        .QR {
+            top: 20px !important;
+            left: 50%;
+            width: 50px !important;
+            height: 50px !important;
+            transform: translate(-50%)
+        }
+
+        .QR img {
+            width: 50px !important;
+            height: 50px !important;
+        }
+
+        .me {
+            right: 18%;
+        }
+
+        #personINFO {
+            margin: 40px;
+            height: 80px;
+            line-height: 80px;
+        }
+
+        .Avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 40px;
+            overflow: hidden;
+            float: left;
+        }
+
+        .Avatar img {
+            width: 80px;
+            height: 80px;
+            float: left;
+        }
+
+        #welcome {
+            margin-left: 20px;
+            color: black;
+            float: left;
+            font-size: 20px;
+            font-weight: normal;
+        }
+
+        #message {
+            border: none;
+            text-shadow: none;
+            box-shadow: none;
+            position: absolute;
+            margin: 0;
+            padding: 0;
+            left: unset;
+            right: 66px;
+            top: 22px;
+            width: 36px;
+            height: 36px;
+        }
+
+        #message img {
+            width: 36px;
+            height: 36px;
+        }
+
+        #messageNum {
+            position: absolute;
+            background-color: red !important;
+            width: 20px;
+            height: 15px;
+            border-radius: 10px;
+            line-height: 15px;
+            font-size: 10px;
+            text-align: center;
+            color: white;
+            right: 70px;
+            top: 20px;
+            z-index: 999;
+        }
+
+        #myMenu {
+            margin: 60px 20px 20px;
+        }
+
+        #myMenu ul li {
+            height: 32px;
+            margin-bottom: 30px;
+        }
+
+        .menuMy {
+            height: 32px;
+            min-height: unset !important;
+            padding: 0;
+            padding-left: 50px !important;
+            line-height: 32px;
+        }
+
+        .menuLeft {
+            height: 24px;
+            margin: 4px;
+            float: left;
+        }
+
+        .menuRight {
+            margin: 8px;
+            margin-right: 0;
+            height: 16px;
+            float: right;
+        }
+
+        .backHeader {
+            overflow: hidden;
+            height: 60px;
+            line-height: 40px;
+            font-size: 20px;
+        }
+
+        .backHeader a {
+            height: 60px;
+            line-height: 60px;
+        }
+
+        .backHeader img {
+            width: 15.5px;
+            height: 25.5px;
+        }
+
+        .infoPath {
+            font-size: 20px !important;
+            margin-top: 20px !important;
+        }
+
+        .infoPath div {
+            font-weight: normal;
+        }
+
+        .infoName {
+            float: left;
+        }
+
+        .infoValue {
+            float: right;
+            color: gray;
+        }
+
+        .InfoEdit li {
+            height: 60px;
+        }
+
+        .InfoEdit li a {
+            height: 40px;
+            line-height: 40px;
+            padding: 10px !important;
+            padding-left: 40px !important;
+        }
+
+        .infoPath {
+            height: 40px !important;
+        }
+
+        .infoImg {
+            margin-top: 14px !important;
+            margin-left: 16px !important;
+            margin-right: 8px !important;
+        }
+
+        /*.change {*/
+        /*    width: 100%*/
+        /*}*/
+
+        .ui-panel-dismiss {
+            width: 0px !important;
+        }
+
+        .inputBox div {
+            border-width: 1px !important;
+            border-style: solid !important;
+            border-color: #ddd !important;
+            width: 60%;
+        }
+
+        .infoValue div {
+            width: 40px !important;
+            height: 40px !important;
+            border-radius: 20px !important;
+        }
+
+        .infoValue img {
+            width: 40px !important;
+            height: 40px !important;
+        }
+
+        .infoPathOne {
+            line-height: 40px
+        }
+
+        .infoPathOne img {
+            float: right !important;
+            position: unset !important;
+        }
+
+        #serverInfo ul li a {
+            padding: 0;
+            padding-left: 40px;
+        }
+
+        #serverInfo img {
+            margin-right: 28px !important;
+        }
+
+        .kefu {
+            position: relative;
+            left: 50%;
+            transform: translate(-50%);
+            height: 30px;
+            width: 50%;
+            font-size: 16px;
+            background-color: rgb(50, 223, 185) !important;
+            margin-bottom: 10px;
+        }
+
+        .kefu img {
+            width: 24px;
+            height: 24px;
+            margin-top: 5px;
+            margin-left: 10%;
+            background-color: rgb(50, 223, 185) !important;
+        }
+
+        .kefu p {
+            float: right;
+            margin: unset;
+            margin-top: 6px;
+            margin-right: 20%;
+            background-color: rgb(50, 223, 185) !important;
+            color: white;
+            font-weight: normal;
+        }
+
+        .sendPic div {
+            box-shadow: none !important;
+        }
+
+        .know {
+            width: 100px;
+            height: 50px;
+            margin-left: 50%;
+            transform: translate(-50%);
+            box-shadow: none;
+        }
+
+        .know img {
+            width: 100px;
+            height: 50px;
+        }
+
+        .noImg {
+            margin-right: 10px !important;
+        }
+
+        .mesdiv {
+            position: absolute;
+            left: 50%;
+            transform: translate(-50%);
+            margin: auto;
+            width: 100%;
+            text-align: center;
+            float: left;
+            max-width: 850px;
+        }
+
+        .msgTitle {
+            height: 40px !important;
+            font-size: 20px !important;
+            margin-top: 10px !important;
+        }
+
+        .mesdiv {
+            margin-left: 15px;
+            margin-right: 8px;
+            box-shadow: none !important;
+            float: left;
+        }
+
+        .mesdiv ul li {
+            /*border: 1px solid red!important;*/
+            border-radius: 30px;
+            width: 94%;
+            overflow: hidden;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        .mesdiv ul {
+            width: 100%;
+            max-width: 390px;
+            margin-left: 50% !important;
+            transform: translate(-50%);
+        }
+
+        .mesdiv ul li a {
+            background-color: rgb(236, 236, 236) !important;
+            padding-left: 3em !important;
+        }
+
+        .mesdiv ul li img {
+            background-color: rgb(236, 236, 236) !important;
+            margin-top: 15px;
+            margin-left: 15px;
+            max-height: 1.5em !important;
+            max-width: 1.5em !important;
+        }
+
+        .mesdiv ul li h3 {
+            background-color: rgb(236, 236, 236) !important;
+            color: black;
+        }
+
+        .mesdiv ul li h2 {
+            background-color: rgb(236, 236, 236) !important;
+            margin-top: 5px;
+            margin-bottom: 5px;
+            font-size: 11px;
+            color: gray;
+        }
+
+        .time {
+            height: 30px !important;
+        }
+
+        .time a {
+            padding-top: 0px !important;
+            padding-bottom: 0px !important;
+            height: 20px !important;
+            line-height: 20px !important;
+        }
+
+        .Rshadow {
+            height: 100%;
+            width: 40px;
+            position: absolute;
+            top: 0;
+            background-color: white !important;
+            z-index: 99;
+        }
+
+        #roomDe {
+            font-size: 15px !important;
+            padding: 0 !important;
+        }
+
+        #room li {
+            height: 20px !important;
+            padding-left: 40px !important;
+            padding-right: 40px !important;
+        }
+
+        #roomDay {
+            text-align: center;
+            padding: 0 !important;
+            overflow-y: auto;
+            white-space: nowrap;
+            height: 50px !important;
+            margin-top: 20px !important;
+            margin-bottom: 20px;
+        }
+
+        #roomDay div {
+            font-weight: normal;
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            line-height: 20px !important;
+            margin-right: 5px;
+            float: left;
+            font-size: 11px;
+            border: 1px gray solid !important;
+            border-radius: 5px;
+        }
+
+        .daySelect {
+            background-color: rgb(223, 125, 115) !important;
+            border-color: rgb(43, 176, 190) !important;
+            color: white !important;
+        }
+
+        .timeUnSelect {
+            border-width: 1px 0 0 0 !important;
+            border-style: solid !important;
+            border-color: rgb(225, 155, 155) !important;
+            border-image: linear-gradient(to right, rgb(225, 155, 155), rgb(50, 225, 180)) 1 10 !important;
+        }
+
+        .timeSelect {
+            background-color: rgb(44, 223, 185) !important;
+        }
+
+        .timeSelect div {
+            background-color: unset !important;
+            color: white !important;
+        }
+
+        .timePass {
+            background-color: lightgray !important;
+        }
+
+        .timePass div {
+            background-color: unset !important;
+            color: white !important;
+        }
+
+        .noSelect {
+            background-color: grey !important;
+        }
+
+        .noSelect p {
+            background-color: unset !important;
+        }
+
+        #roomName div {
+            float: left;
+        }
+
+        .kefuS {
+            color: white !important;
+            font-size: 15px !important;
+            line-height: 27px !important;
+            font-weight: normal;
+        }
+
+        #error3-popup {
+            position: absolute !important;
+            left: 50% !important;
+            top: 50% !important;
+            transform: translate(-50%, -50%) !important;
+            width: 80%;
+            text-align: center;
+        }
+
+        .yuyuediv {
+            box-shadow: none !important;
+            float: left;
+            width: 100%;
+        }
+
+        .yuyuediv ul li {
+            /*border: 1px solid red!important;*/
+            border-radius: 30px;
+            width: 94%;
+            overflow: hidden;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        .yuyuediv ul {
+            width: 100%;
+            max-width: 390px;
+            margin-left: 50% !important;
+            transform: translate(-50%);
+        }
+
+        .yuyuediv ul li a {
+            padding-left: 3em !important;
+        }
+
+        .yuyuediv ul li img {
+            background-color: unset !important;
+            margin-top: 15px;
+            margin-left: 15px;
+            max-height: 1.5em !important;
+            max-width: 1.5em !important;
+        }
+
+        .yuyuediv ul li h3 {
+            background-color: unset !important;
+            color: black;
+        }
+
+        .yuyuediv ul li h2 {
+            background-color: unset !important;
+            margin-top: 5px;
+            margin-bottom: 5px;
+            font-size: 11px;
+            color: gray;
+        }
+
+        .shenhe .tongguo .shibai {
+            padding-left: 3em !important;
+        }
+
+        .shenhe {
+            background-color: #b4d9fb !important;
+        }
+
+        .tongguo {
+            background-color: #a8ea68 !important;
+        }
+
+        .shibai {
+            background-color: #ffb7da !important;
+        }
+
+        #loadngDiv {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 500px;
+        }
+
+        #loadingImg {
+            width: 100%;
+        }
+
+        .shenheB{
+            width: 40%;
+            height: 30px;
+            margin-bottom: 10px;
+            line-height: 30px;
+        }
+    </style>
+    <script type="text/javascript">
+        console.log(self.frameElement && self.frameElement.tagName === "IFRAME")
+    </script>
+</head>
+<body>
+<!--首页-->
+<div data-role="page" id="homePage">
+    <div data-position="fixed" data-role="header">
+        <h1 class="title">4S店查找预约</h1>
+        <h1></h1>
+    </div>
+    <a href="#loadngPage" id="linkload" style="display:none"></a>
+    <div class="ui-content" data-role="main" id="menu">
+        <ul data-inset="true" data-role="listview">
+            <li data-icon="false">
+                <a class="menua" data-ajax="false" href="#building" rel="external">
+                    <img class="menu" src="img/home%20menu1.png">
+                    <div class="info">
+                        <h1>立即预约</h1>
+                        <h2>Make an appointment</h2>
+                    </div>
+                </a>
+            </li>
+            <li data-icon="false">
+                <a class="menua" data-ajax="false" onclick="openMyRoom()" rel="external">
+                    <img class="menu" src="img/home%20menu2.png">
+                    <div class="info">
+                        <h1 id="fun2">我的预约</h1>
+                        <h2 id="fun2e">My appointment</h2>
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="navigate" data-position="fixed" data-role="footer" style="text-align:center;">
+        <div class="navigateclass navigateSon" data-role="controlgroup" data-type="horizontal">
+            <!-- <a class="home" data-role="button" href="#" style="background-color:unset!important;">--><img
+                    alt="" class="homeclass" src="错误img/home%20select.png" style="background-color:unset!important;:"></a>
+            <!--<a class="QR" data-role="button" href="javascript:window.location.replace('QRcode.html');"-->
+              <!--  style="background-color:unset!important;:"> <img alt=""
+                                                               src="img/QR.png"
+                                                               style="background-color:unset!important;:"></a>--> 
+           <!-- <a class="me" data-role="button" href="#myPage" style="background-color:unset!important;:"> --> <img
+                    alt="" class="meclass" src="错误img/me%20unselect.png" style="background-color:unset!important;:"></a> 
+        </div>
+    </div>
+</div>
+<!--我的页面-->
+<div data-role="page" id="myPage">
+    <div data-position="fixed" data-role="header" id="personINFO">
+        <div class="Avatar"><img src="img/touxiang.jpg"></div>
+        <div id="welcome">欢迎</div>
+        <a data-role="button" href="#mes" id="message"><img alt="" class="noticeclass" src="img/notice.png"></a>
+        <div id="messageNum">10</div>
+    </div>
+    <div class="ui-content" data-role="main">
+        <div class="ui-content" data-role="main" id="myMenu">
+            <ul data-role="listview">
+                <li data-icon="false">
+                    <a class="menuMy" data-ajax="false" href="#editPersonalInfo" rel="external">
+                        <img class="menuLeft" src="img/editPersonalInfo.png">
+                        编辑个人信息
+                        <img class="menuRight" src="img/right.png">
+                    </a>
+                </li>
+                <li data-icon="false">
+                    <a class="menuMy" data-ajax="false" href="#xinyongInfo" rel="external">
+                        <img class="menuLeft" src="img/xinyongcenter.png">
+                        我的信用
+                        <img class="menuRight" src="img/right.png">
+                    </a>
+                </li>
+                <li data-icon="false">
+                    <a class="menuMy" data-ajax="false" href="#serverInfo" rel="external">
+                        <img class="menuLeft" src="img/fuwu.png">
+                        服务中心
+                        <img class="menuRight" src="img/right.png">
+                    </a>
+                </li>
+                <li data-icon="false">
+                    <a class="menuMy" data-ajax="false" href="#more" rel="external">
+                        <img class="menuLeft" src="img/more.png">
+                        更多
+                        <img class="menuRight" src="img/right.png">
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="navigate" data-position="fixed" data-role="footer" style="text-align:center;">
+        <div class="navigateSon navigateclass" data-role="controlgroup" data-type="horizontal">
+            <a class="home" data-role="button" href="#homePage" style="background-color:unset!important;"><img alt=""
+                                                                                                               class="homeclass"
+                                                                                                               src="img/home%20unselect.png"
+                                                                                                               style="background-color:unset!important;"></a>
+            <a class="QR" data-role="button" href="javascript:window.location.replace('QRcode.html');"
+               style="background-color:unset!important;"><img alt=""
+                                                              src="img/QR.png"
+                                                              style="background-color:unset!important;"></a>
+            <a class="me" data-role="button" href="#" style="background-color:unset!important;"><img
+                    alt="" class="meclass" src="img/me%20select.png" style="background-color:unset!important;"></a>
+        </div>
+    </div>
+</div>
+<!--修改资料页面-->
+<div data-role="page" id="editPersonalInfo">
+    <div class="backHeader" data-position="fixed" data-role="header">
+        <a class="ui-btn ui-btn-left ui-btn-icon-left" data-rel="back" href="#"><img src="img/back.png"></a>
+        <h1>编辑个人信息</h1>
+    </div>
+    <div class="ui-content InfoEdit" data-role="main">
+        <ul data-role="listview">
+            <li class="infoPath" data-role="list-divider">基本信息</li>
+            <li data-icon="false">
+                <a href="#changeTou">
+                    <div class="infoName">
+                        头像
+                    </div>
+                    <img class="menuRight infoImg" src="img/right.png">
+                    <div class="infoValue">
+                        <div class="Avatar"><img src="img/touxiang.jpg"></div>
+                    </div>
+                </a>
+            </li>
+            <li data-icon="false">
+                <a data-rel="popup" href="#error1">
+                    <div class="infoName">
+                        姓名
+                    </div>
+                    <img class="menuRight infoImg" src="img/right.png">
+                    <div class="infoValue">
+                        username
+                    </div>
+                </a>
+            </li>
+            <li data-icon="false">
+                <a data-rel="popup" href="#error1">
+                    <div class="infoName" data-rel="popup">
+                        学号
+                    </div>
+                    <img class="menuRight infoImg" src="img/right.png">
+                    <div class="infoValue">
+                        id
+                    </div>
+                </a>
+            </li>
+            <li data-icon="false">
+                <a href="#changeAuthentication">
+                    <div class="infoName">
+                        身份认证
+                    </div>
+                    <img class="menuRight infoImg" src="img/right.png">
+                    <div class="infoValue">
+                        未认证
+                    </div>
+                </a>
+            </li>
+            <li data-icon="false">
+                <a data-rel="popup" href="#error1">
+                    <div class="infoName">
+                        身份
+                    </div>
+                    <img class="menuRight infoImg" src="img/right.png">
+                    <div class="infoValue">
+                        stu
+                    </div>
+                </a>
+            </li>
+            <li class="infoPath" data-role="list-divider">安全信息</li>
+            <li data-icon="false">
+                <a href="#changeTel">
+                    <div class="infoName">
+                        电话号码
+                    </div>
+                    <img class="menuRight infoImg" src="img/right.png">
+                    <div class="infoValue">
+                        未绑定
+                    </div>
+                </a>
+            </li>
+            <li data-icon="false">
+                <a href="#">
+                    <div class="infoName">
+                        登陆密码
+                    </div>
+                    <img class="menuRight infoImg" src="img/right.png">
+                    <div class="infoValue">
+                        修改密码
+                    </div>
+                </a>
+            </li>
+            <li data-icon="false">
+                <a href="#">
+                    <div class="infoName">
+                        微信绑定
+                    </div>
+                    <img class="menuRight infoImg" src="img/right.png">
+                    <div class="infoValue">
+                        未绑定
+                    </div>
+                </a>
+            </li>
+            <li data-icon="false">
+                <a href="#">
+                    <div class="infoName">
+                        QQ绑定
+                    </div>
+                    <img class="menuRight infoImg" src="img/right.png">
+                    <div class="infoValue">
+                        未绑定
+                    </div>
+                </a>
+            </li>
+            <li data-icon="false">
+                <a href="#">
+                    <div class="infoName">
+                        苹果绑定
+                    </div>
+                    <img class="menuRight infoImg" src="img/right.png">
+                    <div class="infoValue">
+                        未绑定
+                    </div>
+                </a>
+            </li>
+            <li data-icon="false">
+                <a href="#">
+                    <div class="infoName">
+                        微信通知绑定
+                    </div>
+                    <img class="menuRight infoImg" src="img/right.png">
+                    <div class="infoValue">
+                        未绑定
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <!--    头像上传-->
+    <div class="change" data-role="panel" id="changeTou">
+        <h2>上传头像</h2>
+        <form>
+            <input accept="image/*" id="pic" name="touxiang" type="file"/>
+        </form>
+        <a class="ui-btn ui-btn-inline ui-shadow ui-corner-all ui-btn-a ui-icon-delete ui-btn-icon-left"
+           data-rel="close"
+           href="#editPersonalInfo">取消</a>
+        <a class="ui-btn ui-btn-inline ui-shadow ui-corner-all ui-btn-a ui-icon-check ui-btn-icon-left" data-rel="close"
+           href="#editPersonalInfo"
+           style="background-color:rgb(255,115,115)!important;">提交</a>
+    </div>
+    <!--    身份认证-->
+    <div class="change" data-role="panel" id="changeAuthentication">
+        <h2>身份认证</h2>
+        <div class="ui-content" data-role="main">
+            <form action="" method="post">
+                <div class="ui-field-contain inputBox">
+                    <label for="name">姓名：</label>
+                    <input id="name"
+                           name="name" type="text"/>
+                </div>
+                <div class="ui-field-contain inputBox">
+                    <label for="id">一卡通号：</label>
+                    <input id="id"
+                           name="id" type="number"/>
+                </div>
+                <div class="ui-field-contain inputBox">
+                    <label for="pwd">一卡通密码：</label>
+                    <input id="pwd"
+                           name="pwd" type="password"/>
+                </div>
+                <div class="ui-field-contain inputBox">
+                    <label for="idpic">一卡通照片：</label>
+                    <input accept="image/*" id="idpic" name="touxiang" type="file"/>
+                </div>
+            </form>
+        </div>
+        <a class="ui-btn ui-btn-inline ui-shadow ui-corner-all ui-btn-a ui-icon-delete ui-btn-icon-left"
+           data-rel="close"
+           href="#editPersonalInfo">取消</a>
+        <a class="ui-btn ui-btn-inline ui-shadow ui-corner-all ui-btn-a ui-icon-check ui-btn-icon-left"
+           data-rel="close" href="#editPersonalInfo"
+           id="updateAuthentication"
+           style="background-color:rgb(255,115,115)!important;">提交</a>
+    </div>
+    <!--    修改电话-->
+    <div class="change" data-role="panel" id="changeTel">
+        <h2>电话绑定</h2>
+        <div class="ui-content" data-role="main">
+            <form action="">
+                <div class="ui-field-contain inputBox">
+                    <label for="mobile">手机号：</label>
+                    <input id="mobile" name="mobile" value=""/>
+                </div>
+            </form>
+        </div>
+        <a class="ui-btn ui-btn-inline ui-shadow ui-corner-all ui-btn-a ui-icon-delete ui-btn-icon-left"
+           data-rel="close"
+           href="#editPersonalInfo">取消</a>
+        <a class="ui-btn ui-btn-inline ui-shadow ui-corner-all ui-btn-a ui-icon-check ui-btn-icon-left" data-rel="close"
+           href="#editPersonalInfo"
+           id="updateTel"
+           style="background-color:rgb(255,115,115)!important;">确定</a>
+    </div>
+    <!--    提示窗口-->
+    <div data-role="popup" id="error1">
+        <div data-role="header">
+            <h1>温馨提示</h1>
+        </div>
+        <div class="ui-content" data-role="main">
+            <h2>您没有权限修改此项内容</h2>
+            <p>如需修改，请在身份认证中继续。</p>
+        </div>
+        <div data-role="footer">
+            <a class="know" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b ui-icon-back ui-btn-icon-left"
+               data-rel="back"
+               href="#editPersonalInfo"><img src="img/know.png"></a>
+        </div>
+    </div>
+</div>
+<!--信用页面-->
+<div data-role="page" id="xinyongInfo">
+    <div class="backHeader" data-position="fixed" data-role="header">
+        <a class="ui-btn ui-btn-left ui-btn-icon-left" data-rel="back" href="#"><img src="img/back.png"></a>
+        <h1>我的信用</h1>
+    </div>
+    <div class="ui-content" data-role="main">
+        <ul data-role="listview">
+            <li class="infoPath" data-role="list-divider">信用详情</li>
+            <li data-icon="false">
+                <a>
+                    <div class="infoName" data-rel="popup" style="margin-left:20px">
+                        当前信用
+                    </div>
+                    <div class="infoValue">
+                        优秀
+                    </div>
+                </a>
+            </li>
+            <li class="infoPath" data-role="list-divider" style="height:180px!important">违规记录<p
+                    style="text-align:center"><img src="img/noWeiGui.png" style="width:128px"><br>太棒了！你还没有过违规！</p></li>
+            <li class="infoPath infoPathOne" data-role="list-divider"><a style="color:black">违规申诉
+                <img class="menuRight infoImg" src="img/right.png"></a>
+            </li>
+        </ul>
+    </div>
+</div>
+<!--帮助中心-->
+<div data-role="page" id="serverInfo">
+    <div class="backHeader" data-position="fixed" data-role="header">
+        <a class="ui-btn ui-btn-left ui-btn-icon-left" href="#myPage"><img src="img/back.png"></a>
+        <h1>服务中心</h1>
+    </div>
+    <div class="ui-content" data-role="main">
+        <ul data-role="listview">
+            <li class="infoPath" data-role="list-divider">笑约APP使用帮助
+            </li>
+            <li data-icon="false">
+                <a href="#helppdf" onclick="changeHelpPdf(0)">
+                    <div class="infoName infoPathOne infoNameOne" data-rel="popup" style="margin-left:20px">
+                        帮助文档
+                    </div>
+                    <img class="menuRight infoImg" src="img/right.png">
+                </a>
+            </li>
+            <li data-icon="false">
+                <a href="#helppdf" onclick="changeHelpPdf(1)">
+                    <div class="infoName infoPathOne infoNameOne" data-rel="popup" style="margin-left:20px">
+                        项目前景及范围文档
+                    </div>
+                    <img class="menuRight infoImg" src="img/right.png">
+                </a>
+            </li>
+            <li data-icon="false">
+                <a href="#helppdf" onclick="changeHelpPdf(2)">
+                    <div class="infoName infoPathOne infoNameOne" data-rel="popup" style="margin-left:20px">
+                        系统用例文档
+                    </div>
+                    <img class="menuRight infoImg" src="img/right.png">
+                </a>
+            </li>
+            <li data-icon="false">
+                <a href="#helppdf" onclick="changeHelpPdf(3)">
+                    <div class="infoName infoPathOne infoNameOne" data-rel="popup" style="margin-left:20px">
+                        需求规格说明文档
+                    </div>
+                    <img class="menuRight infoImg" src="img/right.png">
+                </a>
+            </li>
+            <li data-icon="false">
+                <a class="QUE"
+                   href="javascript:document.getElementById('questionId').innerHTML='0';setQuestionType();window.location.replace('#sendQUE');">
+                    <div class="infoName infoPathOne infoNameOne" data-rel="popup" style="margin-left:20px">
+                        APP意见反馈
+                    </div>
+                    <img class="menuRight infoImg" src="img/right.png">
+                </a>
+            </li>
+            <li class="infoPath" data-role="list-divider">教室问题
+            <li data-icon="false">
+                <a class="QUE"
+                   href="javascript:document.getElementById('questionId').innerHTML='1';setQuestionType();window.location.replace('#sendQUE');">
+                    <div class="infoName infoPathOne infoNameOne" data-rel="popup" style="margin-left:20px">
+                        设备报修
+                    </div>
+                    <img class="menuRight infoImg" src="img/right.png">
+                </a>
+            </li>
+            <li data-icon="false">
+                <a class="QUE"
+                   href="javascript:document.getElementById('questionId').innerHTML='2';setQuestionType();window.location.replace('#sendQUE');">
+                    <div class="infoName infoPathOne infoNameOne" data-rel="popup" style="margin-left:20px">
+                        投诉
+                    </div>
+                    <img class="menuRight infoImg" src="img/right.png">
+                </a>
+            </li>
+            <li data-icon="false">
+                <a class="QUE"
+                   href="javascript:document.getElementById('questionId').innerHTML='3';setQuestionType();window.location.replace('#sendQUE');">
+                    <div class="infoName infoPathOne infoNameOne" data-rel="popup" style="margin-left:20px">
+                        教室意见反馈
+                    </div>
+                    <img class="menuRight infoImg" src="img/right.png">
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div data-position="fixed" data-role="footer">
+        <a class="kefu" data-role="button" href="#"><img src="img/kefu.png">
+            <p> 在线客服 </p></a>
+    </div>
+</div>
+<!--pdf显示-->
+<div data-role="page" id="helppdf">
+    <div class="backHeader" data-position="fixed" data-role="header" style="height:80px">
+        <a class="ui-btn ui-btn-left ui-btn-icon-left" data-rel="back" href="#" id="pdfBack"><img
+                src="img/back.png"></a>
+        <h1>帮助文档</h1>
+    </div>
+    <div class="ui-content" data-role="main">
+        <iframe align='center' allow="autoplay" allowfullscreen='true' frameborder='0' height='100%' id="iframepage"
+                onload="changeFrameHeight()"
+                src="https://pan-yz.chaoxing.com/views/external/thumb.html?name=%E2%80%9C%E8%8D%9F%E5%BA%90%E6%8A%A5%E5%91%8A%E5%8E%85%E5%80%9F%E7%94%A8%E7%99%BB%E8%AE%B0%E2%80%9D%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C%E5%8A%9F%E8%83%BD%E6%8C%87%E5%8D%97.pdf&pagenum=8&thumb=https%3A%2F%2Fs3.ananas.chaoxing.com%2Fdoc%2Fc6%2F82%2Fc0%2F97961f5efbba26a35dbc414d03613eab%2Fthumb%2F"
+                width="100%"></iframe>
+    </div>
+</div>
+<!--反馈提交-->
+<div data-role="page" id="sendQUE">
+    <div class="backHeader" data-position="fixed" data-role="header">
+        <a class="ui-btn ui-btn-left ui-btn-icon-left" href="#serverInfo" id="QUEBACK"><img src="img/back.png"></a>
+    </div>
+    <div class="ui-content" data-role="main">
+        <ul data-role="listview">
+            <li class="infoPath" data-role="list-divider">问题反馈
+            </li>
+            <li data-icon="false">
+                <a href="">
+                    <div class="infoName" data-rel="popup">
+                        问题类型
+                    </div>
+                    <div class="infoValue">
+                        反馈
+                    </div>
+                </a>
+            </li>
+            <li data-icon="false" style="display:none;">
+                <a href="">
+                    <div class="infoName" data-rel="popup">
+                        问题类型id
+                    </div>
+                    <div class="infoValue" id="questionId">
+                        0
+                    </div>
+                </a>
+            </li>
+            <li data-icon="false">
+                <a href="">
+                    <div class="infoName">
+                        电话号码
+                    </div>
+                    <textarea id="QUETEL" placeholder="请输入电话号码"></textarea>
+                </a>
+            </li>
+            <li data-icon="false">
+                <a href="">
+                    <div class="infoName">
+                        问题描述
+                    </div>
+                    <textarea id="QUEDES" placeholder="请输入不少于十个字的问题描述"></textarea>
+                </a>
+            </li>
+            <li data-icon="false">
+                <a class="sendPic" href="">
+                    <div class="infoName">
+                        相关截图或照片
+                    </div>
+                    <label for="sendpic"></label>
+                    <input accept="image/*" id="sendpic" name="touxiang" type="file"/>
+                </a>
+            </li>
+            <div data-position="fixed" data-role="footer">
+                <a class="kefu" data-role="button" href="javascript:sendQuestion()" style="align-content: center">
+                    <p style="float:unset;margin-right: unset"> 提交反馈 </p></a>
+            </div>
+        </ul>
+    </div>
+</div>
+<!--更多-->
+<div data-role="page" id="more">
+    <div class="backHeader" data-position="fixed" data-role="header">
+        <a class="ui-btn ui-btn-left ui-btn-icon-left" href="#myPage"><img src="img/back.png"></a>
+    </div>
+    <div class="ui-content InfoEdit" data-role="main">
+        <ul data-role="listview">
+            <li class="infoPath" data-role="list-divider">更多</li>
+            <li data-icon="false">
+                <a href="#helppdf" onclick="changeHelpPdf(4)">
+                    <div class="infoName">
+                        笑约隐私政策
+                    </div>
+                    <img class="menuRight infoImg" src="img/right.png">
+                </a>
+            </li>
+            <li data-icon="false">
+                <a href="#helppdf" onclick="changeHelpPdf(5)">
+                    <div class="infoName" data-rel="popup">
+                        笑约用户注册协议
+                    </div>
+                    <img class="menuRight infoImg" src="img/right.png">
+                </a>
+            </li>
+            <li data-icon="false">
+                <a href="#more">
+                    <div class="infoName" data-rel="popup">
+                        关于我们
+                    </div>
+                    <img class="menuRight infoImg" src="img/right.png">
+                    <div class="infoValue">
+                        笑约
+                    </div>
+                </a>
+            </li>
+            <li data-icon="false">
+                <a data-rel="popup" href="#error2">
+                    <div class="infoName">
+                        外观
+                    </div>
+                    <img class="menuRight infoImg" src="img/right.png">
+                    <div class="infoValue">
+                        跟随系统
+                    </div>
+                </a>
+                <!--    不知道什么地方错了，提示弹窗打不开，用alert代替-->
+                <div data-role="popup" id="error2">
+                    <div class="ui-content" data-role="main">
+                        <form>
+                            <fieldset data-role="controlgroup">
+                                <legend>请选择外观：</legend>
+                                <label for="auto">跟随系统</label>
+                                <input id="auto" name="style" onclick="localStorage.setItem('Dark','auto');changDark()"
+                                       type="radio" value="auto">
+                                <label for="light">浅色</label>
+                                <input id="light" name="style" onclick="localStorage.setItem('Dark','no');changDark()"
+                                       type="radio" value="light">
+                                <label for="dark">深色</label>
+                                <input id="dark" name="atyle" onclick="localStorage.setItem('Dark','ok');changDark()"
+                                       type="radio" value="dark">
+                            </fieldset>
+                            <input data-inline="true" id="styleSumbit" type="submit" value="提交">
+                        </form>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+<!--关于-->
+<div data-role="page" id="about">
+    <div class="backHeader" data-position="fixed" data-role="header">
+        <a class="ui-btn ui-btn-left ui-btn-icon-left" href="#about"><img src="img/back.png"></a>
+    </div>
+    <div class="ui-content InfoEdit" data-role="main">
+        <ul data-role="listview">
+            <li class="infoPath" data-role="list-divider">关于</li>
+            <li data-icon="false">
+                <a href="guide.html#yinsi">
+                    <div class="infoName">
+                        去应用商店给我们评分
+                    </div>
+                    <img class="menuRight infoImg" src="img/right.png">
+                </a>
+            </li>
+            <li data-icon="false">
+                <a href="guide.html#zhuce">
+                    <div class="infoName" data-rel="popup">
+                        项目APP
+                    </div>
+                    <div class="infoValue noImg">
+                        笑约 指尖预约学校教室
+                    </div>
+                </a>
+            </li>
+            <li data-icon="false">
+                <a href="guide.html#zhuce">
+                    <div class="infoName" data-rel="popup">
+                        系统项目
+                    </div>
+                    <div class="infoValue noImg" style="font-size: 14px">
+                        Class Int 基于互联网的教室资源管理系统
+                    </div>
+                </a>
+            </li>
+            <li data-icon="false">
+                <a href="guide.html#zhuce">
+                    <div class="infoName" data-rel="popup">
+                        服务器支持
+                    </div>
+                    <div class="infoValue noImg">
+                        由腾讯云提供服务器和域名支持
+                    </div>
+                </a>
+            </li>
+            <li data-icon="false">
+                <a href="guide.html#zhuce">
+                    <div class="infoName" data-rel="popup">
+                        项目成员
+                    </div>
+                    <div class="infoValue noImg">
+                        张亮 叶怡麟
+                    </div>
+                </a>
+            </li>
+            <li data-icon="false">
+                <a href="#about">
+                    <div class="infoName" data-rel="popup">
+                        前端开源框架
+                    </div>
+                    <img class="menuRight infoImg" src="img/right.png">
+                    <div class="infoValue">
+                        jquery-mobile
+                    </div>
+                </a>
+            </li>
+            <li data-icon="false">
+                <a href="#about">
+                    <div class="infoName" data-rel="popup">
+                        前端工具库
+                    </div>
+                    <img class="menuRight infoImg" src="img/right.png">
+                    <div class="infoValue">
+                        jquery
+                    </div>
+                </a>
+            </li>
+            <li data-icon="false">
+                <a href="#about">
+                    <div class="infoName" data-rel="popup">
+                        IDE支持
+                    </div>
+                    <img class="menuRight infoImg" src="img/right.png">
+                    <div class="infoValue">
+                        JetBrains WebStorm
+                    </div>
+                </a>
+            </li>
+            <li data-icon="false">
+                <a href="#about">
+                    <div class="infoName" data-rel="popup">
+                        UI设计模仿
+                    </div>
+                    <img class="menuRight infoImg" src="img/right.png">
+                    <div class="infoValue">
+                        笑约APP
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+<div data-role="page" id="mes">
+    <div class="backHeader" data-position="fixed" data-role="header">
+        <a class="ui-btn ui-btn-left ui-btn-icon-left" data-rel="back" href="#"><img src="img/back.png"></a>
+    </div>
+    <div class="ui-content mesdiv" data-role="main">
+        <ul data-role="listview">
+            <li class="msgTitle" data-role="list-divider">通知中心</li>
+            <li data-icon="false">
+                <a data-ajax="false" rel="external">
+                    <img src="img/noticeSys.png">
+                    <h3>系统提醒</h3>
+                    <h2>您预约的"荟庐报告厅"已经审核通过</h2>
+                    <h2 style="font-size:10px">2021.6.19 21:00</h2>
+                </a>
+            </li>
+            <li data-icon="false">
+                <a data-ajax="false" rel="external">
+                    <img src="img/noticeSys.png">
+                    <h3>系统提醒</h3>
+                    <h2>您预约的"荟庐报告厅"已经提交申请，预计审核时间2小时</h2>
+                    <h2 style="font-size:10px">2021.6.19 20:00</h2>
+                </a>
+            </li>
+            <li data-icon="false">
+                <a data-ajax="false" rel="external">
+                    <img src="img/noticeKefu.png">
+                    <h3>反馈消息</h3>
+                    <h2>您提交的反馈有了新进展，快来看看吧！</h2>
+                    <h2 style="font-size:10px">2021.6.17 12:00</h2>
+                </a>
+            </li>
+            <li data-icon="false">
+                <a data-ajax="false" rel="external">
+                    <img src="img/noteMsg.png">
+                    <h3>私聊消息</h3>
+                    <h2>您有一条新的私聊消息，点我查看！</h2>
+                    <h2 style="font-size:10px">2021.6.15 9:00</h2>
+                </a>
+            </li>
+            <li data-icon="false">
+                <a data-ajax="false" rel="external">
+                    <img src="img/noticeSys.png">
+                    <h3>系统提醒</h3>
+                    <h2>您预约的"工商楼G103"已经审核通过</h2>
+                    <h2 style="font-size:10px">2021.6.10 19:03</h2>
+                </a>
+            </li>
+            <li data-icon="false">
+                <a data-ajax="false" rel="external">
+                    <img src="img/noticeSys.png">
+                    <h3>系统提醒</h3>
+                    <h2>您预约的"工商楼G103"已经提交申请，预计审核时间3小时</h2>
+                    <h2 style="font-size:10px">2021.6.10 21:00</h2>
+                </a>
+            </li>
+        </ul>
+
+        <div data-role="footer">
+            <h1>我也是有底线的！</h1>
+        </div>
+    </div>
+</div>
+<div data-role="page" id="building">
+    <div class="backHeader" data-position="fixed" data-role="header">
+        <a class="ui-btn ui-btn-left ui-btn-icon-left" data-rel="back" href="#"><img src="img/back.png"></a>
+        <h1>请选择</h1>
+    </div>
+    <div class="ui-content InfoEdit" data-role="main">
+        <ul data-role="listview">
+            <li class="infoPath" data-role="list-divider">国家</li>
+            <li data-icon="false">
+                <a data-ajax="false" href="#NO1" rel="external">
+                    <div class="infoName">
+                        中国
+                    </div>
+                    <img class="menuRight infoImg" src="img/right.png">
+                    <div id="Chinalength" class="infoValue">
+                        共XX家4S店
+                    </div>
+                </a>
+            </li>
+            <li data-icon="false">
+                <a data-ajax="false" href="#NO2" rel="external">
+                    <div class="infoName">
+                        美国
+                    </div>
+                    <img class="menuRight infoImg" src="img/right.png">
+                    <div id="Amerlength" class="infoValue">
+                        共XX家4S店
+                    </div>
+                </a>
+            </li>
+            <li data-icon="false">
+                <a data-ajax="false" href="#NO3" rel="external">
+                    <div class="infoName">
+                        日本
+                    </div>
+                    <img class="menuRight infoImg" src="img/right.png">
+                    <div id="jpanslength" class="infoValue">
+                        共XX家4S店
+                    </div>
+                </a>
+            </li>
+            <li class="infoPath" data-role="list-divider">4S店的品牌</li>
+            <li data-icon="false">
+                <a data-ajax="false" href="#hui" rel="external">
+                    <div class="infoName">
+                        Tesla
+                    </div>
+                    <img class="menuRight infoImg" src="img/right.png">
+                    <div id="Teslalength" class="infoValue">
+                        共XX家4S店
+                    </div>
+                </a>
+            </li>
+            <li data-icon="false">
+                <a data-ajax="false" href="#gong" rel="external">
+                    <div class="infoName">
+                        BMW
+                    </div>
+                    <img class="menuRight infoImg" src="img/right.png">
+                    <div id="BMWlength" class="infoValue">
+                        共XX家4S店
+                    </div>
+                </a>
+            </li>
+			<li data-icon="false">
+                <a data-ajax="false" href="#tu" rel="external">
+                    <div class="infoName">
+                        Audi
+                    </div>
+                    <img class="menuRight infoImg" src="img/right.png">
+                    <div id="Audilength" class="infoValue">
+                        共XX家4S店
+                    </div>
+                </a>
+            </li>
+			<li data-icon="false">
+                <a data-ajax="false" href="#dahuo" rel="external">
+                    <div class="infoName">
+                        Ford
+                    </div>
+                    <img class="menuRight infoImg" src="img/right.png">
+                    <div id="Fordlength" class="infoValue">
+                        共XX家4S店
+                    </div>
+                </a>
+            </li>
+
+        </ul>
+    </div>
+</div>
+<div data-role="page" id="NO1">
+    <div class="backHeader" data-position="fixed" data-role="header">
+        <a class="ui-btn ui-btn-left ui-btn-icon-left" data-rel="back" href="#"><img src="img/back.png"></a>
+        <h1>中国</h1>
+    </div>
+	
+    <div class="ui-content InfoEdit" data-role="main">
+        <ul id="chinas" data-role="listview">
+		<script>
+var listch = document.getElementById('chinas');
+
+var xhrch = new XMLHttpRequest();
+xhrch.onreadystatechange = function() {
+    if (xhrch.readyState === 4 && xhrch.status === 200) {
+        var rooms = JSON.parse(xhrch.responseText).data;
+		console.log("看一下rooms：",rooms)
+		//Chinalength
+		document.getElementById("Chinalength").innerHTML = "共"+rooms.length+"家4S店";
+		
+        for (var i = 0; i < rooms.length; i++) {
+            var room = rooms[i];
+            
+            // 创建 <li> 元素
+            var listItem = document.createElement('li');
+            listItem.setAttribute('data-icon', 'false');
+
+            // 创建 <a> 元素
+            var link = document.createElement('a');
+            link.setAttribute('data-ajax', 'false');
+            link.setAttribute('href', '#room');
+            link.setAttribute('onclick', 'getRoom(\'' + room.name + '\', \'' + room.id + '\', \'' + room.address + '\')');
+            link.setAttribute('rel', 'external');
+            // 创建 <div> 元素
+            var infoName = document.createElement('div');
+            infoName.setAttribute('class', 'infoName');
+            infoName.textContent = room.name;
+
+            var infoImg = document.createElement('img');
+            infoImg.setAttribute('class', 'menuRight infoImg');
+            infoImg.setAttribute('src', 'img/right.png');
+
+            var infoValue = document.createElement('div');
+            infoValue.setAttribute('class', 'infoValue');
+            infoValue.textContent = '可预约';
+
+            // 将 <div> 元素添加到 <a> 元素中
+            link.appendChild(infoName);
+            link.appendChild(infoImg);
+            link.appendChild(infoValue);
+
+            // 将 <a> 元素添加到 <li> 元素中
+            listItem.appendChild(link);
+
+            // 将新元素添加到 <ul> 列表中
+            listch.appendChild(listItem);
+        }
+    }
+};
+xhrch.open('GET', 'http://localhost:8080/selectCarShop?key=China');
+xhrch.send();
+
+	</script>
+            <li class="infoPath" data-role="list-divider">4S店</li>
+            
+        </ul>
+    </div>
+</div>
+<div data-role="page" id="NO2">
+     <div class="backHeader" data-position="fixed" data-role="header">
+        <a class="ui-btn ui-btn-left ui-btn-icon-left" data-rel="back" href="#"><img src="img/back.png"></a>
+        <h1>美国</h1>
+    </div>
+    <div class="ui-content InfoEdit" data-role="main">
+        <ul id="Americas" data-role="listview">
+<script>
+var listam = document.getElementById('Americas');
+
+var xhram = new XMLHttpRequest();
+xhram.onreadystatechange = function() {
+		console.log("看一下roomsam：",roomsam)
+    if (xhram.readyState === 4 && xhram.status === 200) {
+        var roomsam = JSON.parse(xhram.responseText).data;
+		//Amerlength
+		document.getElementById("Amerlength").innerHTML = "共"+roomsam.length+"家4S店";
+		
+        for (var i = 0; i < roomsam.length; i++) {
+            var roomam = roomsam[i];
+            
+            // 创建 <li> 元素
+            var listItem = document.createElement('li');
+            listItem.setAttribute('data-icon', 'false');
+
+            // 创建 <a> 元素
+            var link = document.createElement('a');
+            link.setAttribute('data-ajax', 'false');
+            link.setAttribute('href', '#room');
+            link.setAttribute('onclick', 'getRoom(\'' + roomam.name + '\', \'' + roomam.id + '\', \'' + roomam.address + '\')');
+            link.setAttribute('rel', 'external');
+            // 创建 <div> 元素
+            var infoName = document.createElement('div');
+            infoName.setAttribute('class', 'infoName');
+            infoName.textContent = roomam.name;
+
+            var infoImg = document.createElement('img');
+            infoImg.setAttribute('class', 'menuRight infoImg');
+            infoImg.setAttribute('src', 'img/right.png');
+
+            var infoValue = document.createElement('div');
+            infoValue.setAttribute('class', 'infoValue');
+            infoValue.textContent = '可预约';
+
+            // 将 <div> 元素添加到 <a> 元素中
+            link.appendChild(infoName);
+            link.appendChild(infoImg);
+            link.appendChild(infoValue);
+
+            // 将 <a> 元素添加到 <li> 元素中
+            listItem.appendChild(link);
+
+            // 将新元素添加到 <ul> 列表中
+            listam.appendChild(listItem);
+        }
+    }
+};
+xhrch.open('GET', 'http://localhost:8080/selectCarShop?key=America');
+xhrch.send();
+
+	</script>
+            <li class="infoPath" data-role="list-divider">4S店</li>
+            
+        </ul>
+    </div>
+</div>
+<div data-role="page" id="NO3">
+    <div class="backHeader" data-position="fixed" data-role="header">
+        <a class="ui-btn ui-btn-left ui-btn-icon-left" data-rel="back" href="#"><img src="img/back.png"></a>
+        <h1>日本</h1>
+    </div>
+    <div class="ui-content InfoEdit" data-role="main">
+        <ul id="jpans" data-role="listview">
+		<script>
+var listjp = document.getElementById('jpans');
+
+var xhrjp = new XMLHttpRequest();
+xhrjp.onreadystatechange = function() {
+    if (xhrjp.readyState === 4 && xhrjp.status === 200) {
+        var roomsjp = JSON.parse(xhrjp.responseText).data;
+		console.log("看一下roomsjp：",roomsjp)
+		document.getElementById("jpanslength").innerHTML = "共"+roomsjp.length+"家4S店";
+
+        for (var i = 0; i < roomsjp.length; i++) {
+            var roomjp = roomsjp[i];
+            
+            // 创建 <li> 元素
+            var listItem = document.createElement('li');
+            listItem.setAttribute('data-icon', 'false');
+
+            // 创建 <a> 元素
+            var link = document.createElement('a');
+            link.setAttribute('data-ajax', 'false');
+            link.setAttribute('href', '#room');
+            link.setAttribute('onclick', 'getRoom(\'' + roomjp.name + '\', \'' + roomjp.id + '\', \'' + roomjp.address + '\')');
+            link.setAttribute('rel', 'external');
+
+            // 创建 <div> 元素
+            var infoName = document.createElement('div');
+            infoName.setAttribute('class', 'infoName');
+            infoName.textContent = roomjp.name;
+
+            var infoImg = document.createElement('img');
+            infoImg.setAttribute('class', 'menuRight infoImg');
+            infoImg.setAttribute('src', 'img/right.png');
+
+            var infoValue = document.createElement('div');
+            infoValue.setAttribute('class', 'infoValue');
+            infoValue.textContent = '可预约';
+
+            // 将 <div> 元素添加到 <a> 元素中
+            link.appendChild(infoName);
+            link.appendChild(infoImg);
+            link.appendChild(infoValue);
+
+            // 将 <a> 元素添加到 <li> 元素中
+            listItem.appendChild(link);
+
+            // 将新元素添加到 <ul> 列表中
+            listjp.appendChild(listItem);
+        }
+    }
+};
+xhrjp.open('GET', 'http://localhost:8080/selectCarShop?key=Japan');
+xhrjp.send();
+
+	</script>
+            <li class="infoPath" data-role="list-divider">4S店</li>
+            
+        </ul>
+    </div>
+</div>
+<div data-role="page" id="hui">
+    <div class="backHeader" data-position="fixed" data-role="header">
+        <a class="ui-btn ui-btn-left ui-btn-icon-left" data-rel="back" href="#"><img src="img/back.png"></a>
+        <h1>Tesla</h1>
+    </div>
+		
+    <div class="ui-content InfoEdit" data-role="main">
+        <ul id="teslas" data-role="listview">
+		<script>
+var listtes = document.getElementById('teslas');
+
+var xhrtes = new XMLHttpRequest();
+xhrtes.onreadystatechange = function() {
+    if (xhrtes.readyState === 4 && xhrtes.status === 200) {
+        var roomstes = JSON.parse(xhrtes.responseText).data;
+		console.log("查找特斯拉的结果是，",roomstes)
+		//Teslalength
+		document.getElementById("Teslalength").innerHTML = "共"+roomstes.length+"家4S店";
+        for (var i = 0; i < roomstes.length; i++) {
+            var roomtes = roomstes[i];
+            
+            // 创建 <li> 元素
+            var listItem = document.createElement('li');
+            listItem.setAttribute('data-icon', 'false');
+
+            // 创建 <a> 元素
+            var link = document.createElement('a');
+            link.setAttribute('data-ajax', 'false');
+            link.setAttribute('href', '#room');
+            link.setAttribute('onclick', 'getRoom(\'' + roomtes.name + '\', \'' + roomtes.id + '\', \'' + roomtes.address + '\')');
+            link.setAttribute('rel', 'external');
+
+            // 创建 <div> 元素
+            var infoName = document.createElement('div');
+            infoName.setAttribute('class', 'infoName');
+            infoName.textContent = roomtes.name;
+
+            var infoImg = document.createElement('img');
+            infoImg.setAttribute('class', 'menuRight infoImg');
+            infoImg.setAttribute('src', 'img/right.png');
+
+            var infoValue = document.createElement('div');
+            infoValue.setAttribute('class', 'infoValue');
+            infoValue.textContent = '可预约' ;
+
+            // 将 <div> 元素添加到 <a> 元素中
+            link.appendChild(infoName);
+            link.appendChild(infoImg);
+            link.appendChild(infoValue);
+
+            // 将 <a> 元素添加到 <li> 元素中
+            listItem.appendChild(link);
+
+            // 将新元素添加到 <ul> 列表中
+            listtes.appendChild(listItem);
+        }
+    }
+};
+xhrtes.open('GET', 'http://localhost:8080/selectCarShop?key=Tesla');
+xhrtes.send();
+	</script>
+          <li class="infoPath" data-role="list-divider">4S店</li>
+
+        </ul>
+    </div>
+</div>
+<div data-role="page" id="gong">
+    <div class="backHeader" data-position="fixed" data-role="header">
+        <a class="ui-btn ui-btn-left ui-btn-icon-left" data-rel="back" href="#"><img src="img/back.png"></a>
+        <h1>BMW</h1>
+    </div>
+    <div class="ui-content InfoEdit" data-role="main">
+        <ul id="bmw" data-role="listview">
+		<script>
+var listBM = document.getElementById('bmw');
+
+var xhrBM = new XMLHttpRequest();
+xhrBM.onreadystatechange = function() {
+    if (xhrBM.readyState === 4 && xhrBM.status === 200) {
+        var roomsBM = JSON.parse(xhrBM.responseText).data;
+		//BMWlength
+		document.getElementById("BMWlength").innerHTML = "共"+roomsBM.length+"家4S店";
+		console.log("看一下roomsBM：",roomsBM)
+
+        for (var i = 0; i < roomsBM.length; i++) {
+            var roomBM = roomsBM[i];
+            
+            // 创建 <li> 元素
+            var listItem = document.createElement('li');
+            listItem.setAttribute('data-icon', 'false');
+
+            // 创建 <a> 元素
+            var link = document.createElement('a');
+            link.setAttribute('data-ajax', 'false');
+            link.setAttribute('href', '#room');
+            link.setAttribute('onclick', 'getRoom(\'' + roomBM.name + '\', \'' + roomBM.id + '\', \'' + roomBM.address + '\')');
+            link.setAttribute('rel', 'external');
+
+            // 创建 <div> 元素
+            var infoName = document.createElement('div');
+            infoName.setAttribute('class', 'infoName');
+            infoName.textContent = roomBM.name;
+
+            var infoImg = document.createElement('img');
+            infoImg.setAttribute('class', 'menuRight infoImg');
+            infoImg.setAttribute('src', 'img/right.png');
+
+            var infoValue = document.createElement('div');
+            infoValue.setAttribute('class', 'infoValue');
+            infoValue.textContent = '可预约';
+
+            // 将 <div> 元素添加到 <a> 元素中
+            link.appendChild(infoName);
+            link.appendChild(infoImg);
+            link.appendChild(infoValue);
+
+            // 将 <a> 元素添加到 <li> 元素中
+            listItem.appendChild(link);
+
+            // 将新元素添加到 <ul> 列表中
+            listBM.appendChild(listItem);
+        }
+    }
+};
+xhrBM.open('GET', 'http://localhost:8080/selectCarShop?key=BMW');
+xhrBM.send();
+
+	</script>
+            <li class="infoPath" data-role="list-divider">4S店</li>
+            
+        </ul>
+    </div>
+</div>
+<div data-role="page" id="tu">
+    <div class="backHeader" data-position="fixed" data-role="header">
+        <a class="ui-btn ui-btn-left ui-btn-icon-left" data-rel="back" href="#"><img src="img/back.png"></a>
+        <h1>Audi</h1>
+    </div>
+    <div class="ui-content InfoEdit" data-role="main">
+        <ul id="audi" data-role="listview">
+		<script>
+var listAu = document.getElementById('audi');
+
+var xhrAu = new XMLHttpRequest();
+xhrAu.onreadystatechange = function() {
+    if (xhrAu.readyState === 4 && xhrAu.status === 200) {
+        var roomsAu = JSON.parse(xhrAu.responseText).data;
+		console.log("看一下roomsAu：",roomsAu)
+        for (var i = 0; i < roomsAu.length; i++) {
+            var roomAu = roomsAu[i];
+            //Audilength
+			document.getElementById("Audilength").innerHTML = "共"+roomsAu.length+"家4S店";
+
+            // 创建 <li> 元素
+            var listItem = document.createElement('li');
+            listItem.setAttribute('data-icon', 'false');
+
+            // 创建 <a> 元素
+            var link = document.createElement('a');
+            link.setAttribute('data-ajax', 'false');
+            link.setAttribute('href', '#room');
+            link.setAttribute('onclick', 'getRoom(\'' + roomAu.name + '\', \'' + roomAu.id + '\', \'' + roomAu.address + '\')');
+            link.setAttribute('rel', 'external');
+
+            // 创建 <div> 元素
+            var infoName = document.createElement('div');
+            infoName.setAttribute('class', 'infoName');
+            infoName.textContent = roomAu.name;
+
+            var infoImg = document.createElement('img');
+            infoImg.setAttribute('class', 'menuRight infoImg');
+            infoImg.setAttribute('src', 'img/right.png');
+
+            var infoValue = document.createElement('div');
+            infoValue.setAttribute('class', 'infoValue');
+            infoValue.textContent = '可预约';
+
+            // 将 <div> 元素添加到 <a> 元素中
+            link.appendChild(infoName);
+            link.appendChild(infoImg);
+            link.appendChild(infoValue);
+
+            // 将 <a> 元素添加到 <li> 元素中
+            listItem.appendChild(link);
+
+            // 将新元素添加到 <ul> 列表中
+            listAu.appendChild(listItem);
+        }
+    }
+};
+xhrAu.open('GET', 'http://localhost:8080/selectCarShop?key=Audi');
+xhrAu.send();
+
+	</script>
+            <li class="infoPath" data-role="list-divider">4S店</li>
+            
+        </ul>
+    </div>
+</div>
+<div data-role="page" id="dahuo">
+    <div class="backHeader" data-position="fixed" data-role="header">
+        <a class="ui-btn ui-btn-left ui-btn-icon-left" data-rel="back" href="#"><img src="img/back.png"></a>
+        <h1>Ford</h1>
+    </div>
+    <div class="ui-content InfoEdit" data-role="main">
+        <ul id="fords" data-role="listview">
+		<script>
+var listfo = document.getElementById('fords');
+
+var xhrfo = new XMLHttpRequest();
+xhrfo.onreadystatechange = function() {
+    if (xhrfo.readyState === 4 && xhrfo.status === 200) {
+        var roomsfo = JSON.parse(xhrfo.responseText).data;
+		document.getElementById("Fordlength").innerHTML = "共"+roomsfo.length+"家4S店";
+		console.log("看一下roomsfo：",roomsfo)
+        for (var i = 0; i < roomsfo.length; i++) {
+            var roomfo = roomsfo[i];
+            
+            // 创建 <li> 元素
+            var listItem = document.createElement('li');
+            listItem.setAttribute('data-icon', 'false');
+
+            // 创建 <a> 元素
+            var link = document.createElement('a');
+            link.setAttribute('data-ajax', 'false');
+            link.setAttribute('href', '#room');
+            link.setAttribute('onclick', 'getRoom(\'' + roomfo.name + '\', \'' + roomfo.id + '\', \'' + roomfo.address + '\')');
+            link.setAttribute('rel', 'external');
+
+            // 创建 <div> 元素
+            var infoName = document.createElement('div');
+            infoName.setAttribute('class', 'infoName');
+            infoName.textContent = roomfo.name;
+
+            var infoImg = document.createElement('img');
+            infoImg.setAttribute('class', 'menuRight infoImg');
+            infoImg.setAttribute('src', 'img/right.png');
+
+            var infoValue = document.createElement('div');
+            infoValue.setAttribute('class', 'infoValue');
+            infoValue.textContent = '可预约';
+
+            // 将 <div> 元素添加到 <a> 元素中
+            link.appendChild(infoName);
+            link.appendChild(infoImg);
+            link.appendChild(infoValue);
+
+            // 将 <a> 元素添加到 <li> 元素中
+            listItem.appendChild(link);
+
+            // 将新元素添加到 <ul> 列表中
+            listfo.appendChild(listItem);
+        }
+    }
+};
+xhrfo.open('GET', 'http://localhost:8080/selectCarShop?key=Ford');
+xhrfo.send();
+
+	</script>
+            <li class="infoPath" data-role="list-divider">一楼</li>
+            
+        </ul>
+    </div>
+</div>
+<div data-role="page" id="room">
+    <div class="Rshadow" style="left:0"></div>
+    <div class="Rshadow" style="right:0"></div>
+    <div class="backHeader" data-position="fixed" data-role="header">
+        <a class="ui-btn ui-btn-left ui-btn-icon-left" data-rel="back" href="#"><img src="img/back.png"></a>
+        <h1>请选择时间</h1>
+    </div>
+    <div class="ui-content" data-role="main">
+        <ul data-role="listview">
+            <li class="infoPath " data-role="list-divider" id="roomName">
+                <div>某4S店</div>
+                <div hidden="true">XX</div>
+                <div>"XX"</div>
+                <div style="display:none">0d</div>
+                <div style="display:none">0s</div>
+                <div style="display:none">0e</div>
+            </li>
+            <li class="infoPath " data-role="list-divider" id="roomDe">地址：多媒体 空调 Wi-Fi</li>
+            <li class="infoPath " data-role="list-divider" id="roomDay" style="height:42px!important">
+                <div class="daySelect Days" onclick="setDay(this)">XX/XX<br>>周X</div>
+                <div class="Days" onclick="setDay(this)">XX/XX<br>>周X</div>
+                <div class="Days" onclick="setDay(this)">XX/XX<br>>周X</div>
+                <div class="Days" onclick="setDay(this)">XX/XX<br>>周X</div>
+                <div class="Days" onclick="setDay(this)">XX/XX<br>>周X</div>
+                <div class="Days" onclick="setDay(this)">XX/XX<br>>周X</div>
+                <div class="Days" onclick="setDay(this)">XX/XX<br>>周X</div>
+                <div class="Days" onclick="setDay(this)">XX/XX<br>>周X</div>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+                        08:00
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+                        08:30
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+                        09:00
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+                        09:30
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+                        10:00
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+                        10:30
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+                        11:00
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+                        11:30
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+                        12:00
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+                        12:30
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+                        13:00
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+                        13:30
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+                        14:00
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+                        14:30
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+                        15:00
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+                        15:30
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+                        16:00
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+                        16:30
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+                        17:00
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+                        17:30
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+                        18:00
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+                        18:30
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+                        19:00
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+                        19:30
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+                        20:00
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+                        20:30
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+                        21:00
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+                        21:30
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <a class="timetable timeUnSelect" data-ajax="false" href="" rel="external">
+                    <div class="infoName">
+
+                    </div>
+                </a>
+            </li>
+            <li class="time" data-icon="false">
+                <div class="infoName">
+
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div data-position="Fullscreen"
+         data-role="footer" style="position: absolute;bottom: 0;left: 50%; width: 100%;transform: translate(-50%);">
+        <a class="kefu noSelect kefuS" data-role="button" href="#sendInfoPage" id="sendInfo" onclick="setSendInfo()"
+           style="align-content: center">
+            <p style="float:unset;margin-right: unset"> 请选择开始和结束时间 </p></a>
+    </div>
+</div>
+<!--申请提交-->
+<div data-role="page" id="sendInfoPage">
+    <div class="backHeader" data-position="fixed" data-role="header">
+        <a class="ui-btn ui-btn-left ui-btn-icon-left" href="home.html" id="sendBACK"><img src="img/back.png"></a>
+        <h1>预约详情</h1>
+    </div>
+    <div class="ui-content" data-role="main">
+        <ul data-role="listview">
+            <li data-icon="false">
+                <a href="">
+                    <div class="infoName" data-rel="popup">
+                        预约4S店
+                    </div>
+                    <div class="infoValue" id="sendRoom">
+                        XXX
+                    </div>
+                </a>
+            </li>
+            <li data-icon="false">
+                <a href="">
+                    <div class="infoName" data-rel="popup">
+                        预约时间
+                    </div>
+                    <div class="infoValue" id="sendTime">
+                        XXX
+                    </div>
+                </a>
+            </li>
+            <li data-icon="false">
+                <a href="">
+                    <div class="infoName" data-rel="popup">
+                        预约人
+                    </div>
+                    <div class="infoValue" id="sendName">
+                        你
+                    </div>
+                </a>
+            </li>
+           <!-- <li data-icon="false">
+                <a href="">
+                    <div class="infoName" data-rel="popup">
+                        联系电话
+                    </div>
+                    <div class="infoValue" id="sendTel">
+                        XXX
+                    </div>
+                </a>
+            </li>
+            <li data-icon="false">
+                <a href="">
+                    <div class="infoName">
+                        预约用途
+                    </div>
+                    <textarea id="infoDel" placeholder="请输入预约用途"></textarea>
+                </a>
+            </li>
+            <li data-icon="false">
+                <a class="sendPic" href="">
+                    <div class="infoName">
+                        相关证明文件（提升审优先度）
+                    </div>
+                    <label for="infopic"></label>
+                    <input accept="image/*" id="infopic" name="infopic" type="file"/>
+                </a>
+            </li>
+			-->
+            <li data-icon="false" style="display:none;">
+                <a data-rel="popup" href="#error3" id="sendError">
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div data-role="popup" id="error3">
+        <div data-role="header">
+            <h1>温馨提示</h1>
+        </div>
+        <div class="ui-content" data-role="main">
+            <h2>您还没有绑定电话号码</h2>
+            <p>如需修改，请在个人信息中绑定手机。</p>
+        </div>
+        <div data-role="footer">
+            <a class="know ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b ui-btn-icon-left"
+               href="#editPersonalInfo"><img src="img/know.png"></a>
+        </div>
+    </div>
+    <div data-position="fixed" data-role="footer">
+        <a class="kefu" data-role="button" href="#sendS" onclick="sendInfo()" style="align-content: center">
+            <p style="float:unset;margin-right: unset"> 提交申请 </p></a>
+    </div>
+</div>
+<div data-role="page" id="myRoom">
+    <div class="backHeader" data-position="fixed" data-role="header" id="roomHead">
+        <a id="gohome" class="ui-btn ui-btn-left ui-btn-icon-left" href="#homePage"><img src="img/back.png"></a>
+    </div>
+    <div class="ui-content yuyuediv" data-role="main" id="roomdiv">
+        <a href="#loadngPage" id="myRoomLinkload" style="display:none"></a>
+        <ul data-role="listview" id="yuyueul">
+            <!--            <li class="msgTitle" data-role="list-divider">我的预约</li>-->
+            <!--            <li data-icon="false">-->
+            <!--                <a class="shenhe" data-ajax="false" rel="external">-->
+            <!--                    <img src="img/noticeSys.png">-->
+            <!--                    <h3>审核中</h3>-->
+            <!--                    <h2>荟庐学院楼 报告厅 党日活动</h2>-->
+            <!--                    <h2 style="font-size:10px">6.22 周一 12：00-14：00</h2>-->
+            <!--                </a>-->
+            <!--            </li>-->
+            <!--            <li data-icon="false">-->
+            <!--                <a class="tongguo" data-ajax="false" rel="external">-->
+            <!--                    <img src="img/noticeSys.png">-->
+            <!--                    <h3>审核通过</h3>-->
+            <!--                    <h2>第一教学楼 1101 HTML课程答辩</h2>-->
+            <!--                    <h2 style="font-size:10px">6.18 周五 14：00-17：00</h2>-->
+            <!--                </a>-->
+            <!--            </li>-->
+            <!--            <li data-icon="false">-->
+            <!--                <a class="shibai" data-ajax="false" rel="external">-->
+            <!--                    <img src="img/noticeSys.png">-->
+            <!--                    <h3>审核失败：请填写预约用途</h3>-->
+            <!--                    <h2>第一教学楼 1101</h2>-->
+            <!--                    <h2 style="font-size:10px">6.18 周五 14：00-17：00</h2>-->
+            <!--                </a>-->
+            <!--            </li>-->
+            <!--            <li data-icon="false">-->
+            <!--                <a class="tongguo" data-ajax="false" rel="external">-->
+            <!--                    <img src="img/noticeSys.png">-->
+            <!--                    <h3>审核通过</h3>-->
+            <!--                    <h2>荟庐学院楼 报告厅 每周党日活动</h2>-->
+            <!--                    <h2 style="font-size:10px">6.15 周一 12：00-14：00</h2>-->
+            <!--                </a>-->
+            <!--            </li>-->
+            <!--            <li data-icon="false">-->
+            <!--                <a class="tongguo" data-ajax="false" rel="external">-->
+            <!--                    <img src="img/noticeSys.png">-->
+            <!--                    <h3>审核通过</h3>-->
+            <!--                    <h2>荟庐学院楼 报告厅 第一党支部党日活动</h2>-->
+            <!--                    <h2 style="font-size:10px">6.8 周一 12：00-14：00</h2>-->
+            <!--                </a>-->
+            <!--            </li>-->
+            <!--            <li data-icon="false">-->
+            <!--                <a class="tongguo" data-ajax="false" rel="external">-->
+            <!--                    <img src="img/noticeSys.png">-->
+            <!--                    <h3>审核通过</h3>-->
+            <!--                    <h2>荟庐学院楼 报告厅 党日活动</h2>-->
+            <!--                    <h2 style="font-size:10px">6.1 周一 12：00-14：00</h2>-->
+            <!--                </a>-->
+            <!--            </li>-->
+
+        </ul>
+    </div>
+    <div data-position="fixed" data-role="footer" id="roomFoot">
+        <h1>我也是有底线的！</h1>
+    </div>
+</div>
+<div data-role="page" id="InfoDePage">
+    <div class="backHeader" data-position="fixed" data-role="header">
+        <a class="ui-btn ui-btn-left ui-btn-icon-left" data-rel="back"><img src="img/back.png"></a>
+        <h1>预约详情</h1>
+    </div>
+    <div class="ui-content" data-role="main">
+        <ul data-role="listview" id="infoUl">
+            <li data-icon="false">
+                <a href="">
+                    <div class="infoName" data-rel="popup">
+                        预约4S店
+                    </div>
+                    <div class="infoValue" id="sendInfoRoom">
+                        XXX
+                    </div>
+                </a>
+            </li>
+            <li data-icon="false">
+                <a href="">
+                    <div class="infoName" data-rel="popup">
+                        预约时间
+                    </div>
+                    <div class="infoValue" id="sendInfoTime">
+                        XXX
+                    </div>
+                </a>
+            </li>
+ 
+            <li data-icon="false">
+                <a href="">
+                    <div class="infoName" data-rel="popup">
+                        开始时间
+                    </div>
+                    <div class="infoValue" id="infoS">
+                        XXX
+                    </div>
+                </a>
+            </li>
+            <li data-icon="false">
+                <a href="">
+                    <div class="infoName" data-rel="popup">
+                        结束时间
+                    </div>
+                    <div class="infoValue" id="infoE">
+                        XXX
+                    </div>
+                </a>
+            </li>
+            <li data-icon="false">
+                <a href="">
+                    <div class="infoName" data-rel="popup">
+                        预约人
+                    </div>
+                    <div class="infoValue" id="infoName">
+                        你
+                    </div>
+                </a>
+            </li>
+            <!--<li data-icon="false">
+                <a href="">
+                    <div class="infoName" data-rel="popup">
+                        联系电话
+                    </div>
+                    <div class="infoValue" id="infoTel">
+                        XXX
+                    </div>
+                </a>
+            </li> 
+            <li data-icon="false" style="display: none">
+                <a href="">
+                    <div class="infoName">
+                        相关证明文件
+                    </div>
+                    <div class="infoValue" id="infoSumbit">
+                        未提交
+                    </div>
+                </a>
+            </li>-->
+           
+            <li style="display:none" data-icon="false" class="none">
+                <a href="">
+                    <div class="infoName" data-rel="popup">
+                        id
+                    </div>
+                    <div class="infoValue" id="eventID">
+                        XXX
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div data-position="fixed" data-role="footer" style="text-align:center">
+        <a style="background-color:rgb(250,90,95)!important" id="noEvent" class="kefu" data-role="button" onclick="NoEvent()">取消预约</a>
+        <a style="background-color:rgb(50, 223, 185)!important;display:none;" id="noEvent1" class="kefu" data-role="button" onclick="okEvent()">审核通过</a>
+    </div>
+</div>
+<div data-role="page" id="loadngPage">
+    <div class="backHeader" data-position="fixed" data-role="header">
+        <a class="ui-btn ui-btn-left ui-btn-icon-left" href="#homePage" id="loadingback"></a>
+    </div>
+    <div class="ui-content" data-role="main">
+        <a href="#myRoom" id="linkMyRoom" style="display:none"></a>
+        <div id="loadngDiv">
+            <img id="loadingImg" src="img/loading1.png">
+        </div>
+    </div>
+</div>
+<!--检查框架-->
+<script src="js/common/checkFrame.js"></script>
+<!--md5加密-->
+<script src="https://cdn.bootcdn.net/ajax/libs/blueimp-md5/2.18.0/js/md5.js"></script>
+<!--自己的加密算法-->
+<script src="js/common/jiami.js"></script>
+<!--登陆效验-->
+<script src="js/common/checkLoginStatus.js"></script>
+<!--配置文件-->
+<script src="js/common/configure.js"></script>
+<!--用户类JSON-->
+<script src="js/common/JSON.js"></script>
+<!--深色模式-->
+<script src="js/common/DarkTheme/darkreader.js"></script>
+<!--深色模式配置-->
+<script src="js/common/DarkCon.js"></script>
+<!--腾讯云验证码-->
+<script src="https://ssl.captcha.qq.com/TCaptcha.js"></script>
+<!--ajax-->
+<script src="js/common/ajax.js"></script>
+<!--网页处理主要js-->
+<script type="text/javascript">
+    //控制用户
+    let userObj
+    //控制参数携带
+    let personInfo = document.getElementsByClassName("infoValue")
+    //参数列表
+    let questionList = ['APP意见反馈', '设备报修', '投诉', '教室意见反馈']
+    //
+    let start, end;
+    //
+    let loading;
+    //
+    let keys = []
+    let valus = []
+    let json
+    let event;
+
+    //修改iframe高度
+    function changeFrameHeight() {
+        let ifm = document.getElementById("iframepage");
+        ifm.height = document.documentElement.clientHeight - 80 - 32;
+    }
+
+    window.onresize = function () {
+        changeFrameHeight();
+    }
+
+    //修改pdf iframe高度
+    function changeHelpPdf(num) {
+        function back() {
+            window.history.go(-1)
+        }
+
+        function backmore() {
+            window.location.replace('home.html#more')
+        }
+
+        let url = ['https://pan-yz.chaoxing.com/views/external/thumb.html?name=%E2%80%9C%E8%8D%9F%E5%BA%90%E6%8A%A5%E5%91%8A%E5%8E%85%E5%80%9F%E7%94%A8%E7%99%BB%E8%AE%B0%E2%80%9D%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C%E5%8A%9F%E8%83%BD%E6%8C%87%E5%8D%97.pdf&pagenum=8&thumb=https%3A%2F%2Fs3.ananas.chaoxing.com%2Fdoc%2Fc6%2F82%2Fc0%2F97961f5efbba26a35dbc414d03613eab%2Fthumb%2F',
+            'https://pan-yz.chaoxing.com/views/external/thumb.html?name=002%E7%8F%AD-%E7%AC%AC08%E7%BB%84-%E9%9C%80%E6%B1%82%E5%B7%A5%E7%A8%8B-%E5%89%8D%E6%99%AF%E4%B8%8E%E9%A1%B9%E7%9B%AE%E6%96%87%E6%A1%A3-Class%20Int%E2%80%94%E2%80%94%E5%9F%BA%E4%BA%8E%E4%BA%92%E8%81%94%E7%BD%91%E7%9A%84%E6%95%99%E5%AE%A4%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F.pdf&pagenum=21&thumb=https%3A%2F%2Fs3.ananas.chaoxing.com%2Fdoc%2F0d%2F18%2F76%2F31c8c6c8a3f338795c5b9588bab0134d%2Fthumb%2F',
+            'https://pan-yz.chaoxing.com/views/external/thumb.html?name=002%E7%8F%AD-%E7%AC%AC08%E7%BB%84-%E9%9C%80%E6%B1%82%E5%B7%A5%E7%A8%8B-%E7%94%A8%E4%BE%8B%E6%96%87%E6%A1%A3-Class%20Int%E2%80%94%E2%80%94%E5%9F%BA%E4%BA%8E%E4%BA%92%E8%81%94%E7%BD%91%E7%9A%84%E6%95%99%E5%AE%A4%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F.pdf&pagenum=33&thumb=https%3A%2F%2Fs3.ananas.chaoxing.com%2Fdoc%2Fe3%2F98%2Fe2%2F5ffaa9a04f2eb259c92569230777a602%2Fthumb%2F',
+            'https://pan-yz.chaoxing.com/views/external/thumb.html?name=002%E7%8F%AD-%E7%AC%AC08%E7%BB%84-%E9%9C%80%E6%B1%82%E5%B7%A5%E7%A8%8B-%E9%9C%80%E6%B1%82%E8%A7%84%E6%A0%BC%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3-Class%20Int%E2%80%94%E2%80%94%E5%9F%BA%E4%BA%8E%E4%BA%92%E8%81%94%E7%BD%91%E7%9A%84%E6%95%99%E5%AE%A4%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F.pdf&pagenum=59&thumb=https%3A%2F%2Fs3.ananas.chaoxing.com%2Fdoc%2F8d%2Fcc%2F4c%2F232b5ca3b0b42a90089251c10537a321%2Fthumb%2F',
+            'guide.html#yinsi',
+            'guide.html#zhuce'
+        ]
+        let ifm = document.getElementById("iframepage");
+        if (num !== 0 && num <= 3) {
+            document.getElementById("pdfBack").removeEventListener("click", back)
+            document.getElementById("pdfBack").addEventListener("click", back)
+        } else {
+            document.getElementById("pdfBack").removeEventListener("click", backmore)
+            document.getElementById("pdfBack").addEventListener("click", backmore)
+        }
+        ifm.src = url[num];
+    }
+
+    //设置反馈的参数携带
+    function setQuestionType() {
+        console.log(questionList[parseInt(document.getElementById("questionId").innerHTML)])
+        personInfo[12].innerHTML = questionList[parseInt(document.getElementById("questionId").innerHTML)]
+    }
+
+    //发送反馈消息
+    function sendQuestion() {
+        let message = {
+            "type": "反馈消息",
+            "tel": "",
+            "detail": ""
+        }
+        if (document.getElementById('QUETEL').value.length !== 11) {
+            alert("请输入正确的电话")
+            return
+        }
+        if (document.getElementById('QUEDES').value.length < 10) {
+            alert("请详细输入问题哦")
+        }
+        message.tel = document.getElementById('QUETEL').value
+        message.detail = document.getElementById('QUEDES').value
+        newMessage(userObj, message)
+        alert("提交成功")
+        document.getElementById('QUEBACK').click()
+    }
+
+    //借用页面
+    //禁用(时间已过)
+    function disabletime(i) {
+        let alltimeLi = document.getElementsByClassName("timetable")
+        if (alltimeLi[i] !== null && alltimeLi[i] !== undefined) {
+            alltimeLi[i].style = 'pointer-events: none;'
+            alltimeLi[i].removeEventListener('click', setTime)
+        }
+    }
+
+    //跳转详情（被借）
+    function goto(a, b) {
+        console.log(a, b)
+    }
+
+    //获取日期
+    function getDay() {
+        let timeDays = document.getElementsByClassName("Days")
+        for (let i = 0; i < timeDays.length; i++) {
+            if (timeDays[i].className.indexOf("daySelect") !== -1)
+                return i
+        }
+    }
+
+    //按钮显示时间
+    function showtime(a, b = -1) {
+        function checked(j) {
+            if (j < 10)
+                j = '0' + j.toString();
+            return j;
+        }
+
+        if (b === -1)
+            b = a
+        b++
+        start = a;
+        end = b;
+        console.log(a, b)
+        let d = new Date()
+        d.setDate(d.getDate() + getDay());
+        d.setHours(0)
+        d.setMinutes(0)
+        d.setSeconds(0)
+        d.setMilliseconds(0)
+        d.setMinutes(480 + 10 * a)
+        console.log(d)
+        let s = checked(d.getHours()) + ":" + checked(d.getMinutes())
+		start =s
+        d.setHours(0)
+        d.setMinutes(0)
+        d.setSeconds(0)
+        d.setMilliseconds(0)
+        d.setMinutes(480 + 10 * b)
+        console.log(d)
+        let e = checked(d.getHours()) + ":" + checked(d.getMinutes())
+		end = e
+        document.getElementsByClassName("kefuS")[0].innerHTML = "预约" + s + "-" + e
+        document.getElementById("roomName").children[3].innerHTML = getDay().toString()
+        document.getElementById("roomName").children[4].innerHTML = s
+        document.getElementById("roomName").children[5].innerHTML = e
+    }
+
+    //初始化
+    function initTIme() {
+        function getSelectDay() {
+            let timeDays = document.getElementsByClassName("Days")
+            for (let i = 0; i < timeDays.length; i++) {
+                if (timeDays[i].className.indexOf("daySelect") !== -1)
+                    return i
+            }
+            document.activeElement.className = "daySelect Days"
+        }
+
+        let alltimeLi = document.getElementsByClassName("timetable")
+        for (let i = 0; i < alltimeLi.length; i++) {
+            alltimeLi[i].className = "timetable timeUnSelect ui-btn"
+        }
+        if (getSelectDay() === 0) {
+            let end = todayTime()
+            for (let i = 0; i < end; i++) {
+                alltimeLi[i].className = "timetable timePass ui-btn"
+                disabletime(i)
+            }
+            disabletime(end)
+        } else {
+            for (let i = 0; i < alltimeLi.length; i++) {
+                if (alltimeLi[i].style.pointerEvents.indexOf('none') !== -1) {
+                    alltimeLi[i].className = "timetable timeUnSelect ui-btn"
+                    alltimeLi[i].style.pointerEvents = "all"
+                    alltimeLi[i].addEventListener('click', setTime)
+                }
+            }
+
+        }
+        //模拟这个时间段不可借
+        for (let i = 12; i < 14; i++) {
+            alltimeLi[i].className = "timetable timePass ui-btn"
+        }
+        document.getElementsByClassName("kefuS")[0].innerHTML = " 请选择开始和结束时间 "
+    }
+
+    initTIme()
+
+    //当日已过时间不可选择
+    function todayTime() {
+        let now = new Date()
+        return now.getHours() * 6 + now.getMinutes() / 10 - 48 - 1;
+    }
+
+    //参数传递
+    function getRoom(buding, roomid,address="未知") {
+        console.log(buding, roomid)
+        document.getElementById("roomName").children[0].innerHTML = buding
+        document.getElementById("roomName").children[1].innerHTML = roomid
+		//roomDe
+		document.getElementById("roomDe").innerHTML = address
+
+        document.getElementById("roomName").children[2].innerHTML = ""
+        initTIme()
+		setSendInfo()
+    }
+
+    //时间选择的处理
+    let timeLi = document.getElementsByClassName("timetable")
+
+    function setTime() {
+        console.log("settimr")
+        let num = []
+        if (document.activeElement.className.indexOf("timeselect") !== -1)
+            document.activeElement.className = "timetable timeUnSelect ui-btn"
+        else
+            document.activeElement.className = "timetable ui-btn timeSelect timeselect"
+        let timeLi = document.getElementsByClassName("timeUnSelect")
+        let sTimeLi = document.getElementsByClassName("timeselect")
+        let alltimeLi = document.getElementsByClassName("timetable")
+        for (let i = 0; i < alltimeLi.length; i++) {
+            if (alltimeLi[i].className.indexOf("timeselect") !== -1) {
+                num.push(i)
+            }
+        }
+        if (sTimeLi.length === 0) {
+            document.getElementsByClassName("kefuS")[0].className = "kefu kefuS noSelect ui-link ui-btn ui-shadow ui-corner-all"
+            initTIme()
+        } else {
+            if (sTimeLi.length === 1) {
+                initTIme()
+                alltimeLi[num[0]].className = "timetable ui-btn timeSelect timeselect"
+                document.getElementsByClassName("noSelect")[0].className = "kefu kefuS ui-link ui-btn ui-shadow ui-corner-all"
+                showtime(num[0])
+            } else if (sTimeLi.length === 2) {
+                initTIme()
+                alltimeLi[num[0]].className = "timetable ui-btn timeSelect timeselect"
+                alltimeLi[num[1]].className = "timetable ui-btn timeSelect timeselect"
+                for (let i = num[0] + 1; i < num[1]; i++) {
+                    alltimeLi[i].className = "timetable ui-btn timeSelect"
+                }
+                showtime(num[0], num[1])
+            } else {
+                document.getElementsByClassName("kefuS")[0].className = "kefu kefuS noSelect ui-link ui-btn ui-shadow ui-corner-all"
+                initTIme()
+                setTime()
+            }
+        }
+    }
+
+    //时间添加监听
+    for (let i = 0; i < timeLi.length; i++) {
+        timeLi[i].addEventListener("click", setTime)
+    }
+    //日期选择
+    let timeDay = document.getElementById("roomDay").children
+
+    function setDay(obj) {
+        console.log(obj)
+        let timeDay = document.getElementById("roomDay").children
+        for (let i = 0; i < timeDay.length; i++) {
+            timeDay[i].className = "Days"
+        }
+        //document.activeElement.className="daySelect Days"
+        obj.className = "daySelect Days"
+        initTIme()
+    }
+
+    //预约提交电话检查
+   // $(document).on("pageshow", "#sendInfoPage", function () {
+    //    if (document.getElementById("sendTel").innerHTML === "null" || document.getElementById("sendTel").innerHTML.length < 10 || document.getElementById("sendTel").innerHTML.indexOf("XX") !== -1)
+     //       document.getElementById("sendError").click()
+   // });
+
+    function getXinQi(dd) {
+        let ss = dd.getDay();
+		console.log("现在正在执行getXinQI,dd是 ",dd)
+        if (ss === 0) {
+            return "星期日";
+        } else if (ss === 1) {
+            return "星期一";
+        } else if (ss === 2) {
+            return "星期二";
+        } else if (ss === 3) {
+            return "星期三";
+        } else if (ss === 4) {
+            return "星期四";
+        } else if (ss === 5) {
+            return "星期五";
+        } else if (ss === 6) {
+            return "星期六";
+        }
+    }
+
+    //预约页面传递参数
+    function setSendInfo() {
+        document.getElementById("sendRoom").innerHTML = document.getElementById("roomName").children[0].innerHTML + document.getElementById("roomName").children[1].innerHTML
+        let d = new Date()
+        d.setDate(d.getDate() + parseInt(document.getElementById("roomName").children[3].innerHTML));
+        document.getElementById("sendTime").innerHTML = (d.getMonth() + 1) + "/" + d.getDate() + " " + getXinQi(d) + " " + document.getElementById("roomName").children[4].innerHTML + "-" + document.getElementById("roomName").children[5].innerHTML
+        return (d.getFullYear() + "/" + (d.getMonth() + 1) + "/" + d.getDate())
+    }
+
+    //发送预约信息
+    function sendInfo() {
+        let d = new Date()
+        d.setDate(d.getDate() + parseInt(document.getElementById("roomName").children[3].innerHTML));
+		console.log("看一下d",d)
+        let Info = {
+            //"userName": userObj.username,
+            "y": d.getFullYear(),
+            "m": d.getMonth() + 1,
+            "d": d.getDate(),
+            "s": start,
+            "e": end,
+            "roomid": document.getElementById("roomName").children[1].innerHTML,
+            //"title": document.getElementById("sendRoom").innerHTML + "预约申请",
+            //"des": document.getElementById('infoDel').value,
+            //"type": "审核中"
+        }
+        let Json = {
+            "JsonEvent": JSON.stringify(Info)
+        }
+		console.log("发送的请求是："+"http://localhost:8080/nowEvent"+"?y="+d.getFullYear()+"&m="+(d.getMonth() + 1)+"&d="+d.getDate()+"&s="+start+"&e="+end+"&roomid="+document.getElementById("roomName").children[1].innerHTML)
+        tools.ajaxGet("http://localhost:8080/nowEvent"+"?y="+d.getFullYear()+"&m="+(d.getMonth() + 1)+"&d="+d.getDate()+"&s="+start+"&e="+end+"&roomid="+document.getElementById("roomName").children[1].innerHTML, null, function (res) {
+            console.log(res)
+            if (res.code === 20000) {
+                alert("提交成功！")
+                document.getElementById('sendBACK').click()
+            } else {
+                alert("提交失败！" + res)
+                document.getElementById('sendBACK').click()
+            }
+        }, function (res) {
+            alert("提交失败！" + res)
+            document.getElementById('sendBACK').click()
+        })
+    }
+    //准备
+    window.onload = function () {
+	    console.log("在执行onload")
+        let user = atob(getCookie("user")) //尝试获取用户名cookie
+        let autoUser = {
+            'userName': user
+        }
+        let result;
+        let showd = document.getElementById("roomDay").children
+        let d = new Date()
+        d.setDate(d.getDate() - 1);
+        d.setHours(1)
+        d.setMinutes(1)
+        d.setSeconds(1)
+        d.setMilliseconds(1)
+        for (let i = 0; i < showd.length; i++) {
+            d.setDate(d.getDate() + 1);
+            showd[i].innerHTML = (d.getMonth() + 1) + "/" + d.getDate() + "<br>" + getXinQi(d)
+        }
+    }
+    document.getElementById('updateAuthentication').addEventListener("click", function () {
+        let name = document.getElementById('name').value
+        let id = document.getElementById('id').value
+        let pwd = document.getElementById('pwd').value
+        let idpic = document.getElementById("idpic").files.length
+        if (name.length * id.length * pwd.length * idpic !== 0) {
+            userObj.certification = true
+            userObj.name = name
+            userObj.id = id
+            if (id[0] === "1" && id[1] === "0") {//10开头的一卡通号为教职工，类似财大
+                userObj.type = "tea"
+                userObj.highPermissions = true
+            } else
+                userObj.type = "stu"
+            personInfo[1].innerHTML = userObj.name
+            document.getElementById("sendName").innerHTML = userObj.phone
+            personInfo[2].innerHTML = userObj.id
+            personInfo[3].innerHTML = "已认证"
+            personInfo[4].innerHTML = userObj.type
+            document.getElementById("welcome").innerHTML = userObj.name + userObj.type
+            let autoUser = {
+                'userName': atob(getCookie("user")),
+                'stuid': id,
+                'pwd': pwd,
+                'name': name
+            }
+            tools.ajaxGet("http://localhost:8080/setAuthentication", autoUser, function (res) {
+                console.log(res)
+                console.log("云端更新数据")
+                registerJsonn(res.data)
+                updateInfo()
+            })
+        } else
+            alert("请将信息填写完毕！")
+    })
+    document.getElementById('updateTel').addEventListener("click", function () {
+        let tel = document.getElementById('mobile').value;
+        if (tel.length === 11) {
+            userObj.phone = tel
+            personInfo[5].innerHTML = tel
+            document.getElementById("QUETEL").innerHTML = userObj.phone
+            document.getElementById("sendTel").innerHTML = userObj.phone
+            console.log(userObj)
+            updateUser(userObj)
+            let autoUser = {
+                'userName': atob(getCookie("user")),
+                'phone': tel,
+            }
+            tools.ajaxGet("http://localhost:8080/setPhone", autoUser, function (res) {
+                console.log(res)
+                console.log("云端更新数据")
+                registerJsonn(res.data)
+                updateInfo()
+            })
+        } else
+            alert("请填入正确的电话！")
+    })
+
+    function loadingin() {
+        document.getElementById("linkload").click()
+    }
+
+    function loadingout() {
+        document.getElementById("loadingback").click()
+    }
+
+    function openShenHe(){
+        let name = getUserName();
+        userObj = getUser(name)
+        document.getElementById("myRoomLinkload").click()
+        let autoUser = {
+            'userName': atob(getCookie("user")),
+        }
+        tools.ajaxGet("http://localhost:8080/getAllEve", autoUser,function (res) {
+            console.log(res)
+            keys.length = 0
+            valus.length = 0
+            json = ""
+            let yuyueul = document.getElementById("yuyueul")
+            let eventlist = yuyueul.children;
+            for (let i = eventlist.length - 1; i >= 0; i--) {
+                yuyueul.removeChild(eventlist[i])
+            }
+            let div = '<li class="msgTitle" data-role="list-divider">审核预约</li>\n'
+            json = JSON.parse(res.data)
+            console.log(json)
+            keys = Object.keys(json)
+            console.log(keys.length)
+            for (let i = keys.length-1; i >=0; i--) {
+                let keyname = (keys[i].toString())
+                valus.push(json[keyname])
+                if (json[keyname]["type"] === "审核中") {
+                    div += '<li data-icon="false">\n' +
+                        '                <a class="shenhe" data-ajax="false" rel="external" onclick="GoInfo('+i+')" href="#InfoDePage">\n' +
+                        '                    <img src="img/noticeSys.png">\n' +
+                        '                    <h3>'+json[keyname]["title"]+'</h3>\n' +
+                        '                    <h2>当前状态：审核中</h2>\n' +
+                        '                    <h2 style="font-size:10px">' + json[keyname]["fullTime"] + '</h2>\n' +
+                        '                </a>\n' +
+                        '            </li>'
+                } else if (json[keyname]["type"] === "审核通过") {
+                    div += '<li data-icon="false">\n' +
+                        '                <a class="tongguo" data-ajax="false" rel="external" onclick="GoInfo('+i+')" href="#InfoDePage">\n' +
+                        '                    <img src="img/noticeSys.png">\n' +
+                        '                    <h3>'+json[keyname]["title"]+'</h3>\n' +
+                        '                    <h2>' + '当前状态：审核通过'+ '</h2>\n' +
+                        '                    <h2 style="font-size:10px">' + json[keyname]["fullTime"] + '</h2>\n' +
+                        '                </a>\n' +
+                        '            </li>'
+                } else if (json[keyname]["type"].indexOf("审核失败")!==-1) {
+                    div += '<li data-icon="false">\n' +
+                        '                <a class="shibai" data-ajax="false" rel="external" onclick="GoInfo('+i+')" href="#InfoDePage">\n' +
+                        '                    <img src="img/noticeSys.png">\n' +
+                        '                    <h3>' + json[keyname]["title"] + '</h3>\n' +
+                        '                    <h2>' + '当前状态：'+json[keyname]["type"] + '</h2>\n' +
+                        '                    <h2 style="font-size:10px">' + json[keyname]["fullTime"] + '</h2>\n' +
+                        '                </a>\n' +
+                        '            </li>'
+                } else {
+                    continue;
+                }
+                console.log("事件+1")
+            }
+            document.getElementById("yuyueul").innerHTML += div
+            // setTimeout(function(){
+            console.log("刷新")
+            //$('#yuyueul').listview('refresh')
+            //loadingout()
+            document.getElementById("linkMyRoom").click()
+            // },100)
+            try {
+                $('#yuyueul').listview('refresh')
+            }
+            catch {
+                if (document.getElementById("roomHead").offsetHeight + document.getElementById("roomdiv").offsetHeight + document.getElementById("roomFoot").offsetHeight < document.getElementById("myRoom").offsetHeight) {
+                    yuyueul = document.getElementById("yuyueul")
+                    eventlist = yuyueul.children
+                    eventlist[eventlist.length - 1].classList.remove("ui-last-child")
+                }
+            }
+            if (document.getElementById("roomHead").offsetHeight + document.getElementById("roomdiv").offsetHeight + document.getElementById("roomFoot").offsetHeight < document.getElementById("myRoom").offsetHeight) {
+                yuyueul = document.getElementById("yuyueul")
+                eventlist = yuyueul.children
+                eventlist[eventlist.length - 1].classList.remove("ui-last-child")
+            }
+        })
+    }
+
+    function openMyRoom() {
+        let name = getUserName();
+        userObj = getUser(name)
+        //if(userObj.type.indexOf("审核")!==-1) {
+         //   openShenHe()
+         //   return;
+        //}
+        document.getElementById("myRoomLinkload").click()
+        let autoUser = {
+            'userName': atob(getCookie("user")),
+        }
+        tools.ajaxGet("http://localhost:8080/getAllReservation", autoUser, function (res) {
+            console.log(res)
+            keys.length = 0
+            valus.length = 0
+            json = ""
+            let yuyueul = document.getElementById("yuyueul")
+            let eventlist = yuyueul.children;
+            for (let i = eventlist.length - 1; i >= 0; i--) {
+                yuyueul.removeChild(eventlist[i])
+            }
+            let div = '<li class="msgTitle" data-role="list-divider">我的预约</li>\n'
+            json = res.data
+            //keys = Object.keys(json)
+			keys = json
+            for (let i = keys.length-1; i >=0; i--) {
+                let keyname = (keys[i].shopname)
+                valus.push(json[keyname])              
+                 div += '<li data-icon="false">\n' +
+                        '                <a class="tongguo" data-ajax="false" rel="external" onclick="GoInfo('+keys[i].id+')" href="#InfoDePage">\n' +
+                        '                    <img src="img/noticeSys.png">\n' +
+                        '                    <h3>'+keys[i].shopname+'</h3>\n' +
+                        '                    <h2>' + keys[i].start+ '</h2>\n' +
+                        '                    <h2 style="font-size:10px">' + keys[i].end + '</h2>\n' +
+                        '                </a>\n' +
+                        '            </li>'
+                
+                console.log("事件+1")
+				
+            }
+            document.getElementById("yuyueul").innerHTML += div
+            // setTimeout(function(){
+            console.log("刷新")
+            //$('#yuyueul').listview('refresh')
+            //loadingout()
+            document.getElementById("linkMyRoom").click()
+            // },100)
+            $('#yuyueul').listview('refresh')
+            if (document.getElementById("roomHead").offsetHeight + document.getElementById("roomdiv").offsetHeight + document.getElementById("roomFoot").offsetHeight < document.getElementById("myRoom").offsetHeight) {
+                yuyueul = document.getElementById("yuyueul")
+                eventlist = yuyueul.children
+                eventlist[eventlist.length - 1].classList.remove("ui-last-child")
+            }
+        })
+    }
+
+    function GoInfo(id){
+		console.log("现在正在执行goinfo，"+id)
+	    tools.ajaxGet("http://localhost:8080/getOneReservation?id="+id,null, function (res) {
+            console.log(res)
+			 json = res.data
+			 document.getElementById("sendInfoRoom").innerHTML=json.shopname
+			 document.getElementById("infoS").innerHTML=json.start
+			 document.getElementById("infoE").innerHTML=json.end
+			 document.getElementById("eventID").innerHTML=id
+			 var date = new Date(json.day);
+             document.getElementById("sendInfoTime").innerHTML = date.toLocaleDateString();
+             //document.getElementById("sendInfoTime").innerHTML=json.day
+
+			}
+			)
+        let keyname = (keys[no].toString())
+        //document.getElementById("sendInfoRoom").innerHTML=shopname
+        document.getElementById("sendInfoTime").innerHTML=day
+        document.getElementById("infoInfoDel").innerHTML=json[keyname]["des"]
+        document.getElementById("infoNow").innerHTML=json[keyname]["type"]
+        
+        document.getElementById("infoName").innerHTML=json[keyname]["name"]
+        //document.getElementById("infoS").innerHTML=start
+        //document.getElementById("infoE").innerHTML=end
+        document.getElementById("infoTel").innerHTML=json[keyname]["phone"]
+        if(json[keyname]["type"].indexOf("审核中")!==-1) {
+            document.getElementById("noEvent1").style.display = "inline-block";
+            document.getElementById("noEvent").style.display = "inline-block";
+        }
+        else{
+            document.getElementById("noEvent1").style.display = "none";
+            document.getElementById("noEvent").style.display = "none";
+        }
+    }
+
+    function NoEvent(){
+        let id=document.getElementById("eventID").innerHTML
+		console.log("现在正在执行NoEvent，"+id)
+	    tools.ajaxGet("http://localhost:8080/NoEvent?id="+id,null, function (res) {
+            console.log(res)
+			 
+			 alert("删除成功!");
+setTimeout(function() {
+             openMyRoom()
+  			 window.history.back();
+// 这里是要延迟执行的代码
+}, 1000); // 1000 毫秒等于 1 秒钟
+
+			}
+			)
+        if(userObj.type.indexOf("审核")!==-1) {
+            rea = prompt("请输入拒绝原因:");
+            if (rea.length <1 ){
+                return
+            }
+            let autoUser = {
+                'id': id,
+                'rea':rea,
+            }
+            tools.ajaxGet("http://localhost:8080/EveNotOk", autoUser, function (res) {
+                alert("拒绝成功!")
+                document.getElementById("gohome").click()
+            })
+        }
+        else {
+            let autoUser = {
+                'id': id,
+            }
+            tools.ajaxGet("http://localhost:8080/noEvent", autoUser, function (res) {
+                alert("删除成功!")
+                document.getElementById("gohome").click()
+            })
+        }
+    }
+
+    function okEvent(){
+        let id=document.getElementById("eventID").innerHTML
+            let autoUser = {
+                'id': id,
+            }
+            tools.ajaxGet("http://localhost:8080/EveOk", autoUser, function (res) {
+                alert("审核成功!")
+                document.getElementById("gohome").click()
+            })
+    }
+
+    $(document).on("pageshow", "#myRoom", function () {
+        setTimeout(function () {
+                if (document.getElementById("roomHead").offsetHeight + document.getElementById("roomdiv").offsetHeight + document.getElementById("roomFoot").offsetHeight < document.getElementById("myRoom").offsetHeight) {
+                    let yuyueul = document.getElementById("yuyueul")
+                    let eventlist = yuyueul.children
+                    eventlist[eventlist.length - 1].classList.remove("ui-last-child")
+                }
+            }
+            , 100)
+    });
+
+    $(document).on("pageshow", "#loadngPage", function () {
+        let i = 0
+        a = setInterval(function () {
+            i = i >= 8 ? 1 : 1 + i
+            document.getElementById("loadingImg").src = "img/loading" + i + ".png"
+        }, 100)
+    });
+
+    $(document).on("pageshow", "#InfoDePage", function () {
+        let i = 0
+        a = setInterval(function () {
+            i = i >= 8 ? 1 : 1 + i
+            document.getElementById("loadingImg").src = "img/loading" + i + ".png"
+        }, 100)
+    });
+
+    $(document).on("pagehide", "#loadngPage", function () {
+        window.clearInterval(a)
+    });
+
+    // let QUE=document.getElementsByClassName("QUE")
+    // for(let i=0;i<QUE.length;i++)
+    // {
+    //     QUE[i].addEventListener("click",function (i){
+    //         questionID=i
+    //         setQuestionType(i)
+    //     })
+    // }
+</script>
+</body>
+</html>

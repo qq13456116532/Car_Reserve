@@ -1,0 +1,9 @@
+/*引入字体*/
+@font-face {
+    font-family: PingFang;
+    src: url('PingFangSC-Regular.woff2');   /*引入苹果苹方字体包*/
+}
+
+* {
+    font-family: PingFang;
+}

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.gxyan.dao.ReservationMapper">
+    <insert id="insert" parameterType="com.gxyan.pojo.Reservation">
+        INSERT INTO reservation
+            (shopid, username, start, end, day, shopname, empid,infodel)
+        VALUES
+            (#{shopid}, #{username}, #{start}, #{end}, #{day}, #{shopname}, #{empid},#{infodel})
+    </insert>
+    <select id="selectEmpById" parameterType="string" resultType="com.gxyan.pojo.Reservation">
+        SELECT * FROM reservation WHERE empid = #{empid}
+    </select>
+    <select id="selectall" resultType="com.gxyan.pojo.Reservation">
+        select * from reservation
+    </select>
+
+    <select id="selectByKeyWord" resultType="com.gxyan.pojo.Reservation">
+        SELECT * FROM reservation
+        WHERE
+            shopid = #{keyword}
+           OR username = #{keyword}
+           OR start = #{keyword}
+           OR end= #{keyword}
+           OR shopname= #{keyword}
+           OR empid= #{keyword}
+    </select>
+
+    <select id="getById" resultType="com.gxyan.pojo.Reservation">
+        select * from reservation where id = #{id}
+    </select>
+
+    <delete id="deleteById">
+        DELETE FROM reservation WHERE id = #{id};
+    </delete>
+</mapper>
