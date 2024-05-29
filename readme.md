@@ -2,7 +2,7 @@
 
 carsale-master2是Springboot后端项目，首先在MySQL中导入 carsale.sql
 
-然后vscode打开vue-element-admin-template ，这个是后台管理页面
+然后vscode打开vue-element-admin-template ，这个是后台管理页面,这个不知道出的什么问题没有导入上来，不过前台功能没问题，后台管理各位看着自己写一下。。。
 
 idea打开carsale-master2
 
