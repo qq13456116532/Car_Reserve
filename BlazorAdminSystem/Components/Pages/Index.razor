@@ -1,0 +1,136 @@
+@page "/"
+@using CarSaleSystem.Services
+@using CarSaleSystem.Models
+@inject CarSaleService CarService
+@inject NavigationManager NavigationManager
+
+<PageTitle>汽车销售管理系统</PageTitle>
+
+<RadzenStack Gap="2rem">
+    <RadzenRow>
+        <RadzenColumn Size="12">
+            <RadzenCard>
+                <RadzenText TextStyle="TextStyle.H3" TagName="TagName.H1" class="text-center">
+                    🚗 汽车销售管理系统
+                </RadzenText>
+                <RadzenText TextStyle="TextStyle.Subtitle1" class="text-center text-muted">
+                    欢迎使用汽车销售后台管理系统
+                </RadzenText>
+            </RadzenCard>
+        </RadzenColumn>
+    </RadzenRow>
+
+    <RadzenRow>
+        <RadzenColumn Size="12" SizeMD="3">
+            <RadzenCard class="dashboard-card" Style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Gap="1rem">
+                    <RadzenIcon Icon="directions_car" Style="font-size: 2rem;" />
+                    <RadzenStack Gap="0.5rem">
+                        <RadzenText TextStyle="TextStyle.H6">总车辆数</RadzenText>
+                        <RadzenText TextStyle="TextStyle.H4">@totalCars</RadzenText>
+                    </RadzenStack>
+                </RadzenStack>
+            </RadzenCard>
+        </RadzenColumn>
+
+        <RadzenColumn Size="12" SizeMD="3">
+            <RadzenCard class="dashboard-card" Style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white;">
+                <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Gap="1rem">
+                    <RadzenIcon Icon="people" Style="font-size: 2rem;" />
+                    <RadzenStack Gap="0.5rem">
+                        <RadzenText TextStyle="TextStyle.H6">总客户数</RadzenText>
+                        <RadzenText TextStyle="TextStyle.H4">@totalCustomers</RadzenText>
+                    </RadzenStack>
+                </RadzenStack>
+            </RadzenCard>
+        </RadzenColumn>
+
+        <RadzenColumn Size="12" SizeMD="3">
+            <RadzenCard class="dashboard-card" Style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white;">
+                <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Gap="1rem">
+                    <RadzenIcon Icon="shopping_cart" Style="font-size: 2rem;" />
+                    <RadzenStack Gap="0.5rem">
+                        <RadzenText TextStyle="TextStyle.H6">总订单数</RadzenText>
+                        <RadzenText TextStyle="TextStyle.H4">@totalOrders</RadzenText>
+                    </RadzenStack>
+                </RadzenStack>
+            </RadzenCard>
+        </RadzenColumn>
+
+        <RadzenColumn Size="12" SizeMD="3">
+            <RadzenCard class="dashboard-card" Style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); color: white;">
+                <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Gap="1rem">
+                    <RadzenIcon Icon="store" Style="font-size: 2rem;" />
+                    <RadzenStack Gap="0.5rem">
+                        <RadzenText TextStyle="TextStyle.H6">门店数量</RadzenText>
+                        <RadzenText TextStyle="TextStyle.H4">@totalShops</RadzenText>
+                    </RadzenStack>
+                </RadzenStack>
+            </RadzenCard>
+        </RadzenColumn>
+    </RadzenRow>
+
+    <RadzenRow>
+        <RadzenColumn Size="12">
+            <RadzenCard>
+                <RadzenText TextStyle="TextStyle.H5" class="mb-3">📊 快速操作</RadzenText>
+                <RadzenStack Orientation="Orientation.Horizontal" Gap="1rem" Wrap="FlexWrap.Wrap">
+                    <RadzenButton ButtonStyle="ButtonStyle.Primary" Icon="add" Text="新增车辆" Click="@(() => NavigateToPage("/cars"))" />
+                    <RadzenButton ButtonStyle="ButtonStyle.Success" Icon="person_add" Text="新增客户" Click="@(() => NavigateToPage("/customers"))" />
+                    <RadzenButton ButtonStyle="ButtonStyle.Info" Icon="receipt" Text="查看订单" Click="@(() => NavigateToPage("/orders"))" />
+                    <RadzenButton ButtonStyle="ButtonStyle.Warning" Icon="store" Text="管理门店" Click="@(() => NavigateToPage("/carshops"))" />
+                </RadzenStack>
+            </RadzenCard>
+        </RadzenColumn>
+    </RadzenRow>
+</RadzenStack>
+
+<style>
+    .dashboard-card {
+        transition: transform 0.2s;
+    }
+    .dashboard-card:hover {
+        transform: translateY(-2px);
+    }
+    .text-center {
+        text-align: center;
+    }
+    .text-muted {
+        opacity: 0.7;
+    }
+    .mb-3 {
+        margin-bottom: 1rem;
+    }
+</style>
+
+@code {
+    private int totalCars = 0;
+    private int totalCustomers = 0;
+    private int totalOrders = 0;
+    private int totalShops = 0;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadStatistics();
+    }
+
+    private async Task LoadStatistics()
+    {
+        var cars = await CarService.GetCarsAsync();
+        totalCars = cars.Count();
+
+        var customers = await CarService.GetCustomersAsync();
+        totalCustomers = customers.Count();
+
+        var orders = await CarService.GetOrdersAsync();
+        totalOrders = orders.Count();
+
+        var shops = await CarService.GetCarShopsAsync();
+        totalShops = shops.Count();
+    }
+
+    private void NavigateToPage(string url)
+    {
+        NavigationManager.NavigateTo(url);
+    }
+}

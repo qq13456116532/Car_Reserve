@@ -1,0 +1,119 @@
+@page "/series"
+@using CarSaleSystem.Services
+@using CarSaleSystem.Models
+@inject CarSaleService CarService
+@inject DialogService DialogService
+
+<PageTitle>车系管理</PageTitle>
+
+<RadzenStack Gap="1rem">
+    <RadzenRow>
+        <RadzenColumn Size="12">
+            <RadzenCard>
+                <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.SpaceBetween">
+                    <RadzenText TextStyle="TextStyle.H4" TagName="TagName.H1">📚 车系管理</RadzenText>
+                    <RadzenButton ButtonStyle="ButtonStyle.Primary" Icon="add" Text="新增车系" Click="@OpenAddDialog" />
+                </RadzenStack>
+            </RadzenCard>
+        </RadzenColumn>
+    </RadzenRow>
+
+    <RadzenRow>
+        <RadzenColumn Size="12">
+            <RadzenCard>
+                <RadzenDataGrid @ref="seriesGrid" Data="@series" TItem="CarSaleSystem.Models.Series" AllowSorting="true" AllowFiltering="true" 
+                                FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="10">
+                    <Columns>
+                        <RadzenDataGridColumn TItem="CarSaleSystem.Models.Series" Property="SeriesId" Title="车系编号" Width="120px" />
+                        <RadzenDataGridColumn TItem="CarSaleSystem.Models.Series" Property="SeriesName" Title="车系名称" />
+                        <RadzenDataGridColumn TItem="CarSaleSystem.Models.Series" Property="Brand.BrandName" Title="所属品牌" />
+                        <RadzenDataGridColumn TItem="CarSaleSystem.Models.Series" Property="Status" Title="状态" Width="100px" TextAlign="TextAlign.Center">
+                            <Template Context="s">
+                                <RadzenBadge BadgeStyle="@(s.Status == "1" ? BadgeStyle.Success : BadgeStyle.Danger)" 
+                                             Text="@(s.Status == "1" ? "正常" : "已删除")" />
+                                             
+                            </Template>
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="CarSaleSystem.Models.Series" Title="操作" Width="200px" Sortable="false" Filterable="false" TextAlign="TextAlign.Center">
+                            <Template Context="s">
+                                <RadzenStack Orientation="Orientation.Horizontal" Gap="0.5rem" JustifyContent="JustifyContent.Center">
+                                    <RadzenButton ButtonStyle="ButtonStyle.Info" Size="ButtonSize.Small" Icon="edit" 
+                                                  Click="@(() => OpenEditDialog(s))" />
+                                    <RadzenButton ButtonStyle="ButtonStyle.Danger" Size="ButtonSize.Small" Icon="delete" 
+                                                  Click="@(() => DeleteSeries(s.SeriesId))" />
+                                </RadzenStack>
+                            </Template>
+                        </RadzenDataGridColumn>
+                    </Columns>
+                </RadzenDataGrid>
+            </RadzenCard>
+        </RadzenColumn>
+    </RadzenRow>
+</RadzenStack>
+
+@code {
+    private RadzenDataGrid<CarSaleSystem.Models.Series> seriesGrid = default!;
+    private IQueryable<CarSaleSystem.Models.Series>? series;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadSeries();
+    }
+
+    private async Task LoadSeries()
+    {
+        series = await CarService.GetSeriesAsync();
+    }
+
+    private async Task OpenAddDialog()
+    {
+        var result = await DialogService.OpenAsync<SeriesDialog>("新增车系", new Dictionary<string, object>
+        {
+            { "Series", new CarSaleSystem.Models.Series() }
+        });
+
+        if (result == true)
+        {
+            await LoadSeries();
+            await seriesGrid.Reload();
+        }
+    }
+
+    private async Task OpenEditDialog(CarSaleSystem.Models.Series s)
+    {
+        var seriesToEdit = new CarSaleSystem.Models.Series
+        {
+            SeriesId = s.SeriesId,
+            BrandId = s.BrandId,
+            SeriesName = s.SeriesName,
+            Status = s.Status
+        };
+        
+        var result = await DialogService.OpenAsync<SeriesDialog>("编辑车系", new Dictionary<string, object>
+        {
+            { "Series", seriesToEdit }
+        });
+
+        if (result == true)
+        {
+            await LoadSeries();
+            await seriesGrid.Reload();
+        }
+    }
+
+    private async Task DeleteSeries(int seriesId)
+    {
+        var confirm = await DialogService.Confirm("确定要删除这个车系吗？", "确认删除", new ConfirmOptions
+        {
+            OkButtonText = "确定",
+            CancelButtonText = "取消"
+        });
+
+        if (confirm == true)
+        {
+            await CarService.DeleteSeriesAsync(seriesId);
+            await LoadSeries();
+            await seriesGrid.Reload();
+        }
+    }
+}

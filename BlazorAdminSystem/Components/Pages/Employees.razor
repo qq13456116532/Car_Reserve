@@ -1,0 +1,165 @@
+@page "/employees"
+@using CarSaleSystem.Services
+@using CarSaleSystem.Models
+@inject CarSaleService CarService
+@inject DialogService DialogService
+@inject NotificationService NotificationService
+
+<PageTitle>员工管理</PageTitle>
+
+<RadzenStack Gap="1rem">
+    <RadzenRow>
+        <RadzenColumn Size="12">
+            <RadzenCard>
+                <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.SpaceBetween">
+                    <RadzenText TextStyle="TextStyle.H4" TagName="TagName.H1">🧑‍💼 员工管理</RadzenText>
+                    <RadzenButton ButtonStyle="ButtonStyle.Primary" Icon="add" Text="新增员工" Click="@OpenAddDialog" />
+                </RadzenStack>
+            </RadzenCard>
+        </RadzenColumn>
+    </RadzenRow>
+
+    <RadzenRow>
+        <RadzenColumn Size="12">
+            <RadzenCard>
+                <RadzenDataGrid @ref="employeesGrid" Data="@employees" TItem="Employee" AllowSorting="true" AllowFiltering="true" 
+                                FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="10">
+                    <Columns>
+                        <RadzenDataGridColumn TItem="Employee" Property="Id" Title="编号" Width="80px" />
+                        <RadzenDataGridColumn TItem="Employee" Property="Name" Title="姓名" Width="120px" />
+                        <RadzenDataGridColumn TItem="Employee" Property="Role" Title="角色" Width="100px">
+                            <Template Context="emp">
+                                @(emp.Role == "0" ? "经理" : "销售")
+                            </Template>
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="Employee" Property="Gender" Title="性别" Width="80px">
+                             <Template Context="emp">
+                                @(emp.Gender == "0" ? "男" : "女")
+                            </Template>
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="Employee" Property="Phone" Title="电话" Width="150px" />
+                        <RadzenDataGridColumn TItem="Employee" Property="Salary" Title="薪水" Width="120px">
+                            <Template Context="emp">
+                                @(emp.Salary?.ToString("C") ?? "N/A")
+                            </Template>
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="Employee" Property="EntryTime" Title="入职时间" Width="150px" FormatString="{0:yyyy-MM-dd}" />
+                        <RadzenDataGridColumn TItem="Employee" Property="Status" Title="状态" Width="100px" TextAlign="TextAlign.Center">
+                            <Template Context="emp">
+                                <RadzenBadge BadgeStyle="@(emp.Status == "1" ? BadgeStyle.Success : BadgeStyle.Light)" 
+                                             Text="@(emp.Status == "1" ? "在职" : "离职")" />
+                            </Template>
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="Employee" Title="操作" Width="150px" Sortable="false" Filterable="false" TextAlign="TextAlign.Center">
+                            <Template Context="emp">
+                                <RadzenStack Orientation="Orientation.Horizontal" Gap="0.5rem" JustifyContent="JustifyContent.Center">
+                                    <RadzenButton ButtonStyle="ButtonStyle.Info" Size="ButtonSize.Small" Icon="edit" 
+                                                  Click="@(() => OpenEditDialog(emp))" />
+                                    <RadzenButton ButtonStyle="ButtonStyle.Danger" Size="ButtonSize.Small" Icon="delete" 
+                                                  Click="@(() => DeleteEmployee(emp.Id))" />
+                                </RadzenStack>
+                            </Template>
+                        </RadzenDataGridColumn>
+                    </Columns>
+                </RadzenDataGrid>
+            </RadzenCard>
+        </RadzenColumn>
+    </RadzenRow>
+</RadzenStack>
+
+@code {
+    private RadzenDataGrid<Employee> employeesGrid;
+    private IQueryable<Employee> employees;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadEmployees();
+    }
+
+    private async Task LoadEmployees()
+    {
+        employees = await CarService.GetEmployeesAsync();
+    }
+
+    private async Task OpenAddDialog()
+    {
+        var result = await DialogService.OpenAsync<EmployeeDialog>("新增员工", 
+            new Dictionary<string, object> { { "Employee", new Employee { EntryTime = DateTime.Now } } },
+            new DialogOptions() { Width = "600px" });
+
+        if (result is Employee newEmployee)
+        {
+             try
+            {
+                await CarService.CreateEmployeeAsync(newEmployee);
+                await LoadEmployees();
+                await employeesGrid.Reload();
+            }
+            catch(Exception ex)
+            {
+                NotificationService.Notify(NotificationSeverity.Error, "错误", "创建员工失败，可能是电话或身份证号重复。");
+            }
+        }
+    }
+
+    private async Task OpenEditDialog(Employee emp)
+    {
+        var empToEdit = new Employee
+        {
+            Id = emp.Id,
+            Role = emp.Role,
+            Name = emp.Name,
+            Password = null, // Do not send password to dialog
+            IdCard = emp.IdCard,
+            Phone = emp.Phone,
+            Gender = emp.Gender,
+            Salary = emp.Salary,
+            EntryTime = emp.EntryTime,
+            Status = emp.Status
+        };
+        
+        var result = await DialogService.OpenAsync<EmployeeDialog>("编辑员工", 
+            new Dictionary<string, object> { { "Employee", empToEdit } },
+            new DialogOptions() { Width = "600px" });
+
+        if (result is Employee updatedEmployee)
+        {
+            // If password is not set in dialog, retain the original one. The service needs to handle this.
+            // For this implementation, we will assume the service updates non-null fields.
+            // A more robust solution would be a separate DTO for updates.
+             try
+            {
+                if (string.IsNullOrEmpty(updatedEmployee.Password))
+                {
+                    // This is a simplification. In a real app, you wouldn't fetch the user again just for the password.
+                    // The password hash would be handled more securely.
+                    var originalEmployee = await CarService.GetEmployeesAsync();
+                    updatedEmployee.Password = originalEmployee.First(e => e.Id == updatedEmployee.Id).Password;
+                }
+                await CarService.UpdateEmployeeAsync(updatedEmployee);
+                await LoadEmployees();
+                await employeesGrid.Reload();
+            }
+            catch(Exception ex)
+            {
+                NotificationService.Notify(NotificationSeverity.Error, "错误", "更新员工失败，可能是电话或身份证号重复。");
+            }
+        }
+    }
+
+    private async Task DeleteEmployee(int empId)
+    {
+        var confirm = await DialogService.Confirm("确定要将此员工设为离职吗？", "确认操作", new ConfirmOptions
+        {
+            OkButtonText = "确定",
+            CancelButtonText = "取消"
+        });
+
+        if (confirm == true)
+        {
+            await CarService.DeleteEmployeeAsync(empId);
+            await LoadEmployees();
+            await employeesGrid.Reload();
+        }
+    }
+}

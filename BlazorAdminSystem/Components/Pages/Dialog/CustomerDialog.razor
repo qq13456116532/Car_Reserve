@@ -1,0 +1,36 @@
+@using CarSaleSystem.Models
+@inject DialogService DialogService
+
+<RadzenTemplateForm TItem="Customer" Data="@Customer" Submit="@OnSubmit">
+    <RadzenStack Gap="1.5rem">
+        <RadzenFormField Text="客户姓名" Variant="Variant.Outlined">
+            <RadzenTextBox @bind-Value="@Customer.Name" Name="Name" />
+            <RadzenRequiredValidator Component="Name" Text="客户姓名不能为空" />
+        </RadzenFormField>
+
+        <RadzenFormField Text="电话号码" Variant="Variant.Outlined">
+            <RadzenTextBox @bind-Value="@Customer.Phone" Name="Phone" />
+            <RadzenRequiredValidator Component="Phone" Text="电话号码不能为空" />
+            <RadzenLengthValidator Component="Phone" Min="11" Max="11" Text="电话号码必须是11位" />
+        </RadzenFormField>
+
+        <RadzenFormField Text="身份证号" Variant="Variant.Outlined">
+            <RadzenTextBox @bind-Value="@Customer.IdCard" Name="IdCard" />
+             <RadzenRequiredValidator Component="IdCard" Text="身份证号不能为空" />
+        </RadzenFormField>
+
+        <RadzenStack Orientation="Orientation.Horizontal" Gap="1rem" JustifyContent="JustifyContent.End">
+            <RadzenButton ButtonStyle="ButtonStyle.Secondary" Text="取消" Click="@(() => DialogService.Close(false))" />
+            <RadzenButton ButtonStyle="ButtonStyle.Primary" Text="保存" ButtonType="ButtonType.Submit" />
+        </RadzenStack>
+    </RadzenStack>
+</RadzenTemplateForm>
+
+@code {
+    [Parameter] public Customer Customer { get; set; }
+
+    private void OnSubmit()
+    {
+        DialogService.Close(Customer);
+    }
+}

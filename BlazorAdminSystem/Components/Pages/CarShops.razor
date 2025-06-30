@@ -1,0 +1,121 @@
+@page "/carshops"
+@using CarSaleSystem.Services
+@using CarSaleSystem.Models
+@inject CarSaleService CarService
+@inject DialogService DialogService
+@inject NotificationService NotificationService
+
+<PageTitle>门店管理</PageTitle>
+
+<RadzenStack Gap="1rem">
+    <RadzenRow>
+        <RadzenColumn Size="12">
+            <RadzenCard>
+                <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.SpaceBetween">
+                    <RadzenText TextStyle="TextStyle.H4" TagName="TagName.H1">🏪 门店管理</RadzenText>
+                    <RadzenButton ButtonStyle="ButtonStyle.Primary" Icon="add" Text="新增门店" Click="@OpenAddDialog" />
+                </RadzenStack>
+            </RadzenCard>
+        </RadzenColumn>
+    </RadzenRow>
+
+    <RadzenRow>
+        <RadzenColumn Size="12">
+            <RadzenCard>
+                <RadzenDataGrid @ref="carShopsGrid" Data="@carShops" TItem="CarShop" AllowSorting="true" AllowFiltering="true" 
+                                FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="10">
+                    <Columns>
+                        <RadzenDataGridColumn TItem="CarShop" Property="Id" Title="编号" Width="80px" />
+                        <RadzenDataGridColumn TItem="CarShop" Property="Name" Title="门店名称" Width="200px" />
+                        <RadzenDataGridColumn TItem="CarShop" Property="Brand" Title="经营品牌" Width="150px" />
+                        <RadzenDataGridColumn TItem="CarShop" Property="Address" Title="地址" />
+                        <RadzenDataGridColumn TItem="CarShop" Property="Phone" Title="电话" Width="150px" />
+                        <RadzenDataGridColumn TItem="CarShop" Property="BusinessHours" Title="营业时间" Width="180px" />
+                        <RadzenDataGridColumn TItem="CarShop" Title="操作" Width="150px" Sortable="false" Filterable="false" TextAlign="TextAlign.Center">
+                            <Template Context="shop">
+                                <RadzenStack Orientation="Orientation.Horizontal" Gap="0.5rem" JustifyContent="JustifyContent.Center">
+                                    <RadzenButton ButtonStyle="ButtonStyle.Info" Size="ButtonSize.Small" Icon="edit" 
+                                                  Click="@(() => OpenEditDialog(shop))" />
+                                    <RadzenButton ButtonStyle="ButtonStyle.Danger" Size="ButtonSize.Small" Icon="delete" 
+                                                  Click="@(() => DeleteCarShop(shop.Id))" />
+                                </RadzenStack>
+                            </Template>
+                        </RadzenDataGridColumn>
+                    </Columns>
+                </RadzenDataGrid>
+            </RadzenCard>
+        </RadzenColumn>
+    </RadzenRow>
+</RadzenStack>
+
+@code {
+    private RadzenDataGrid<CarShop> carShopsGrid;
+    private IQueryable<CarShop> carShops;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadCarShops();
+    }
+
+    private async Task LoadCarShops()
+    {
+        carShops = await CarService.GetCarShopsAsync();
+    }
+
+    private async Task OpenAddDialog()
+    {
+        var result = await DialogService.OpenAsync<CarShopDialog>("新增门店", 
+            new Dictionary<string, object> { { "CarShop", new CarShop() } },
+            new DialogOptions() { Width = "600px" });
+
+        if (result is CarShop newShop)
+        {
+            await CarService.CreateCarShopAsync(newShop);
+            await LoadCarShops();
+            await carShopsGrid.Reload();
+        }
+    }
+
+    private async Task OpenEditDialog(CarShop shop)
+    {
+        var shopToEdit = new CarShop
+        {
+            Id = shop.Id,
+            Name = shop.Name,
+            Address = shop.Address,
+            Phone = shop.Phone,
+            BusinessHours = shop.BusinessHours,
+            Latitude = shop.Latitude,
+            Longitude = shop.Longitude,
+            Brand = shop.Brand,
+            CreatedTime = shop.CreatedTime
+        };
+
+        var result = await DialogService.OpenAsync<CarShopDialog>("编辑门店", 
+            new Dictionary<string, object> { { "CarShop", shopToEdit } },
+            new DialogOptions() { Width = "600px" });
+
+        if (result is CarShop updatedShop)
+        {
+            await CarService.UpdateCarShopAsync(updatedShop);
+            await LoadCarShops();
+            await carShopsGrid.Reload();
+        }
+    }
+
+    private async Task DeleteCarShop(int shopId)
+    {
+        var confirm = await DialogService.Confirm("确定要删除这家门店吗？此操作不可撤销。", "确认删除", new ConfirmOptions
+        {
+            OkButtonText = "确定",
+            CancelButtonText = "取消"
+        });
+
+        if (confirm == true)
+        {
+            await CarService.DeleteCarShopAsync(shopId);
+            await LoadCarShops();
+            await carShopsGrid.Reload();
+        }
+    }
+}

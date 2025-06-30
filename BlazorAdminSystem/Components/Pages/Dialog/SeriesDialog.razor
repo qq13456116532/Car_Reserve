@@ -1,0 +1,64 @@
+@using CarSaleSystem.Services
+@using CarSaleSystem.Models
+@inject CarSaleService CarService
+@inject DialogService DialogService
+
+<RadzenTemplateForm TItem="Series" Data="@Series" Submit="@OnSubmit">
+    <RadzenStack Gap="1.5rem">
+        <RadzenFormField Text="车系名称" Variant="Variant.Outlined">
+            <RadzenTextBox @bind-Value="@Series.SeriesName" Name="SeriesName" />
+            <RadzenRequiredValidator Component="SeriesName" Text="车系名称不能为空" />
+        </RadzenFormField>
+        
+        <RadzenFormField Text="所属品牌" Variant="Variant.Outlined">
+            <RadzenDropDown @bind-Value="@Series.BrandId" Data="@brands" TextProperty="BrandName" ValueProperty="BrandId" Name="BrandId" Placeholder="请选择品牌..." AllowClear="true" />
+            <RadzenRequiredValidator Component="BrandId" Text="必须选择一个品牌" />
+        </RadzenFormField>
+
+        <RadzenFormField Text="状态" Variant="Variant.Outlined">
+            <RadzenDropDown @bind-Value="@Series.Status" Data="@statusOptions" TextProperty="Text" ValueProperty="Value" />
+        </RadzenFormField>
+
+        <RadzenStack Orientation="Orientation.Horizontal" Gap="1rem" JustifyContent="JustifyContent.End">
+            <RadzenButton ButtonStyle="ButtonStyle.Secondary" Text="取消" Click="@(() => DialogService.Close(false))" />
+            <RadzenButton ButtonStyle="ButtonStyle.Primary" Text="保存" ButtonType="ButtonType.Submit" />
+        </RadzenStack>
+    </RadzenStack>
+</RadzenTemplateForm>
+
+@code {
+    [Parameter] public Series Series { get; set; }
+
+    private IQueryable<Brand> brands;
+
+    private List<object> statusOptions = new()
+    {
+        new { Text = "正常", Value = "1" },
+        new { Text = "删除", Value = "0" }
+    };
+
+    protected override async Task OnInitializedAsync()
+    {
+        brands = await CarService.GetBrandsAsync();
+    }
+
+    private async Task OnSubmit()
+    {
+        try
+        {
+            if (Series.SeriesId == 0)
+            {
+                await CarService.CreateSeriesAsync(Series);
+            }
+            else
+            {
+                await CarService.UpdateSeriesAsync(Series);
+            }
+            DialogService.Close(true);
+        }
+        catch (Exception ex)
+        {
+            // Handle error
+        }
+    }
+}

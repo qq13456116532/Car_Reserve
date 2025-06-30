@@ -1,0 +1,78 @@
+# --- 通用忽略项 ---
+*.log
+*.tmp
+*.bak
+*.swp
+*.swo
+*.DS_Store
+Thumbs.db
+ehthumbs.db
+
+# --- Visual Studio / VSCode ---
+.vscode/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# --- .NET 编译输出 ---
+**/bin/
+**/obj/
+**/*.pdb
+**/*.exe
+**/*.dll
+**/*.cache
+**/*.csproj.user
+
+# --- Node.js / 前端项目 ---
+node_modules/
+dist/
+build/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# --- Java 项目 ---
+*.class
+target/
+*.iml
+.idea/
+
+# --- Python 文件 ---
+*.pyc
+__pycache__/
+
+# --- 其他项目中可能用到的 ---
+# 忽略数据库文件
+*.sql
+
+# 忽略打包压缩文件
+*.zip
+*.tar.gz
+*.rar
+
+# 忽略Office文档和PDF
+*.doc
+*.docx
+*.pdf
+*.xls
+*.xlsx
+
+# --- 特定忽略（项目中实际存在的） ---
+# 忽略 BlazorAdminSystem 的输出目录
+BlazorAdminSystem/bin/
+BlazorAdminSystem/obj/
+
+# 忽略 carsale-master2 Maven 构建输出
+carsale-master2/target/
+
+# 忽略 carsale-master2/front 前端打包目录（Vue项目）
+carsale-master2/front/node_modules/
+carsale-master2/front/dist/
+carsale-master2/front/build/
+
+# 你写的小脚本或数据文件（视情况而定）
+1.py
+a.txt
+

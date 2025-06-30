@@ -1,0 +1,132 @@
+@page "/customers"
+@using CarSaleSystem.Services
+@using CarSaleSystem.Models
+@inject CarSaleService CarService
+@inject DialogService DialogService
+@inject NotificationService NotificationService
+
+<PageTitle>客户管理</PageTitle>
+
+<RadzenStack Gap="1rem">
+    <RadzenRow>
+        <RadzenColumn Size="12">
+            <RadzenCard>
+                <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.SpaceBetween">
+                    <RadzenText TextStyle="TextStyle.H4" TagName="TagName.H1">👥 客户管理</RadzenText>
+                    <RadzenButton ButtonStyle="ButtonStyle.Primary" Icon="add" Text="新增客户" Click="@OpenAddDialog" />
+                </RadzenStack>
+            </RadzenCard>
+        </RadzenColumn>
+    </RadzenRow>
+
+    <RadzenRow>
+        <RadzenColumn Size="12">
+            <RadzenCard>
+                <RadzenDataGrid @ref="customersGrid" Data="@customers" TItem="Customer" AllowSorting="true" AllowFiltering="true" 
+                                FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="10">
+                    <Columns>
+                        <RadzenDataGridColumn TItem="Customer" Property="Id" Title="编号" Width="80px" />
+                        <RadzenDataGridColumn TItem="Customer" Property="Name" Title="姓名" Width="150px" />
+                        <RadzenDataGridColumn TItem="Customer" Property="Phone" Title="电话" Width="150px" />
+                        <RadzenDataGridColumn TItem="Customer" Property="IdCard" Title="身份证号" Width="200px" />
+                        <RadzenDataGridColumn TItem="Customer" Property="CreateTime" Title="注册时间" FormatString="{0:yyyy-MM-dd HH:mm}" />
+                        <RadzenDataGridColumn TItem="Customer" Title="操作" Width="150px" Sortable="false" Filterable="false" TextAlign="TextAlign.Center">
+                            <Template Context="customer">
+                                <RadzenStack Orientation="Orientation.Horizontal" Gap="0.5rem" JustifyContent="JustifyContent.Center">
+                                    <RadzenButton ButtonStyle="ButtonStyle.Info" Size="ButtonSize.Small" Icon="edit" 
+                                                  Click="@(() => OpenEditDialog(customer))" />
+                                    <RadzenButton ButtonStyle="ButtonStyle.Danger" Size="ButtonSize.Small" Icon="delete" 
+                                                  Click="@(() => DeleteCustomer(customer.Id))" />
+                                </RadzenStack>
+                            </Template>
+                        </RadzenDataGridColumn>
+                    </Columns>
+                </RadzenDataGrid>
+            </RadzenCard>
+        </RadzenColumn>
+    </RadzenRow>
+</RadzenStack>
+
+@code {
+    private RadzenDataGrid<Customer> customersGrid;
+    private IQueryable<Customer> customers;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadCustomers();
+    }
+
+    private async Task LoadCustomers()
+    {
+        customers = await CarService.GetCustomersAsync();
+    }
+
+    private async Task OpenAddDialog()
+    {
+        var result = await DialogService.OpenAsync<CustomerDialog>("新增客户", new Dictionary<string, object>
+        {
+            { "Customer", new Customer() }
+        });
+
+        if (result is Customer newCustomer)
+        {
+            try
+            {
+                await CarService.CreateCustomerAsync(newCustomer);
+                await LoadCustomers();
+                await customersGrid.Reload();
+            }
+            catch(Exception ex)
+            {
+                NotificationService.Notify(NotificationSeverity.Error, "错误", "创建客户失败，可能是电话或身份证号重复。");
+            }
+        }
+    }
+
+    private async Task OpenEditDialog(Customer customer)
+    {
+        var customerToEdit = new Customer // Create a copy for editing
+        {
+            Id = customer.Id,
+            Name = customer.Name,
+            Phone = customer.Phone,
+            IdCard = customer.IdCard,
+            CreateTime = customer.CreateTime
+        };
+        
+        var result = await DialogService.OpenAsync<CustomerDialog>("编辑客户", new Dictionary<string, object>
+        {
+            { "Customer", customerToEdit }
+        });
+
+        if (result is Customer updatedCustomer)
+        {
+            try
+            {
+                await CarService.UpdateCustomerAsync(updatedCustomer);
+                await LoadCustomers();
+                await customersGrid.Reload();
+            }
+            catch(Exception ex)
+            {
+                NotificationService.Notify(NotificationSeverity.Error, "错误", "更新客户失败，可能是电话或身份证号重复。");
+            }
+        }
+    }
+
+    private async Task DeleteCustomer(long customerId)
+    {
+        var confirm = await DialogService.Confirm("确定要删除这个客户吗？此操作不可撤销。", "确认删除", new ConfirmOptions
+        {
+            OkButtonText = "确定",
+            CancelButtonText = "取消"
+        });
+
+        if (confirm == true)
+        {
+            await CarService.DeleteCustomerAsync(customerId);
+            await LoadCustomers();
+            await customersGrid.Reload();
+        }
+    }
+}

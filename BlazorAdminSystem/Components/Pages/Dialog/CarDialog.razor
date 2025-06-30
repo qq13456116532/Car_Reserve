@@ -1,0 +1,84 @@
+@using CarSaleSystem.Services
+@using CarSaleSystem.Models
+@inject CarSaleService CarService
+@inject DialogService DialogService
+
+<RadzenTemplateForm TItem="Car" Data="@Car" Submit="@OnSubmit">
+    <RadzenStack Gap="1.5rem">
+        <RadzenFormField Text="所属车系" Variant="Variant.Outlined">
+            <RadzenDropDown @bind-Value="@Car.SeriesId" Data="@series" TextProperty="SeriesName" ValueProperty="SeriesId" Name="SeriesId" Placeholder="请选择车系..." AllowClear="true" />
+            <RadzenRequiredValidator Component="SeriesId" Text="必须选择一个车系" />
+        </RadzenFormField>
+
+        <RadzenFormField Text="车辆型号" Variant="Variant.Outlined">
+            <RadzenTextBox @bind-Value="@Car.Type" Name="Type" />
+            <RadzenRequiredValidator Component="Type" Text="车辆型号不能为空" />
+        </RadzenFormField>
+
+        <RadzenFormField Text="颜色" Variant="Variant.Outlined">
+            <RadzenTextBox @bind-Value="@Car.Color" Name="Color" />
+            <RadzenRequiredValidator Component="Color" Text="颜色不能为空" />
+        </RadzenFormField>
+
+        <RadzenFormField Text="指导价" Variant="Variant.Outlined">
+            <RadzenNumeric TValue="decimal" @bind-Value="@Car.Price" Name="Price" Format="c" />
+            <RadzenRequiredValidator Component="Price" Text="指导价不能为空" />
+        </RadzenFormField>
+
+        <RadzenFormField Text="销售价" Variant="Variant.Outlined">
+            <RadzenNumeric TValue="decimal" @bind-Value="@Car.SalePrice" Name="SalePrice" Format="c" />
+            <RadzenRequiredValidator Component="SalePrice" Text="销售价不能为空" />
+        </RadzenFormField>
+
+        <RadzenFormField Text="库存" Variant="Variant.Outlined">
+            <RadzenNumeric TValue="int" @bind-Value="@Car.Repertory" Name="Repertory" />
+            <RadzenRequiredValidator Component="Repertory" Text="库存不能为空" />
+        </RadzenFormField>
+
+        <RadzenFormField Text="状态" Variant="Variant.Outlined">
+            <RadzenDropDown @bind-Value="@Car.Status" Data="@statusOptions" TextProperty="Text" ValueProperty="Value" />
+        </RadzenFormField>
+
+        <RadzenStack Orientation="Orientation.Horizontal" Gap="1rem" JustifyContent="JustifyContent.End">
+            <RadzenButton ButtonStyle="ButtonStyle.Secondary" Text="取消" Click="@(() => DialogService.Close(false))" />
+            <RadzenButton ButtonStyle="ButtonStyle.Primary" Text="保存" ButtonType="ButtonType.Submit" />
+        </RadzenStack>
+    </RadzenStack>
+</RadzenTemplateForm>
+
+@code {
+    [Parameter] public Car Car { get; set; }
+
+    private IQueryable<Series> series;
+
+    private List<object> statusOptions = new()
+    {
+        new { Text = "在售", Value = "1" },
+        new { Text = "已下架", Value = "0" }
+    };
+
+    protected override async Task OnInitializedAsync()
+    {
+        series = await CarService.GetSeriesAsync();
+    }
+
+    private async Task OnSubmit()
+    {
+        try
+        {
+            if (Car.Id == 0)
+            {
+                await CarService.CreateCarAsync(Car);
+            }
+            else
+            {
+                await CarService.UpdateCarAsync(Car);
+            }
+            DialogService.Close(true);
+        }
+        catch (Exception ex)
+        {
+            // Handle error
+        }
+    }
+}

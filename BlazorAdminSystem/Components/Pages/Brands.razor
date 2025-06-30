@@ -1,0 +1,110 @@
+@page "/brands"
+@using CarSaleSystem.Services
+@using CarSaleSystem.Models
+@inject CarSaleService CarService
+@inject DialogService DialogService
+
+
+<PageTitle>品牌管理</PageTitle>
+
+<RadzenStack Gap="1rem">
+    <RadzenRow>
+        <RadzenColumn Size="12">
+            <RadzenCard>
+                <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.SpaceBetween">
+                    <RadzenText TextStyle="TextStyle.H4" TagName="TagName.H1">🏷️ 品牌管理</RadzenText>
+                    <RadzenButton ButtonStyle="ButtonStyle.Primary" Icon="add" Text="新增品牌" Click="@OpenAddDialog" />
+                </RadzenStack>
+            </RadzenCard>
+        </RadzenColumn>
+    </RadzenRow>
+
+    <RadzenRow>
+        <RadzenColumn Size="12">
+            <RadzenCard>
+                <RadzenDataGrid @ref="brandsGrid" Data="@brands" TItem="Brand" AllowSorting="true" AllowFiltering="true" 
+                                FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="10">
+                    <Columns>
+                        <RadzenDataGridColumn TItem="Brand" Property="BrandId" Title="品牌编号" Width="120px" />
+                        <RadzenDataGridColumn TItem="Brand" Property="BrandName" Title="品牌名称" />
+                        <RadzenDataGridColumn TItem="Brand" Property="Status" Title="状态" Width="100px">
+                            <Template Context="brand">
+                                <RadzenBadge BadgeStyle="@(brand.Status == "1" ? BadgeStyle.Success : BadgeStyle.Danger)" 
+                                             Text="@(brand.Status == "1" ? "正常" : "已删除")" />
+                            </Template>
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="Brand" Title="操作" Width="200px" Sortable="false" Filterable="false">
+                            <Template Context="brand">
+                                <RadzenStack Orientation="Orientation.Horizontal" Gap="0.5rem">
+                                    <RadzenButton ButtonStyle="ButtonStyle.Info" Size="ButtonSize.Small" Icon="edit" 
+                                                  Click="@(() => OpenEditDialog(brand))" />
+                                    <RadzenButton ButtonStyle="ButtonStyle.Danger" Size="ButtonSize.Small" Icon="delete" 
+                                                  Click="@(() => DeleteBrand(brand.BrandId))" />
+                                </RadzenStack>
+                            </Template>
+                        </RadzenDataGridColumn>
+                    </Columns>
+                </RadzenDataGrid>
+            </RadzenCard>
+        </RadzenColumn>
+    </RadzenRow>
+</RadzenStack>
+
+@code {
+    private RadzenDataGrid<Brand> brandsGrid;
+    private IQueryable<Brand> brands;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadBrands();
+    }
+
+    private async Task LoadBrands()
+    {
+        brands = await CarService.GetBrandsAsync();
+    }
+
+    private async Task OpenAddDialog()
+    {
+        var result = await DialogService.OpenAsync<BrandDialog>("新增品牌", new Dictionary<string, object>
+        {
+            { "Brand", new Brand() }
+        });
+
+        if (result == true)
+        {
+            await LoadBrands();
+            await brandsGrid.Reload();
+        }
+    }
+
+    private async Task OpenEditDialog(Brand brand)
+    {
+        var result = await DialogService.OpenAsync<BrandDialog>("编辑品牌", new Dictionary<string, object>
+        {
+            { "Brand", brand }
+        });
+
+        if (result == true)
+        {
+            await LoadBrands();
+            await brandsGrid.Reload();
+        }
+    }
+
+    private async Task DeleteBrand(int brandId)
+    {
+        var confirm = await DialogService.Confirm("确定要删除这个品牌吗？", "确认删除", new ConfirmOptions
+        {
+            OkButtonText = "确定",
+            CancelButtonText = "取消"
+        });
+
+        if (confirm == true)
+        {
+            await CarService.DeleteBrandAsync(brandId);
+            await LoadBrands();
+            await brandsGrid.Reload();
+        }
+    }
+}

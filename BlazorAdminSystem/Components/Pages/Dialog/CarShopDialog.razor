@@ -1,0 +1,58 @@
+@using CarSaleSystem.Models
+@inject DialogService DialogService
+
+<RadzenTemplateForm TItem="CarShop" Data="@CarShop" Submit="@OnSubmit">
+    <RadzenStack Gap="1.5rem">
+        <RadzenFormField Text="门店名称" Variant="Variant.Outlined" Style="width: 100%;">
+            <RadzenTextBox @bind-Value="@CarShop.Name" Name="Name" />
+            <RadzenRequiredValidator Component="Name" Text="门店名称不能为空" />
+        </RadzenFormField>
+
+        <RadzenFormField Text="经营品牌" Variant="Variant.Outlined">
+            <RadzenTextBox @bind-Value="@CarShop.Brand" Name="Brand" />
+            <RadzenRequiredValidator Component="Brand" Text="经营品牌不能为空" />
+        </RadzenFormField>
+
+        <RadzenFormField Text="地址" Variant="Variant.Outlined">
+            <RadzenTextBox @bind-Value="@CarShop.Address" Name="Address" />
+            <RadzenRequiredValidator Component="Address" Text="地址不能为空" />
+        </RadzenFormField>
+
+        <RadzenFormField Text="联系电话" Variant="Variant.Outlined">
+            <RadzenTextBox @bind-Value="@CarShop.Phone" Name="Phone" />
+            <RadzenRequiredValidator Component="Phone" Text="联系电话不能为空" />
+        </RadzenFormField>
+
+        <RadzenFormField Text="营业时间" Variant="Variant.Outlined">
+            <RadzenTextBox @bind-Value="@CarShop.BusinessHours" Name="BusinessHours" />
+            <RadzenRequiredValidator Component="BusinessHours" Text="营业时间不能为空" />
+        </RadzenFormField>
+        
+        <RadzenRow Gap="1rem">
+            <RadzenColumn Size="6">
+                <RadzenFormField Text="纬度" Variant="Variant.Outlined">
+                    <RadzenNumeric TValue="decimal" @bind-Value="@CarShop.Latitude" Name="Latitude" />
+                </RadzenFormField>
+            </RadzenColumn>
+            <RadzenColumn Size="6">
+                <RadzenFormField Text="经度" Variant="Variant.Outlined">
+                    <RadzenNumeric TValue="decimal" @bind-Value="@CarShop.Longitude" Name="Longitude" />
+                </RadzenFormField>
+            </RadzenColumn>
+        </RadzenRow>
+        
+        <RadzenStack Orientation="Orientation.Horizontal" Gap="1rem" JustifyContent="JustifyContent.End">
+            <RadzenButton ButtonStyle="ButtonStyle.Secondary" Text="取消" Click="@(() => DialogService.Close(false))" />
+            <RadzenButton ButtonStyle="ButtonStyle.Primary" Text="保存" ButtonType="ButtonType.Submit" />
+        </RadzenStack>
+    </RadzenStack>
+</RadzenTemplateForm>
+
+@code {
+    [Parameter] public CarShop CarShop { get; set; }
+
+    private void OnSubmit()
+    {
+        DialogService.Close(CarShop);
+    }
+}

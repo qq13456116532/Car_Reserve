@@ -1,0 +1,48 @@
+@using CarSaleSystem.Models
+@inject DialogService DialogService
+
+<RadzenTemplateForm TItem="Order" Data="@Order" Submit="@OnSubmit">
+    <RadzenStack Gap="1.5rem">
+        <RadzenFormField Text="客户" Variant="Variant.Outlined">
+            <RadzenTextBox @bind-Value="@Order.Customer.Name" Name="CustomerName" ReadOnly="true" />
+        </RadzenFormField>
+        
+        <RadzenFormField Text="负责员工" Variant="Variant.Outlined">
+            <RadzenTextBox @bind-Value="@Order.Employee.Name" Name="EmployeeName" ReadOnly="true" />
+        </RadzenFormField>
+        
+        <RadzenFormField Text="总价" Variant="Variant.Outlined">
+            <RadzenNumeric TValue="decimal" @bind-Value="@Order.TotalPrice" Name="TotalPrice" ReadOnly="true" Format="c" />
+        </RadzenFormField>
+
+        <RadzenFormField Text="订单状态" Variant="Variant.Outlined">
+            <RadzenDropDown @bind-Value="@Order.Status" Data="@statusOptions" TextProperty="Text" ValueProperty="Value" Name="Status" />
+            <RadzenRequiredValidator Component="Status" Text="必须选择一个状态" />
+        </RadzenFormField>
+
+        <RadzenStack Orientation="Orientation.Horizontal" Gap="1rem" JustifyContent="JustifyContent.End">
+            <RadzenButton ButtonStyle="ButtonStyle.Secondary" Text="取消" Click="@(() => DialogService.Close(false))" />
+            <RadzenButton ButtonStyle="ButtonStyle.Primary" Text="更新状态" ButtonType="ButtonType.Submit" />
+        </RadzenStack>
+    </RadzenStack>
+</RadzenTemplateForm>
+
+@code {
+    [Parameter] public Order Order { get; set; }
+
+    private List<object> statusOptions = new()
+    {
+        new { Text = "未支付", Value = "0" },
+        new { Text = "已支付", Value = "1" },
+        new { Text = "已取消", Value = "2" }
+    };
+    
+    private void OnSubmit()
+    {
+        if (Order.Status == "1" && Order.PayTime == null)
+        {
+            Order.PayTime = DateTime.Now;
+        }
+        DialogService.Close(Order);
+    }
+}

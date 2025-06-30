@@ -1,0 +1,52 @@
+@using CarSaleSystem.Services
+@using CarSaleSystem.Models
+@inject CarSaleService CarService
+@inject DialogService DialogService
+
+<RadzenTemplateForm TItem="Brand" Data="@Brand" Submit="@OnSubmit">
+    <RadzenStack Gap="1rem">
+        <RadzenFormField Text="品牌名称" Variant="Variant.Outlined">
+            <RadzenTextBox @bind-Value="@Brand.BrandName" Name="BrandName" />
+            <RadzenRequiredValidator Component="BrandName" Text="品牌名称不能为空" />
+        </RadzenFormField>
+
+        <RadzenFormField Text="状态" Variant="Variant.Outlined">
+            <RadzenDropDown @bind-Value="@Brand.Status" Data="@statusOptions" TextProperty="Text" ValueProperty="Value" />
+        </RadzenFormField>
+
+        <RadzenStack Orientation="Orientation.Horizontal" Gap="1rem" JustifyContent="JustifyContent.End">
+            <RadzenButton ButtonStyle="ButtonStyle.Secondary" Text="取消" Click="@(() => DialogService.Close(false))" />
+            <RadzenButton ButtonStyle="ButtonStyle.Primary" Text="保存" ButtonType="ButtonType.Submit" />
+        </RadzenStack>
+    </RadzenStack>
+</RadzenTemplateForm>
+
+@code {
+    [Parameter] public Brand Brand { get; set; }
+
+    private List<object> statusOptions = new()
+    {
+        new { Text = "正常", Value = "1" },
+        new { Text = "删除", Value = "0" }
+    };
+
+    private async Task OnSubmit()
+    {
+        try
+        {
+            if (Brand.BrandId == 0)
+            {
+                await CarService.CreateBrandAsync(Brand);
+            }
+            else
+            {
+                await CarService.UpdateBrandAsync(Brand);
+            }
+            DialogService.Close(true);
+        }
+        catch (Exception ex)
+        {
+            // Handle error
+        }
+    }
+}

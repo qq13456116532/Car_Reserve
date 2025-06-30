@@ -1,0 +1,1310 @@
+Components\App.razor：【﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <base href="/" />
+    <link rel="stylesheet" href="@Assets["lib/bootstrap/dist/css/bootstrap.min.css"]" />
+    <link rel="stylesheet" href="@Assets["app.css"]" />
+    <link rel="stylesheet" href="@Assets["BlazorAdminSystem.styles.css"]" />
+    <ImportMap />
+    <link rel="icon" type="image/png" href="favicon.png" />
+    <HeadOutlet />
+    <RadzenTheme Theme="material" @rendermode="InteractiveAuto" />
+</head>
+
+<body>
+    <Routes />
+    <script src="_framework/blazor.web.js"></script>
+    <script src="_content/Radzen.Blazor/Radzen.Blazor.js?v=@(typeof(Radzen.Colors).Assembly.GetName().Version)"></script>
+
+</body>
+
+</html>
+】
+
+Components\BrandDialog.razor：【@using CarSaleSystem.Services
+@using CarSaleSystem.Models
+@inject CarSaleService CarService
+@inject DialogService DialogService
+
+<RadzenTemplateForm TItem="Brand" Data="@Brand" Submit="@OnSubmit">
+    <RadzenStack Gap="1rem">
+        <RadzenFormField Text="品牌名称" Variant="Variant.Outlined">
+            <RadzenTextBox @bind-Value="@Brand.BrandName" Name="BrandName" />
+            <RadzenRequiredValidator Component="BrandName" Text="品牌名称不能为空" />
+        </RadzenFormField>
+
+        <RadzenFormField Text="状态" Variant="Variant.Outlined">
+            <RadzenDropDown @bind-Value="@Brand.Status" Data="@statusOptions" TextProperty="Text" ValueProperty="Value" />
+        </RadzenFormField>
+
+        <RadzenStack Orientation="Orientation.Horizontal" Gap="1rem" JustifyContent="JustifyContent.End">
+            <RadzenButton ButtonStyle="ButtonStyle.Secondary" Text="取消" Click="@(() => DialogService.Close(false))" />
+            <RadzenButton ButtonStyle="ButtonStyle.Primary" Text="保存" ButtonType="ButtonType.Submit" />
+        </RadzenStack>
+    </RadzenStack>
+</RadzenTemplateForm>
+
+@code {
+    [Parameter] public Brand Brand { get; set; }
+
+    private List<object> statusOptions = new()
+    {
+        new { Text = "正常", Value = "1" },
+        new { Text = "删除", Value = "0" }
+    };
+
+    private async Task OnSubmit()
+    {
+        try
+        {
+            if (Brand.BrandId == 0)
+            {
+                await CarService.CreateBrandAsync(Brand);
+            }
+            else
+            {
+                await CarService.UpdateBrandAsync(Brand);
+            }
+            DialogService.Close(true);
+        }
+        catch (Exception ex)
+        {
+            // Handle error
+        }
+    }
+}】
+
+Components\Routes.razor：【﻿<Router AppAssembly="typeof(Program).Assembly">
+    <Found Context="routeData">
+        <RouteView RouteData="routeData" DefaultLayout="typeof(Layout.MainLayout)" />
+        <FocusOnNavigate RouteData="routeData" Selector="h1" />
+    </Found>
+</Router>
+】
+
+Components\_Imports.razor：【﻿@using System.Net.Http
+@using System.Net.Http.Json
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.AspNetCore.Components.Routing
+@using Microsoft.AspNetCore.Components.Web
+@using static Microsoft.AspNetCore.Components.Web.RenderMode
+@using Microsoft.AspNetCore.Components.Web.Virtualization
+@using Microsoft.JSInterop
+@using BlazorAdminSystem
+@using BlazorAdminSystem.Components
+@using Radzen
+@using Radzen.Blazor】
+
+Components\Layout\MainLayout.razor：【﻿@inherits LayoutComponentBase
+
+
+<div class="page">
+    <div class="sidebar">
+        <NavMenu />
+    </div>
+
+    <main>
+        <div class="top-row px-4">
+            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
+        </div>
+
+        <RadzenComponents @rendermode="InteractiveAuto" />
+        <article class="content px-4">
+            @Body
+        </article>
+    </main>
+</div>
+
+<div id="blazor-error-ui" data-nosnippet>
+    An unhandled error has occurred.
+    <a href="." class="reload">Reload</a>
+    <span class="dismiss">🗙</span>
+</div>
+】
+
+Components\Layout\MainLayout.razor.css：【.page {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+}
+
+.sidebar {
+    background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
+}
+
+.top-row {
+    background-color: #f7f7f7;
+    border-bottom: 1px solid #d6d5d5;
+    justify-content: flex-end;
+    height: 3.5rem;
+    display: flex;
+    align-items: center;
+}
+
+    .top-row ::deep a, .top-row ::deep .btn-link {
+        white-space: nowrap;
+        margin-left: 1.5rem;
+        text-decoration: none;
+    }
+
+    .top-row ::deep a:hover, .top-row ::deep .btn-link:hover {
+        text-decoration: underline;
+    }
+
+    .top-row ::deep a:first-child {
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+@media (max-width: 640.98px) {
+    .top-row {
+        justify-content: space-between;
+    }
+
+    .top-row ::deep a, .top-row ::deep .btn-link {
+        margin-left: 0;
+    }
+}
+
+@media (min-width: 641px) {
+    .page {
+        flex-direction: row;
+    }
+
+    .sidebar {
+        width: 250px;
+        height: 100vh;
+        position: sticky;
+        top: 0;
+    }
+
+    .top-row {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+    }
+
+    .top-row.auth ::deep a:first-child {
+        flex: 1;
+        text-align: right;
+        width: 0;
+    }
+
+    .top-row, article {
+        padding-left: 2rem !important;
+        padding-right: 1.5rem !important;
+    }
+}
+
+#blazor-error-ui {
+    color-scheme: light only;
+    background: lightyellow;
+    bottom: 0;
+    box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
+    display: none;
+    left: 0;
+    padding: 0.6rem 1.25rem 0.7rem 1.25rem;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+}
+
+    #blazor-error-ui .dismiss {
+        cursor: pointer;
+        position: absolute;
+        right: 0.75rem;
+        top: 0.5rem;
+    }
+】
+
+Components\Layout\NavMenu.razor：【﻿<div class="top-row ps-3 navbar navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="">BlazorAdminSystem</a>
+    </div>
+</div>
+
+<input type="checkbox" title="Navigation menu" class="navbar-toggler" />
+
+<div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
+    <nav class="nav flex-column">
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
+            </NavLink>
+        </div>
+
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="brands">
+                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Brand
+            </NavLink>
+        </div>
+
+        @* <div class="nav-item px-3">
+            <NavLink class="nav-link" href="weather">
+                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Weather
+            </NavLink>
+        </div> *@
+    </nav>
+</div>
+
+】
+
+Components\Layout\NavMenu.razor.css：【.navbar-toggler {
+    appearance: none;
+    cursor: pointer;
+    width: 3.5rem;
+    height: 2.5rem;
+    color: white;
+    position: absolute;
+    top: 0.5rem;
+    right: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.55%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") no-repeat center/1.75rem rgba(255, 255, 255, 0.1);
+}
+
+.navbar-toggler:checked {
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+.top-row {
+    min-height: 3.5rem;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.navbar-brand {
+    font-size: 1.1rem;
+}
+
+.bi {
+    display: inline-block;
+    position: relative;
+    width: 1.25rem;
+    height: 1.25rem;
+    margin-right: 0.75rem;
+    top: -1px;
+    background-size: cover;
+}
+
+.bi-house-door-fill-nav-menu {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='white' class='bi bi-house-door-fill' viewBox='0 0 16 16'%3E%3Cpath d='M6.5 14.5v-3.505c0-.245.25-.495.5-.495h2c.25 0 .5.25.5.5v3.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5Z'/%3E%3C/svg%3E");
+}
+
+.bi-plus-square-fill-nav-menu {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='white' class='bi bi-plus-square-fill' viewBox='0 0 16 16'%3E%3Cpath d='M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3a.5.5 0 0 1 1 0z'/%3E%3C/svg%3E");
+}
+
+.bi-list-nested-nav-menu {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='white' class='bi bi-list-nested' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M4.5 11.5A.5.5 0 0 1 5 11h10a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5zm-2-4A.5.5 0 0 1 3 7h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm-2-4A.5.5 0 0 1 1 3h10a.5.5 0 0 1 0 1H1a.5.5 0 0 1-.5-.5z'/%3E%3C/svg%3E");
+}
+
+.nav-item {
+    font-size: 0.9rem;
+    padding-bottom: 0.5rem;
+}
+
+    .nav-item:first-of-type {
+        padding-top: 1rem;
+    }
+
+    .nav-item:last-of-type {
+        padding-bottom: 1rem;
+    }
+
+    .nav-item ::deep .nav-link {
+        color: #d7d7d7;
+        background: none;
+        border: none;
+        border-radius: 4px;
+        height: 3rem;
+        display: flex;
+        align-items: center;
+        line-height: 3rem;
+        width: 100%;
+    }
+
+.nav-item ::deep a.active {
+    background-color: rgba(255,255,255,0.37);
+    color: white;
+}
+
+.nav-item ::deep .nav-link:hover {
+    background-color: rgba(255,255,255,0.1);
+    color: white;
+}
+
+.nav-scrollable {
+    display: none;
+}
+
+.navbar-toggler:checked ~ .nav-scrollable {
+    display: block;
+}
+
+@media (min-width: 641px) {
+    .navbar-toggler {
+        display: none;
+    }
+
+    .nav-scrollable {
+        /* Never collapse the sidebar for wide screens */
+        display: block;
+
+        /* Allow sidebar to scroll for tall menus */
+        height: calc(100vh - 3.5rem);
+        overflow-y: auto;
+    }
+}
+】
+
+Components\Pages\Brands.razor：【@page "/brands"
+@using CarSaleSystem.Services
+@using CarSaleSystem.Models
+@inject CarSaleService CarService
+@inject DialogService DialogService
+
+
+<PageTitle>品牌管理</PageTitle>
+
+<RadzenStack Gap="1rem">
+    <RadzenRow>
+        <RadzenColumn Size="12">
+            <RadzenCard>
+                <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.SpaceBetween">
+                    <RadzenText TextStyle="TextStyle.H4" TagName="TagName.H1">🏷️ 品牌管理</RadzenText>
+                    <RadzenButton ButtonStyle="ButtonStyle.Primary" Icon="add" Text="新增品牌" Click="@OpenAddDialog" />
+                </RadzenStack>
+            </RadzenCard>
+        </RadzenColumn>
+    </RadzenRow>
+
+    <RadzenRow>
+        <RadzenColumn Size="12">
+            <RadzenCard>
+                <RadzenDataGrid @ref="brandsGrid" Data="@brands" TItem="Brand" AllowSorting="true" AllowFiltering="true" 
+                                FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="10">
+                    <Columns>
+                        <RadzenDataGridColumn TItem="Brand" Property="BrandId" Title="品牌编号" Width="120px" />
+                        <RadzenDataGridColumn TItem="Brand" Property="BrandName" Title="品牌名称" />
+                        <RadzenDataGridColumn TItem="Brand" Property="Status" Title="状态" Width="100px">
+                            <Template Context="brand">
+                                <RadzenBadge BadgeStyle="@(brand.Status == "1" ? BadgeStyle.Success : BadgeStyle.Danger)" 
+                                             Text="@(brand.Status == "1" ? "正常" : "已删除")" />
+                            </Template>
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="Brand" Title="操作" Width="200px" Sortable="false" Filterable="false">
+                            <Template Context="brand">
+                                <RadzenStack Orientation="Orientation.Horizontal" Gap="0.5rem">
+                                    <RadzenButton ButtonStyle="ButtonStyle.Info" Size="ButtonSize.Small" Icon="edit" 
+                                                  Click="@(() => OpenEditDialog(brand))" />
+                                    <RadzenButton ButtonStyle="ButtonStyle.Danger" Size="ButtonSize.Small" Icon="delete" 
+                                                  Click="@(() => DeleteBrand(brand.BrandId))" />
+                                </RadzenStack>
+                            </Template>
+                        </RadzenDataGridColumn>
+                    </Columns>
+                </RadzenDataGrid>
+            </RadzenCard>
+        </RadzenColumn>
+    </RadzenRow>
+</RadzenStack>
+
+@code {
+    private RadzenDataGrid<Brand> brandsGrid;
+    private IQueryable<Brand> brands;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadBrands();
+    }
+
+    private async Task LoadBrands()
+    {
+        brands = await CarService.GetBrandsAsync();
+    }
+
+    private async Task OpenAddDialog()
+    {
+        var result = await DialogService.OpenAsync<BrandDialog>("新增品牌", new Dictionary<string, object>
+        {
+            { "Brand", new Brand() }
+        });
+
+        if (result == true)
+        {
+            await LoadBrands();
+            await brandsGrid.Reload();
+        }
+    }
+
+    private async Task OpenEditDialog(Brand brand)
+    {
+        var result = await DialogService.OpenAsync<BrandDialog>("编辑品牌", new Dictionary<string, object>
+        {
+            { "Brand", brand }
+        });
+
+        if (result == true)
+        {
+            await LoadBrands();
+            await brandsGrid.Reload();
+        }
+    }
+
+    private async Task DeleteBrand(int brandId)
+    {
+        var confirm = await DialogService.Confirm("确定要删除这个品牌吗？", "确认删除", new ConfirmOptions
+        {
+            OkButtonText = "确定",
+            CancelButtonText = "取消"
+        });
+
+        if (confirm == true)
+        {
+            await CarService.DeleteBrandAsync(brandId);
+            await LoadBrands();
+            await brandsGrid.Reload();
+        }
+    }
+}】
+
+Components\Pages\Index.razor：【@page "/"
+@using CarSaleSystem.Services
+@using CarSaleSystem.Models
+@inject CarSaleService CarService
+@inject IJSRuntime JSRuntime
+
+<PageTitle>汽车销售管理系统</PageTitle>
+
+<RadzenStack Gap="2rem">
+    <RadzenRow>
+        <RadzenColumn Size="12">
+            <RadzenCard>
+                <RadzenText TextStyle="TextStyle.H3" TagName="TagName.H1" class="text-center">
+                    🚗 汽车销售管理系统
+                </RadzenText>
+                <RadzenText TextStyle="TextStyle.Subtitle1" class="text-center text-muted">
+                    欢迎使用汽车销售后台管理系统
+                </RadzenText>
+            </RadzenCard>
+        </RadzenColumn>
+    </RadzenRow>
+
+    <RadzenRow>
+        <RadzenColumn Size="12" SizeMD="3">
+            <RadzenCard class="dashboard-card" Style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Gap="1rem">
+                    <RadzenIcon Icon="directions_car" Style="font-size: 2rem;" />
+                    <RadzenStack Gap="0.5rem">
+                        <RadzenText TextStyle="TextStyle.H6">总车辆数</RadzenText>
+                        <RadzenText TextStyle="TextStyle.H4">@totalCars</RadzenText>
+                    </RadzenStack>
+                </RadzenStack>
+            </RadzenCard>
+        </RadzenColumn>
+
+        <RadzenColumn Size="12" SizeMD="3">
+            <RadzenCard class="dashboard-card" Style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white;">
+                <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Gap="1rem">
+                    <RadzenIcon Icon="people" Style="font-size: 2rem;" />
+                    <RadzenStack Gap="0.5rem">
+                        <RadzenText TextStyle="TextStyle.H6">总客户数</RadzenText>
+                        <RadzenText TextStyle="TextStyle.H4">@totalCustomers</RadzenText>
+                    </RadzenStack>
+                </RadzenStack>
+            </RadzenCard>
+        </RadzenColumn>
+
+        <RadzenColumn Size="12" SizeMD="3">
+            <RadzenCard class="dashboard-card" Style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white;">
+                <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Gap="1rem">
+                    <RadzenIcon Icon="shopping_cart" Style="font-size: 2rem;" />
+                    <RadzenStack Gap="0.5rem">
+                        <RadzenText TextStyle="TextStyle.H6">总订单数</RadzenText>
+                        <RadzenText TextStyle="TextStyle.H4">@totalOrders</RadzenText>
+                    </RadzenStack>
+                </RadzenStack>
+            </RadzenCard>
+        </RadzenColumn>
+
+        <RadzenColumn Size="12" SizeMD="3">
+            <RadzenCard class="dashboard-card" Style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); color: white;">
+                <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Gap="1rem">
+                    <RadzenIcon Icon="store" Style="font-size: 2rem;" />
+                    <RadzenStack Gap="0.5rem">
+                        <RadzenText TextStyle="TextStyle.H6">门店数量</RadzenText>
+                        <RadzenText TextStyle="TextStyle.H4">@totalShops</RadzenText>
+                    </RadzenStack>
+                </RadzenStack>
+            </RadzenCard>
+        </RadzenColumn>
+    </RadzenRow>
+
+    <RadzenRow>
+        <RadzenColumn Size="12">
+            <RadzenCard>
+                <RadzenText TextStyle="TextStyle.H5" class="mb-3">📊 快速操作</RadzenText>
+                <RadzenStack Orientation="Orientation.Horizontal" Gap="1rem" Wrap="FlexWrap.Wrap">
+                    <RadzenButton ButtonStyle="ButtonStyle.Primary" Icon="add" Text="新增车辆" Click="@(() => NavigateToPage("/cars"))" />
+                    <RadzenButton ButtonStyle="ButtonStyle.Success" Icon="person_add" Text="新增客户" Click="@(() => NavigateToPage("/customers"))" />
+                    <RadzenButton ButtonStyle="ButtonStyle.Info" Icon="receipt" Text="查看订单" Click="@(() => NavigateToPage("/orders"))" />
+                    <RadzenButton ButtonStyle="ButtonStyle.Warning" Icon="store" Text="管理门店" Click="@(() => NavigateToPage("/carshops"))" />
+                </RadzenStack>
+            </RadzenCard>
+        </RadzenColumn>
+    </RadzenRow>
+</RadzenStack>
+
+<style>
+    .dashboard-card {
+        transition: transform 0.2s;
+    }
+    .dashboard-card:hover {
+        transform: translateY(-2px);
+    }
+    .text-center {
+        text-align: center;
+    }
+    .text-muted {
+        opacity: 0.7;
+    }
+    .mb-3 {
+        margin-bottom: 1rem;
+    }
+</style>
+
+@code {
+    private int totalCars = 0;
+    private int totalCustomers = 0;
+    private int totalOrders = 0;
+    private int totalShops = 0;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadStatistics();
+    }
+
+    private async Task LoadStatistics()
+    {
+        var cars = await CarService.GetCarsAsync();
+        totalCars = cars.Count();
+
+        var customers = await CarService.GetCustomersAsync();
+        totalCustomers = customers.Count();
+
+        var orders = await CarService.GetOrdersAsync();
+        totalOrders = orders.Count();
+
+        var shops = await CarService.GetCarShopsAsync();
+        totalShops = shops.Count();
+    }
+
+    private async Task NavigateToPage(string url)
+    {
+        await JSRuntime.InvokeVoidAsync("open", url, "_self");
+    }
+}】
+
+Data\CarSaleContext.cs：【using Microsoft.EntityFrameworkCore;
+using CarSaleSystem.Models;
+
+namespace CarSaleSystem.Data
+{
+    public class CarSaleContext : DbContext
+    {
+        public CarSaleContext(DbContextOptions<CarSaleContext> options) : base(options) { }
+
+        public DbSet<Brand> Brands { get; set; }
+        public DbSet<Series> Series { get; set; }
+        public DbSet<Car> Cars { get; set; }
+        public DbSet<Customer> Customers { get; set; }
+        public DbSet<Employee> Employees { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderDetails> OrderDetails { get; set; }
+        public DbSet<CarShop> CarShops { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            // 配置表名映射到数据库中的实际表名
+            modelBuilder.Entity<Brand>().ToTable("brand");
+            modelBuilder.Entity<Series>().ToTable("series");
+            modelBuilder.Entity<Car>().ToTable("car");
+            modelBuilder.Entity<Customer>().ToTable("customer");
+            modelBuilder.Entity<Employee>().ToTable("employee");
+            modelBuilder.Entity<Order>().ToTable("order");
+            modelBuilder.Entity<OrderDetails>().ToTable("order_details");
+            modelBuilder.Entity<CarShop>().ToTable("carshop");
+
+            // 配置主键
+            modelBuilder.Entity<Brand>()
+                .HasKey(b => b.BrandId);
+            modelBuilder.Entity<Brand>()
+                .Property(b => b.BrandId)
+                .HasColumnName("brand_id");
+            modelBuilder.Entity<Brand>()
+                .Property(b => b.BrandName)
+                .HasColumnName("brand_name");
+
+            modelBuilder.Entity<Series>()
+                .HasKey(s => s.SeriesId);
+            modelBuilder.Entity<Series>()
+                .Property(s => s.SeriesId)
+                .HasColumnName("series_id");
+            modelBuilder.Entity<Series>()
+                .Property(s => s.BrandId)
+                .HasColumnName("brand_id");
+            modelBuilder.Entity<Series>()
+                .Property(s => s.SeriesName)
+                .HasColumnName("series_name");
+
+            modelBuilder.Entity<Car>()
+                .Property(c => c.SeriesId)
+                .HasColumnName("series_id");
+            modelBuilder.Entity<Car>()
+                .Property(c => c.Type)
+                .HasColumnName("type");
+            modelBuilder.Entity<Car>()
+                .Property(c => c.Color)
+                .HasColumnName("color");
+            modelBuilder.Entity<Car>()
+                .Property(c => c.Price)
+                .HasColumnName("price");
+            modelBuilder.Entity<Car>()
+                .Property(c => c.SalePrice)
+                .HasColumnName("sale_price");
+            modelBuilder.Entity<Car>()
+                .Property(c => c.Repertory)
+                .HasColumnName("repertory");
+            modelBuilder.Entity<Car>()
+                .Property(c => c.CreateTime)
+                .HasColumnName("create_time");
+            modelBuilder.Entity<Car>()
+                .Property(c => c.Status)
+                .HasColumnName("status");
+
+            modelBuilder.Entity<Customer>()
+                .Property(c => c.Name)
+                .HasColumnName("name");
+            modelBuilder.Entity<Customer>()
+                .Property(c => c.Phone)
+                .HasColumnName("phone");
+            modelBuilder.Entity<Customer>()
+                .Property(c => c.IdCard)
+                .HasColumnName("id_card");
+            modelBuilder.Entity<Customer>()
+                .Property(c => c.CreateTime)
+                .HasColumnName("create_time");
+
+            modelBuilder.Entity<Employee>()
+                .Property(e => e.Role)
+                .HasColumnName("role");
+            modelBuilder.Entity<Employee>()
+                .Property(e => e.Name)
+                .HasColumnName("name");
+            modelBuilder.Entity<Employee>()
+                .Property(e => e.Password)
+                .HasColumnName("password");
+            modelBuilder.Entity<Employee>()
+                .Property(e => e.IdCard)
+                .HasColumnName("id_card");
+            modelBuilder.Entity<Employee>()
+                .Property(e => e.Phone)
+                .HasColumnName("phone");
+            modelBuilder.Entity<Employee>()
+                .Property(e => e.Gender)
+                .HasColumnName("gender");
+            modelBuilder.Entity<Employee>()
+                .Property(e => e.Salary)
+                .HasColumnName("salary");
+            modelBuilder.Entity<Employee>()
+                .Property(e => e.EntryTime)
+                .HasColumnName("entry_time");
+            modelBuilder.Entity<Employee>()
+                .Property(e => e.Status)
+                .HasColumnName("status");
+
+            modelBuilder.Entity<Order>()
+                .Property(o => o.CustomerId)
+                .HasColumnName("customer_id");
+            modelBuilder.Entity<Order>()
+                .Property(o => o.EmployeeId)
+                .HasColumnName("employee_id");
+            modelBuilder.Entity<Order>()
+                .Property(o => o.TotalPrice)
+                .HasColumnName("total_price");
+            modelBuilder.Entity<Order>()
+                .Property(o => o.Status)
+                .HasColumnName("status");
+            modelBuilder.Entity<Order>()
+                .Property(o => o.CreateTime)
+                .HasColumnName("create_time");
+            modelBuilder.Entity<Order>()
+                .Property(o => o.PayTime)
+                .HasColumnName("pay_time");
+            modelBuilder.Entity<Order>()
+                .Property(o => o.UpdateTime)
+                .HasColumnName("update_time");
+
+            modelBuilder.Entity<OrderDetails>()
+                .Property(od => od.OrderId)
+                .HasColumnName("order_id");
+            modelBuilder.Entity<OrderDetails>()
+                .Property(od => od.CarId)
+                .HasColumnName("car_id");
+            modelBuilder.Entity<OrderDetails>()
+                .Property(od => od.CarNumber)
+                .HasColumnName("car_number");
+
+            modelBuilder.Entity<CarShop>()
+                .Property(cs => cs.Name)
+                .HasColumnName("name");
+            modelBuilder.Entity<CarShop>()
+                .Property(cs => cs.Address)
+                .HasColumnName("address");
+            modelBuilder.Entity<CarShop>()
+                .Property(cs => cs.Phone)
+                .HasColumnName("phone");
+            modelBuilder.Entity<CarShop>()
+                .Property(cs => cs.BusinessHours)
+                .HasColumnName("business_hours");
+            modelBuilder.Entity<CarShop>()
+                .Property(cs => cs.Latitude)
+                .HasColumnName("latitude");
+            modelBuilder.Entity<CarShop>()
+                .Property(cs => cs.Longitude)
+                .HasColumnName("longitude");
+            modelBuilder.Entity<CarShop>()
+                .Property(cs => cs.CreatedTime)
+                .HasColumnName("created_time");
+            modelBuilder.Entity<CarShop>()
+                .Property(cs => cs.UpdatedTime)
+                .HasColumnName("updated_time");
+            modelBuilder.Entity<CarShop>()
+                .Property(cs => cs.Brand)
+                .HasColumnName("brand");
+
+            // 配置索引
+            modelBuilder.Entity<Brand>()
+                .HasIndex(b => b.BrandName)
+                .IsUnique();
+
+            modelBuilder.Entity<Customer>()
+                .HasIndex(c => c.Phone)
+                .IsUnique();
+
+            modelBuilder.Entity<Customer>()
+                .HasIndex(c => c.IdCard)
+                .IsUnique();
+
+            modelBuilder.Entity<Employee>()
+                .HasIndex(e => e.Phone)
+                .IsUnique();
+
+            modelBuilder.Entity<Employee>()
+                .HasIndex(e => e.IdCard)
+                .IsUnique();
+
+            // 配置外键关系
+            modelBuilder.Entity<Series>()
+                .HasOne(s => s.Brand)
+                .WithMany(b => b.Series)
+                .HasForeignKey(s => s.BrandId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Car>()
+                .HasOne(c => c.Series)
+                .WithMany(s => s.Cars)
+                .HasForeignKey(c => c.SeriesId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Order>()
+                .HasOne(o => o.Customer)
+                .WithMany(c => c.Orders)
+                .HasForeignKey(o => o.CustomerId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Order>()
+                .HasOne(o => o.Employee)
+                .WithMany(e => e.Orders)
+                .HasForeignKey(o => o.EmployeeId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<OrderDetails>()
+                .HasOne(od => od.Order)
+                .WithMany(o => o.OrderDetails)
+                .HasForeignKey(od => od.OrderId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<OrderDetails>()
+                .HasOne(od => od.Car)
+                .WithMany(c => c.OrderDetails)
+                .HasForeignKey(od => od.CarId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            base.OnModelCreating(modelBuilder);
+        }
+    }
+}】
+
+Models\Entities.cs：【using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace CarSaleSystem.Models
+{
+    public class Brand
+    {
+        [Key]
+        public int BrandId { get; set; }
+        
+        [Required, MaxLength(16)]
+        public string BrandName { get; set; }
+        
+        [MaxLength(1)]
+        public string Status { get; set; } = "1";
+        
+        public List<Series> Series { get; set; } = new();
+    }
+
+    public class Series
+    {
+        [Key]
+        public int SeriesId { get; set; }
+        
+        [Required]
+        public int BrandId { get; set; }
+        
+        [Required, MaxLength(16)]
+        public string SeriesName { get; set; }
+        
+        [MaxLength(1)]
+        public string Status { get; set; } = "1";
+        
+        [ForeignKey("BrandId")]
+        public Brand Brand { get; set; }
+        
+        public List<Car> Cars { get; set; } = new();
+    }
+
+    public class Car
+    {
+        [Key]
+        public long Id { get; set; }
+        
+        [Required]
+        public int SeriesId { get; set; }
+        
+        [Required, MaxLength(32)]
+        public string Type { get; set; }
+        
+        [Required, MaxLength(16)]
+        public string Color { get; set; }
+        
+        [Column(TypeName = "decimal(12,2)")]
+        public decimal Price { get; set; }
+        
+        [Column(TypeName = "decimal(12,2)")]
+        public decimal SalePrice { get; set; }
+        
+        public int Repertory { get; set; }
+        
+        public DateTime CreateTime { get; set; } = DateTime.Now;
+        
+        [MaxLength(1)]
+        public string Status { get; set; } = "1";
+        
+        [ForeignKey("SeriesId")]
+        public Series Series { get; set; }
+        
+        public List<OrderDetails> OrderDetails { get; set; } = new();
+    }
+
+    public class Customer
+    {
+        [Key]
+        public long Id { get; set; }
+        
+        [MaxLength(10)]
+        public string Name { get; set; }
+        
+        [MaxLength(11)]
+        public string Phone { get; set; }
+        
+        [MaxLength(20)]
+        public string IdCard { get; set; }
+        
+        public DateTime CreateTime { get; set; } = DateTime.Now;
+        
+        public List<Order> Orders { get; set; } = new();
+    }
+
+    public class Employee
+    {
+        [Key]
+        public int Id { get; set; }
+        
+        [MaxLength(1)]
+        public string Role { get; set; } // 0:经理, 1:销售
+        
+        [MaxLength(10)]
+        public string Name { get; set; }
+        
+        [MaxLength(20)]
+        public string Password { get; set; }
+        
+        [MaxLength(20)]
+        public string IdCard { get; set; }
+        
+        [MaxLength(11)]
+        public string Phone { get; set; }
+        
+        [MaxLength(1)]
+        public string Gender { get; set; }
+        
+        [Column(TypeName = "decimal(12,2)")]
+        public decimal? Salary { get; set; }
+        
+        public DateTime? EntryTime { get; set; }
+        
+        [MaxLength(1)]
+        public string Status { get; set; } = "1";
+        
+        public List<Order> Orders { get; set; } = new();
+    }
+
+    public class Order
+    {
+        [Key]
+        public long Id { get; set; }
+        
+        [Required]
+        public long CustomerId { get; set; }
+        
+        [Required]
+        public int EmployeeId { get; set; }
+        
+        [Column(TypeName = "decimal(20,2)")]
+        public decimal TotalPrice { get; set; }
+        
+        [MaxLength(1)]
+        public string Status { get; set; } // 0:未支付, 1:已支付, 2:已取消
+        
+        public DateTime CreateTime { get; set; } = DateTime.Now;
+        
+        public DateTime? PayTime { get; set; }
+        
+        public DateTime UpdateTime { get; set; } = DateTime.Now;
+        
+        [ForeignKey("CustomerId")]
+        public Customer Customer { get; set; }
+        
+        [ForeignKey("EmployeeId")]
+        public Employee Employee { get; set; }
+        
+        public List<OrderDetails> OrderDetails { get; set; } = new();
+    }
+
+    public class OrderDetails
+    {
+        [Key, MaxLength(16)]
+        public string Id { get; set; }
+        
+        [Required]
+        public long OrderId { get; set; }
+        
+        [Required]
+        public long CarId { get; set; }
+        
+        public int CarNumber { get; set; }
+        
+        [ForeignKey("OrderId")]
+        public Order Order { get; set; }
+        
+        [ForeignKey("CarId")]
+        public Car Car { get; set; }
+    }
+
+    public class CarShop
+    {
+        [Key]
+        public int Id { get; set; }
+        
+        [Required, MaxLength(50)]
+        public string Name { get; set; }
+        
+        [Required, MaxLength(100)]
+        public string Address { get; set; }
+        
+        [Required, MaxLength(20)]
+        public string Phone { get; set; }
+        
+        [Required, MaxLength(50)]
+        public string BusinessHours { get; set; }
+        
+        [Column(TypeName = "decimal(10,6)")]
+        public decimal Latitude { get; set; }
+        
+        [Column(TypeName = "decimal(10,6)")]
+        public decimal Longitude { get; set; }
+        
+        public DateTime CreatedTime { get; set; } = DateTime.Now;
+        
+        public DateTime UpdatedTime { get; set; } = DateTime.Now;
+        
+        [MaxLength(255)]
+        public string Brand { get; set; }
+    }
+}】
+
+Services\CarSaleService.cs：【using Microsoft.EntityFrameworkCore;
+using CarSaleSystem.Data;
+using CarSaleSystem.Models;
+using Radzen;
+
+namespace CarSaleSystem.Services
+{
+    public class CarSaleService
+    {
+        private readonly CarSaleContext _context;
+        private readonly NotificationService _notificationService;
+
+        public CarSaleService(CarSaleContext context, NotificationService notificationService)
+        {
+            _context = context;
+            _notificationService = notificationService;
+        }
+
+        // Brand Services
+        public async Task<IQueryable<Brand>> GetBrandsAsync()
+        {
+            return _context.Brands.Where(b => b.Status == "1");
+        }
+
+        public async Task<Brand> CreateBrandAsync(Brand brand)
+        {
+            _context.Brands.Add(brand);
+            await _context.SaveChangesAsync();
+            _notificationService.Notify(NotificationSeverity.Success, "成功", "品牌创建成功");
+            return brand;
+        }
+
+        public async Task<Brand> UpdateBrandAsync(Brand brand)
+        {
+            _context.Entry(brand).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            _notificationService.Notify(NotificationSeverity.Success, "成功", "品牌更新成功");
+            return brand;
+        }
+
+        public async Task DeleteBrandAsync(int id)
+        {
+            var brand = await _context.Brands.FindAsync(id);
+            if (brand != null)
+            {
+                brand.Status = "0";
+                await _context.SaveChangesAsync();
+                _notificationService.Notify(NotificationSeverity.Success, "成功", "品牌删除成功");
+            }
+        }
+
+        // Series Services
+        public async Task<IQueryable<Series>> GetSeriesAsync()
+        {
+            return _context.Series.Include(s => s.Brand).Where(s => s.Status == "1");
+        }
+
+        public async Task<Series> CreateSeriesAsync(Series series)
+        {
+            _context.Series.Add(series);
+            await _context.SaveChangesAsync();
+            _notificationService.Notify(NotificationSeverity.Success, "成功", "车系创建成功");
+            return series;
+        }
+
+        public async Task<Series> UpdateSeriesAsync(Series series)
+        {
+            _context.Entry(series).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            _notificationService.Notify(NotificationSeverity.Success, "成功", "车系更新成功");
+            return series;
+        }
+
+        public async Task DeleteSeriesAsync(int id)
+        {
+            var series = await _context.Series.FindAsync(id);
+            if (series != null)
+            {
+                series.Status = "0";
+                await _context.SaveChangesAsync();
+                _notificationService.Notify(NotificationSeverity.Success, "成功", "车系删除成功");
+            }
+        }
+
+        // Car Services
+        public async Task<IQueryable<Car>> GetCarsAsync()
+        {
+            return _context.Cars.Include(c => c.Series).ThenInclude(s => s.Brand).Where(c => c.Status != "0");
+        }
+
+        public async Task<Car> CreateCarAsync(Car car)
+        {
+            _context.Cars.Add(car);
+            await _context.SaveChangesAsync();
+            _notificationService.Notify(NotificationSeverity.Success, "成功", "车辆创建成功");
+            return car;
+        }
+
+        public async Task<Car> UpdateCarAsync(Car car)
+        {
+            _context.Entry(car).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            _notificationService.Notify(NotificationSeverity.Success, "成功", "车辆更新成功");
+            return car;
+        }
+
+        public async Task DeleteCarAsync(long id)
+        {
+            var car = await _context.Cars.FindAsync(id);
+            if (car != null)
+            {
+                car.Status = "0";
+                await _context.SaveChangesAsync();
+                _notificationService.Notify(NotificationSeverity.Success, "成功", "车辆删除成功");
+            }
+        }
+
+        // Customer Services
+        public async Task<IQueryable<Customer>> GetCustomersAsync()
+        {
+            return _context.Customers.AsQueryable();
+        }
+
+        public async Task<Customer> CreateCustomerAsync(Customer customer)
+        {
+            _context.Customers.Add(customer);
+            await _context.SaveChangesAsync();
+            _notificationService.Notify(NotificationSeverity.Success, "成功", "客户创建成功");
+            return customer;
+        }
+
+        public async Task<Customer> UpdateCustomerAsync(Customer customer)
+        {
+            _context.Entry(customer).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            _notificationService.Notify(NotificationSeverity.Success, "成功", "客户更新成功");
+            return customer;
+        }
+
+        public async Task DeleteCustomerAsync(long id)
+        {
+            var customer = await _context.Customers.FindAsync(id);
+            if (customer != null)
+            {
+                _context.Customers.Remove(customer);
+                await _context.SaveChangesAsync();
+                _notificationService.Notify(NotificationSeverity.Success, "成功", "客户删除成功");
+            }
+        }
+
+        // Employee Services
+        public async Task<IQueryable<Employee>> GetEmployeesAsync()
+        {
+            return _context.Employees.Where(e => e.Status == "1");
+        }
+
+        public async Task<Employee> CreateEmployeeAsync(Employee employee)
+        {
+            _context.Employees.Add(employee);
+            await _context.SaveChangesAsync();
+            _notificationService.Notify(NotificationSeverity.Success, "成功", "员工创建成功");
+            return employee;
+        }
+
+        public async Task<Employee> UpdateEmployeeAsync(Employee employee)
+        {
+            _context.Entry(employee).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            _notificationService.Notify(NotificationSeverity.Success, "成功", "员工更新成功");
+            return employee;
+        }
+
+        public async Task DeleteEmployeeAsync(int id)
+        {
+            var employee = await _context.Employees.FindAsync(id);
+            if (employee != null)
+            {
+                employee.Status = "0";
+                await _context.SaveChangesAsync();
+                _notificationService.Notify(NotificationSeverity.Success, "成功", "员工删除成功");
+            }
+        }
+
+        // Order Services
+        public async Task<IQueryable<Order>> GetOrdersAsync()
+        {
+            return _context.Orders
+                .Include(o => o.Customer)
+                .Include(o => o.Employee)
+                .Include(o => o.OrderDetails)
+                .ThenInclude(od => od.Car);
+        }
+
+        public async Task<Order> CreateOrderAsync(Order order)
+        {
+            _context.Orders.Add(order);
+            await _context.SaveChangesAsync();
+            _notificationService.Notify(NotificationSeverity.Success, "成功", "订单创建成功");
+            return order;
+        }
+
+        public async Task<Order> UpdateOrderAsync(Order order)
+        {
+            order.UpdateTime = DateTime.Now;
+            _context.Entry(order).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            _notificationService.Notify(NotificationSeverity.Success, "成功", "订单更新成功");
+            return order;
+        }
+
+        // CarShop Services
+        public async Task<IQueryable<CarShop>> GetCarShopsAsync()
+        {
+            return _context.CarShops.AsQueryable();
+        }
+
+        public async Task<CarShop> CreateCarShopAsync(CarShop carShop)
+        {
+            _context.CarShops.Add(carShop);
+            await _context.SaveChangesAsync();
+            _notificationService.Notify(NotificationSeverity.Success, "成功", "门店创建成功");
+            return carShop;
+        }
+
+        public async Task<CarShop> UpdateCarShopAsync(CarShop carShop)
+        {
+            carShop.UpdatedTime = DateTime.Now;
+            _context.Entry(carShop).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            _notificationService.Notify(NotificationSeverity.Success, "成功", "门店更新成功");
+            return carShop;
+        }
+
+        public async Task DeleteCarShopAsync(int id)
+        {
+            var carShop = await _context.CarShops.FindAsync(id);
+            if (carShop != null)
+            {
+                _context.CarShops.Remove(carShop);
+                await _context.SaveChangesAsync();
+                _notificationService.Notify(NotificationSeverity.Success, "成功", "门店删除成功");
+            }
+        }
+    }
+}】
+

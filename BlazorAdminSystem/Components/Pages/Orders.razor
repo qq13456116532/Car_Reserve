@@ -1,0 +1,117 @@
+@page "/orders"
+@using CarSaleSystem.Services
+@using CarSaleSystem.Models
+@inject CarSaleService CarService
+@inject DialogService DialogService
+@inject NotificationService NotificationService
+
+<PageTitle>订单管理</PageTitle>
+
+<RadzenStack Gap="1rem">
+    <RadzenRow>
+        <RadzenColumn Size="12">
+            <RadzenCard>
+                <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.SpaceBetween">
+                    <RadzenText TextStyle="TextStyle.H4" TagName="TagName.H1">🛒 订单管理</RadzenText>
+                </RadzenStack>
+            </RadzenCard>
+        </RadzenColumn>
+    </RadzenRow>
+
+    <RadzenRow>
+        <RadzenColumn Size="12">
+            <RadzenCard>
+                <RadzenDataGrid @ref="ordersGrid" Data="@orders" TItem="Order" AllowSorting="true" AllowFiltering="true" 
+                                FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="10"
+                                ExpandMode="DataGridExpandMode.Single">
+                    <Template Context="order">
+                        <RadzenCard>
+                            <RadzenText TextStyle="TextStyle.H6">订单详情 (ID: @order.Id)</RadzenText>
+                            <RadzenDataGrid Data="@order.OrderDetails" TItem="OrderDetails" AllowPaging="false" AllowSorting="false" AllowFiltering="false" ShowPagingSummary="false">
+                                <Columns>
+                                    <RadzenDataGridColumn TItem="OrderDetails" Property="Car.Type" Title="车型" />
+                                    <RadzenDataGridColumn TItem="OrderDetails" Property="Car.Color" Title="颜色" />
+                                    <RadzenDataGridColumn TItem="OrderDetails" Property="CarNumber" Title="数量" />
+                                    <RadzenDataGridColumn TItem="OrderDetails" Property="Car.SalePrice" Title="单价">
+                                        <Template Context="detail">
+                                            @detail.Car.SalePrice.ToString("C")
+                                        </Template>
+                                    </RadzenDataGridColumn>
+                                </Columns>
+                            </RadzenDataGrid>
+                        </RadzenCard>
+                    </Template>
+                    <Columns>
+                        <RadzenDataGridColumn TItem="Order" Property="Id" Title="订单号" Width="100px" />
+                        <RadzenDataGridColumn TItem="Order" Property="Customer.Name" Title="客户" Width="150px" />
+                        <RadzenDataGridColumn TItem="Order" Property="Employee.Name" Title="负责员工" Width="150px" />
+                        <RadzenDataGridColumn TItem="Order" Property="TotalPrice" Title="总价" Width="150px">
+                            <Template Context="order">
+                                @order.TotalPrice.ToString("C")
+                            </Template>
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="Order" Property="Status" Title="状态" Width="120px" TextAlign="TextAlign.Center">
+                            <Template Context="order">
+                                <RadzenBadge BadgeStyle="@GetStatusBadge(order.Status)" Text="@GetStatusText(order.Status)" />
+                            </Template>
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="Order" Property="CreateTime" Title="创建时间" Width="180px" FormatString="{0:yyyy-MM-dd HH:mm}" />
+                        <RadzenDataGridColumn TItem="Order" Property="PayTime" Title="支付时间" Width="180px" FormatString="{0:yyyy-MM-dd HH:mm}" />
+                        <RadzenDataGridColumn TItem="Order" Title="操作" Width="100px" Sortable="false" Filterable="false" TextAlign="TextAlign.Center">
+                            <Template Context="order">
+                                <RadzenButton ButtonStyle="ButtonStyle.Info" Size="ButtonSize.Small" Icon="edit" 
+                                              Click="@(() => OpenEditDialog(order))" />
+                            </Template>
+                        </RadzenDataGridColumn>
+                    </Columns>
+                </RadzenDataGrid>
+            </RadzenCard>
+        </RadzenColumn>
+    </RadzenRow>
+</RadzenStack>
+
+@code {
+    private RadzenDataGrid<Order> ordersGrid;
+    private IQueryable<Order> orders;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadOrders();
+    }
+
+    private async Task LoadOrders()
+    {
+        orders = await CarService.GetOrdersAsync();
+    }
+
+    private async Task OpenEditDialog(Order order)
+    {
+        var result = await DialogService.OpenAsync<OrderDialog>("更新订单状态", new Dictionary<string, object>
+        {
+            { "Order", order }
+        });
+
+        if (result is Order updatedOrder)
+        {
+            await CarService.UpdateOrderAsync(updatedOrder);
+            await LoadOrders();
+            await ordersGrid.Reload();
+        }
+    }
+    
+    private string GetStatusText(string status) => status switch
+    {
+        "0" => "未支付",
+        "1" => "已支付",
+        "2" => "已取消",
+        _ => "未知"
+    };
+
+    private BadgeStyle GetStatusBadge(string status) => status switch
+    {
+        "0" => BadgeStyle.Warning,
+        "1" => BadgeStyle.Success,
+        "2" => BadgeStyle.Light,
+        _ => BadgeStyle.Secondary
+    };
+}

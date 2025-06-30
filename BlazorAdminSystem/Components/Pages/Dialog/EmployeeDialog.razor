@@ -1,0 +1,83 @@
+@using CarSaleSystem.Models
+@inject DialogService DialogService
+
+<RadzenTemplateForm TItem="Employee" Data="@Employee" Submit="@OnSubmit">
+    <RadzenStack Gap="1.5rem">
+        <RadzenFormField Text="员工姓名" Variant="Variant.Outlined">
+            <RadzenTextBox @bind-Value="@Employee.Name" Name="Name" />
+            <RadzenRequiredValidator Component="Name" Text="员工姓名不能为空" />
+        </RadzenFormField>
+
+        <RadzenFormField Text="密码" Variant="Variant.Outlined">
+            <RadzenPassword @bind-Value="@Employee.Password" Name="Password" Placeholder="@(Employee.Id == 0 ? "请输入密码" : "留空则不修改")" />
+            @if (Employee.Id == 0)
+            {
+                <RadzenRequiredValidator Component="Password" Text="初始密码不能为空" />
+            }
+        </RadzenFormField>
+        
+        <RadzenFormField Text="角色" Variant="Variant.Outlined">
+            <RadzenDropDown @bind-Value="@Employee.Role" Data="@roleOptions" TextProperty="Text" ValueProperty="Value" Name="Role" />
+            <RadzenRequiredValidator Component="Role" Text="必须选择一个角色" />
+        </RadzenFormField>
+
+        <RadzenFormField Text="性别" Variant="Variant.Outlined">
+            <RadzenDropDown @bind-Value="@Employee.Gender" Data="@genderOptions" TextProperty="Text" ValueProperty="Value" Name="Gender" />
+             <RadzenRequiredValidator Component="Gender" Text="必须选择性别" />
+        </RadzenFormField>
+
+        <RadzenFormField Text="电话号码" Variant="Variant.Outlined">
+            <RadzenTextBox @bind-Value="@Employee.Phone" Name="Phone" />
+            <RadzenRequiredValidator Component="Phone" Text="电话号码不能为空" />
+        </RadzenFormField>
+
+        <RadzenFormField Text="身份证号" Variant="Variant.Outlined">
+            <RadzenTextBox @bind-Value="@Employee.IdCard" Name="IdCard" />
+            <RadzenRequiredValidator Component="IdCard" Text="身份证号不能为空" />
+        </RadzenFormField>
+
+        <RadzenFormField Text="薪水" Variant="Variant.Outlined">
+            <RadzenNumeric TValue="decimal?" @bind-Value="@Employee.Salary" Name="Salary" Format="c" />
+        </RadzenFormField>
+
+        <RadzenFormField Text="入职时间" Variant="Variant.Outlined">
+            <RadzenDatePicker @bind-Value="@Employee.EntryTime" Name="EntryTime" DateFormat="yyyy-MM-dd" />
+        </RadzenFormField>
+
+        <RadzenFormField Text="状态" Variant="Variant.Outlined">
+            <RadzenDropDown @bind-Value="@Employee.Status" Data="@statusOptions" TextProperty="Text" ValueProperty="Value" />
+        </RadzenFormField>
+        
+        <RadzenStack Orientation="Orientation.Horizontal" Gap="1rem" JustifyContent="JustifyContent.End">
+            <RadzenButton ButtonStyle="ButtonStyle.Secondary" Text="取消" Click="@(() => DialogService.Close(false))" />
+            <RadzenButton ButtonStyle="ButtonStyle.Primary" Text="保存" ButtonType="ButtonType.Submit" />
+        </RadzenStack>
+    </RadzenStack>
+</RadzenTemplateForm>
+
+@code {
+    [Parameter] public Employee Employee { get; set; }
+
+    private List<object> roleOptions = new()
+    {
+        new { Text = "经理", Value = "0" },
+        new { Text = "销售", Value = "1" }
+    };
+
+    private List<object> genderOptions = new()
+    {
+        new { Text = "男", Value = "0" },
+        new { Text = "女", Value = "1" }
+    };
+
+    private List<object> statusOptions = new()
+    {
+        new { Text = "在职", Value = "1" },
+        new { Text = "离职", Value = "0" }
+    };
+    
+    private void OnSubmit()
+    {
+        DialogService.Close(Employee);
+    }
+}

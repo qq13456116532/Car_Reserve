@@ -1,0 +1,136 @@
+@page "/cars"
+@using CarSaleSystem.Services
+@using CarSaleSystem.Models
+@inject CarSaleService CarService
+@inject DialogService DialogService
+
+<PageTitle>车辆管理</PageTitle>
+
+<RadzenStack Gap="1rem">
+    <RadzenRow>
+        <RadzenColumn Size="12">
+            <RadzenCard>
+                <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.SpaceBetween">
+                    <RadzenText TextStyle="TextStyle.H4" TagName="TagName.H1">🚗 车辆管理</RadzenText>
+                    <RadzenButton ButtonStyle="ButtonStyle.Primary" Icon="add" Text="新增车辆" Click="@OpenAddDialog" />
+                </RadzenStack>
+            </RadzenCard>
+        </RadzenColumn>
+    </RadzenRow>
+
+    <RadzenRow>
+        <RadzenColumn Size="12">
+            <RadzenCard>
+                <RadzenDataGrid @ref="carsGrid" Data="@cars" TItem="Car" AllowSorting="true" AllowFiltering="true" 
+                                FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="10">
+                    <Columns>
+                        <RadzenDataGridColumn TItem="Car" Property="Id" Title="编号" Width="80px" />
+                        <RadzenDataGridColumn TItem="Car" Property="Type" Title="型号" Width="200px" />
+                        <RadzenDataGridColumn TItem="Car" Property="Series.SeriesName" Title="车系" Width="150px" />
+                        <RadzenDataGridColumn TItem="Car" Property="Series.Brand.BrandName" Title="品牌" Width="150px" />
+                        <RadzenDataGridColumn TItem="Car" Property="Color" Title="颜色" Width="100px" />
+                        <RadzenDataGridColumn TItem="Car" Property="Price" Title="指导价" Width="120px">
+                            <Template Context="car">
+                                @car.Price.ToString("C")
+                            </Template>
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="Car" Property="SalePrice" Title="销售价" Width="120px">
+                             <Template Context="car">
+                                @car.SalePrice.ToString("C")
+                            </Template>
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="Car" Property="Repertory" Title="库存" Width="80px" />
+                        <RadzenDataGridColumn TItem="Car" Property="Status" Title="状态" Width="100px" TextAlign="TextAlign.Center">
+                            <Template Context="car">
+                                <RadzenBadge BadgeStyle="@(car.Status == "1" ? BadgeStyle.Success : BadgeStyle.Light)" 
+                                             Text="@(car.Status == "1" ? "在售" : "下架")" />
+                            </Template>
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="Car" Title="操作" Width="150px" Sortable="false" Filterable="false" TextAlign="TextAlign.Center">
+                            <Template Context="car">
+                                <RadzenStack Orientation="Orientation.Horizontal" Gap="0.5rem" JustifyContent="JustifyContent.Center">
+                                    <RadzenButton ButtonStyle="ButtonStyle.Info" Size="ButtonSize.Small" Icon="edit" 
+                                                  Click="@(() => OpenEditDialog(car))" />
+                                    <RadzenButton ButtonStyle="ButtonStyle.Danger" Size="ButtonSize.Small" Icon="delete" 
+                                                  Click="@(() => DeleteCar(car.Id))" />
+                                </RadzenStack>
+                            </Template>
+                        </RadzenDataGridColumn>
+                    </Columns>
+                </RadzenDataGrid>
+            </RadzenCard>
+        </RadzenColumn>
+    </RadzenRow>
+</RadzenStack>
+
+@code {
+    private RadzenDataGrid<Car> carsGrid;
+    private IQueryable<Car> cars;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadCars();
+    }
+
+    private async Task LoadCars()
+    {
+        cars = await CarService.GetCarsAsync();
+    }
+
+    private async Task OpenAddDialog()
+    {
+        var result = await DialogService.OpenAsync<CarDialog>("新增车辆", new Dictionary<string, object>
+        {
+            { "Car", new Car() }
+        });
+
+        if (result == true)
+        {
+            await LoadCars();
+            await carsGrid.Reload();
+        }
+    }
+
+    private async Task OpenEditDialog(Car car)
+    {
+        var carToEdit = new Car // Create a copy for editing
+        {
+            Id = car.Id,
+            SeriesId = car.SeriesId,
+            Type = car.Type,
+            Color = car.Color,
+            Price = car.Price,
+            SalePrice = car.SalePrice,
+            Repertory = car.Repertory,
+            Status = car.Status,
+            CreateTime = car.CreateTime
+        };
+        
+        var result = await DialogService.OpenAsync<CarDialog>("编辑车辆", new Dictionary<string, object>
+        {
+            { "Car", carToEdit }
+        });
+
+        if (result == true)
+        {
+            await LoadCars();
+            await carsGrid.Reload();
+        }
+    }
+
+    private async Task DeleteCar(long carId)
+    {
+        var confirm = await DialogService.Confirm("确定要删除这辆车吗 (下架) ？", "确认删除", new ConfirmOptions
+        {
+            OkButtonText = "确定",
+            CancelButtonText = "取消"
+        });
+
+        if (confirm == true)
+        {
+            await CarService.DeleteCarAsync(carId);
+            await LoadCars();
+            await carsGrid.Reload();
+        }
+    }
+}
